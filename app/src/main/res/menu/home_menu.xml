@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/campaña"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="@string/campa_as"
+        android:iconTint="@color/black"
+        app:showAsAction="ifRoom|withText"/>
+
+    <item
+        android:id="@+id/pension"
+        android:icon="@android:drawable/ic_delete"
+        android:iconTint="@color/black"
+        android:title="@string/pensiones"
+        app:showAsAction="ifRoom|withText"/>
+
+    <item
+        android:id="@+id/adopcion"
+        android:icon="@android:drawable/ic_btn_speak_now"
+        android:iconTint="@color/black"
+        android:title="@string/adopciones"
+        app:showAsAction="ifRoom|withText"/>
+
+    <item
+        android:id="@+id/capital"
+        android:iconTint="@color/black"
+        android:title="@string/capital"
+        android:icon="@drawable/coins"
+        app:showAsAction="ifRoom|withText"/>
+
+</menu>

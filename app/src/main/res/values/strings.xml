@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">GPT</string>
+    <string name="gatos_para_todos">Gatos Para Todos </string>
+    <string name="capital">Capital</string>
+    <string name="campa_as">Campañas</string>
+    <string name="adopciones">Adopciones</string>
+    <string name="pensiones">Pensiones</string>
+</resources>
