@@ -23,5 +23,7 @@ public class AdopcionFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.adopciones_menu,menu);
     }
+
 }
