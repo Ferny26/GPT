@@ -30,6 +30,8 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
+
+    //Esta funcion no hace nada aun jaja10
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
