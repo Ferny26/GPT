@@ -30,7 +30,6 @@ public class CampañaFragment extends Fragment {
     private CampañaStorage mCampañaStorage;
     private RecyclerView mCampañaRecyclerView;
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,6 +142,11 @@ public class CampañaFragment extends Fragment {
                 dialog.setTargetFragment(CampañaFragment.this, REQUEST_CREATE);
                 dialog.show(manager,DIALOG_CREATE);
                 return true;
+
+            case R.id.inventario_botiquin:
+                Intent intent = new Intent(getContext(), ListCampaña.class);
+                startActivity(intent);
+
             default:
                 return super.onOptionsItemSelected(item);
 
