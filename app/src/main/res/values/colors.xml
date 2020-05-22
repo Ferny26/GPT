@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#FF9A4D</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#000000</color>
+    <color name="colorAccent">#FF9A4D</color>
     <color name="violet">#D1C4E9</color>
     <color name="orange">#FFF8E1</color>
     <color name="black">#000000</color>
@@ -10,6 +10,6 @@
     <color name="withe">#FFFFFF</color>
     <color name="adopcion">#FFECA9</color>
     <color name="pension">#99D4C9</color>
-    <color name="campana">#C7E8AC</color>
+    <color name="campana">#7AD1E4C1</color>
     <color name="capital">#AAA3A3</color>
 </resources>
