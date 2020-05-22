@@ -1,29 +1,47 @@
 package com.example.gpt;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class Campaña {
-    private String nombreCampaña;
-    private Date fechaCampaña;
+    private UUID mIdCampaña;
+    private String mNombreCampaña;
+    private Date mFechaCampaña;
+    private CharSequence dateFormat;
 
-    public Campaña(String nombreCampaña, Date fechaCampaña) {
-        this.nombreCampaña = nombreCampaña;
-        this.fechaCampaña = fechaCampaña;
+
+    public Campaña(){
+        this(UUID.randomUUID());
     }
 
-    public String getNombreCampaña() {
-        return nombreCampaña;
+    public Campaña(UUID id) {
+        this.mIdCampaña = id;
+        this.mFechaCampaña = new Date();
     }
 
-    public void setNombreCampaña(String nombreCampaña) {
-        this.nombreCampaña = nombreCampaña;
+    public UUID getmIdCampaña() {
+        return mIdCampaña;
     }
 
-    public Date getFechaCampaña() {
-        return fechaCampaña;
+
+    public String getmNombreCampaña() {
+        return mNombreCampaña;
     }
 
-    public void setFechaCampaña(Date fechaCampaña) {
-        this.fechaCampaña = fechaCampaña;
+    public void setmNombreCampaña(String mNombreCampaña) {
+        this.mNombreCampaña = mNombreCampaña;
+    }
+
+    public CharSequence getDateFormat() {
+        dateFormat =android.text.format.DateFormat.format("dd MMMM yyyy", mFechaCampaña);
+        return dateFormat;
+    }
+
+    public Date getmFechaCampaña() {
+        return mFechaCampaña;
+    }
+
+    public void setmFechaCampaña(Date mFechaCampaña) {
+        this.mFechaCampaña = mFechaCampaña;
     }
 }
