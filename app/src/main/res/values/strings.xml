@@ -5,4 +5,9 @@
     <string name="campa_as">Campañas</string>
     <string name="adopciones">Adopciones</string>
     <string name="pensiones">Pensiones</string>
+    <string name="nombre_campa_a">Nombre Campaña</string>
+    <string name="nombre">Nombre:</string>
+    <string name="inserte_el_nombre">Inserte el nombre</string>
+    <string name="fecha">Fecha:</string>
+    <string name="datos_campaña">Datos de la campaña</string>
 </resources>
