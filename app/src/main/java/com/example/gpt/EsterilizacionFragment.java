@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.UUID;
+
 public class EsterilizacionFragment extends Fragment {
 
     @Override
@@ -24,6 +26,7 @@ public class EsterilizacionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.esterilizaciones_fragment, null);
+        UUID campañaId = (UUID) getArguments().getSerializable("ARG_CAMPAÑA_ID");
         return v;
     }
 
