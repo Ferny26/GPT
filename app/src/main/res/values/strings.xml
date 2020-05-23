@@ -11,4 +11,11 @@
     <string name="fecha">Fecha:</string>
     <string name="datos_campaña">Datos de la campaña</string>
     <string name="inventario_botiquin">Inventario Botiquin</string>
+    <string name="contar_campa_as">Contar campañas</string>
+    <string name="subtitle_format">%1$d campañas</string>
+    <string name="ocultar">Ocultar</string>
+    <string name="botiquin">botiquin</string>
+    <string name="a_adir_objeto">Añadir objeto</string>
+    <string name="esterilizacion">Esterilizaciones</string>
+    <string name="editar_campa_a">Editar campaña</string>
 </resources>

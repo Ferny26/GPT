@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -66,9 +67,16 @@ public class CampañaFragment extends Fragment {
     }
 
 
-    private class CampañasHolder extends RecyclerView.ViewHolder {
+    private class CampañasHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView mNombreTextView, mFechaTextView;
         private Campaña mCampaña;
+
+        @Override
+        public void onClick(View v) {
+            //Inicia el pager con el id del crimen seleccionado
+            Intent intent = ListCampaña.newIntent(getActivity(), mCampaña.getmIdCampaña(), 1);
+            startActivity(intent);
+        }
         public CampañasHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.campania_list_fragment, parent, false));
             mNombreTextView = itemView.findViewById(R.id.nombre_campaña);
@@ -94,6 +102,7 @@ public class CampañaFragment extends Fragment {
         public CampañaAdapter (List<Campaña> campañas){
             mCampañas = campañas;
         }
+
         @NonNull
         @Override
         public CampañasHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -125,11 +134,29 @@ public class CampañaFragment extends Fragment {
         super.onResume();
         updateUI();
     }
+    private void updateSubtitle(){
+        mCampañaStorage = mCampañaStorage.get(getActivity());
+        int campañasCount = mCampañaStorage.getmCampañas().size();
+        String subtitle = getString(R.string.subtitle_format, campañasCount);
+        if(!mSubtitleVisible){
+            subtitle = null;
+        }
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.getSupportActionBar().setSubtitle(subtitle);
+
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.campa_a_menu, menu);
+        MenuItem subtitleItem = menu.findItem(R.id.show_subtitle);
+        //Cambia el subtitulo según la opción seleccionada
+        if(mSubtitleVisible) {
+            subtitleItem.setTitle(R.string.ocultar);
+        }else {
+            subtitleItem.setTitle(R.string.contar_campa_as);
+        }
     }
 
     @Override
@@ -145,7 +172,13 @@ public class CampañaFragment extends Fragment {
 
             case R.id.inventario_botiquin:
                 Intent intent = new Intent(getContext(), ListCampaña.class);
+                intent.putExtra("TYPE",true);
                 startActivity(intent);
+            case R.id.show_subtitle:
+                mSubtitleVisible = !mSubtitleVisible;
+                getActivity().invalidateOptionsMenu();
+                updateSubtitle();
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -164,6 +197,9 @@ public class CampañaFragment extends Fragment {
             campaña.setmNombreCampaña(nombreCampaña);
             campaña.setmFechaCampaña(fecha);
             CampañaStorage.get(getActivity()).addCampaña(campaña, getActivity());
+            Intent intent = new Intent(getContext(), ListCampaña.class);
+            intent.putExtra("TYPE",false);
+            startActivity(intent);
         }
     }
 }

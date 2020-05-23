@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <item
         android:id="@+id/añadir"
-        android:icon="@drawable/botiquin_agregar"
-        android:title="@string/campa_as"
+        android:icon="@drawable/gato_agregar"
+        android:title="@string/esterilizacion"
         android:iconTint="@color/black"
         app:showAsAction="ifRoom|withText"/>
 
     <item
-        android:id="@+id/inventario_botiquin"
-        android:icon="@drawable/medicina"
-        android:title="@string/botiquin"
+        android:id="@+id/editar"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="@string/editar_campa_a"
         android:iconTint="@color/black"
         app:showAsAction="ifRoom|withText"/>
-    <item
-        android:id="@+id/show_subtitle"
-        android:iconTint="@color/black"
-        android:title="@string/contar_campa_as"/>
+
 </menu>

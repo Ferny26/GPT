@@ -11,4 +11,11 @@ public class GPTDbSchema {
         }
 
     }
+
+    public static final class EsterilizacionesTable{
+        public static final String NAME="esterilizaciones";
+        public static final class Cols{
+
+        }
+    }
 }

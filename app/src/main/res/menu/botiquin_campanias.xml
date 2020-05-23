@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-
     <item
         android:id="@+id/inventario_botiquin"
-        android:icon="@drawable/botiquin_agregar"
-        android:title="@string/campa_as"
+        android:icon="@drawable/medicina_a"
+        android:title="@string/a_adir_objeto"
         android:iconTint="@color/black"
         app:showAsAction="ifRoom|withText"/>
 </menu>

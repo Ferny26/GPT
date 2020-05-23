@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/campaña"
-        android:icon="@android:drawable/ic_menu_agenda"
+        android:icon="@drawable/botiquin"
         android:title="@string/campa_as"
         android:iconTint="@color/black"
         app:showAsAction="ifRoom|withText"/>

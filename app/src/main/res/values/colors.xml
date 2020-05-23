@@ -10,6 +10,7 @@
     <color name="withe">#FFFFFF</color>
     <color name="adopcion">#FFECA9</color>
     <color name="pension">#99D4C9</color>
-    <color name="campana">#7AD1E4C1</color>
+    <color name="campana">#6A80DEEA</color>
     <color name="capital">#AAA3A3</color>
+    <color name="grey">#5B5858</color>
 </resources>
