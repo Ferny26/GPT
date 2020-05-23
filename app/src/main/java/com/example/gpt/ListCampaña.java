@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class ListCampaña extends AppCompatActivity {
 
-    final static String EXTRA_CAMPAÑA_ID = "CampañaId";
+
     boolean mType;
     FragmentManager fm = getSupportFragmentManager();
     Fragment fragment = fm.findFragmentById(R.id.campaña_list_fragment);
@@ -23,12 +23,17 @@ public class ListCampaña extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_campania);
         mType=getIntent().getBooleanExtra("TYPE",false);
-        UUID campañaId= (UUID) getIntent().getSerializableExtra(EXTRA_CAMPAÑA_ID);
+        UUID campañaId= (UUID) getIntent().getSerializableExtra("CAMPAÑA_ID");
+        Bundle arguments = new Bundle();
         if(mType){
             fragment = new BotiquinCampañaFragment();
+
         }else{
             fragment = new EsterilizacionFragment();
+            arguments.putSerializable ("ARG_CAMPAÑA_ID",campañaId);
+            fragment.setArguments(arguments);
         }
+
 
 
         fm.beginTransaction()
@@ -36,9 +41,4 @@ public class ListCampaña extends AppCompatActivity {
                 .commit();
     }
 
-    public static Intent newIntent(Context packageContext, UUID campañaId, int type){
-        Intent intent = new Intent(packageContext,ListCampaña.class);
-        intent.putExtra(EXTRA_CAMPAÑA_ID, campañaId);
-        return intent;
-    }
 }

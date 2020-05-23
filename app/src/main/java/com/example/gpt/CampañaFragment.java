@@ -73,14 +73,16 @@ public class CampañaFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            //Inicia el pager con el id del crimen seleccionado
-            Intent intent = ListCampaña.newIntent(getActivity(), mCampaña.getmIdCampaña(), 1);
+            Intent intent = new Intent(getActivity(), ListCampaña.class);
+            intent.putExtra("CAMPAÑA_ID", mCampaña.getmIdCampaña());
+            intent.putExtra("TYPE",false);
             startActivity(intent);
         }
         public CampañasHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.campania_list_fragment, parent, false));
             mNombreTextView = itemView.findViewById(R.id.nombre_campaña);
             mFechaTextView = itemView.findViewById(R.id.fecha_camapaña);
+            itemView.setOnClickListener(this);
         }
 
         public void bind (Campaña campaña){
