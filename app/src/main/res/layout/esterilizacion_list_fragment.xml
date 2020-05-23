@@ -47,6 +47,6 @@
         android:layout_marginRight="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/btn_dialog" />
+        app:srcCompat="@drawable/coins" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

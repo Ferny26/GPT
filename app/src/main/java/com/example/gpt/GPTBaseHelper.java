@@ -27,8 +27,40 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
                 CampañaTable.Cols.FECHA +
                 ")"
         );
-    }
 
+        db.execSQL("CREATE TABLE " +
+                EsterilizacionesTable.NAME +
+                "(" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                EsterilizacionesTable.Cols.UUID + ", " +
+                EsterilizacionesTable.Cols.FECHA + ", " +
+                EsterilizacionesTable.Cols.PRECIO + ", " +
+                EsterilizacionesTable.Cols.FAJA + ", " +
+                EsterilizacionesTable.Cols.UUID + ", " +
+                EsterilizacionesTable.Cols.ANTICIPO + ", " +
+                EsterilizacionesTable.Cols.FKUUID_CAMPAÑA + ", " +
+                EsterilizacionesTable.Cols.FKUUID_GATO + ", " +
+                "FOREIGN KEY("+EsterilizacionesTable.Cols.FKUUID_CAMPAÑA+") REFERENCES CampañaTable("+CampañaTable.Cols.UUID+")" +
+                "FOREIGN KEY("+EsterilizacionesTable.Cols.FKUUID_GATO+")REFERENCES GatosTable("+GatosTable.Cols.UUID+")" +
+                ")"
+        );
+
+        db.execSQL("CREATE TABLE " +
+                GatosTable.NAME +
+                "(" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                GatosTable.Cols.UUID + ", " +
+                GatosTable.Cols.PESO + ", " +
+                GatosTable.Cols.FOTO + ", " +
+                GatosTable.Cols.FECHA_NACIMIENTO + ", " +
+                GatosTable.Cols.NOMBRE + ", " +
+                GatosTable.Cols.SEXO + ", " +
+                GatosTable.Cols.CONDICION_ESPECIAL + ", " +
+                GatosTable.Cols.PROCEDENCIA +
+                ")"
+        );
+
+    }
     @Override
 
     //Esta funcion no hace nada aun jaja10
