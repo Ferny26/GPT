@@ -14,6 +14,7 @@ public class Esterilizacion {
     }
     public Esterilizacion(UUID id) {
         this.mIdEsterilizacion = id;
+        this.mFechaEsterilizacion = new Date();
     }
 
     public UUID getmIdEsterilizacion() {

@@ -18,4 +18,9 @@
     <string name="a_adir_objeto">Añadir objeto</string>
     <string name="esterilizacion">Esterilizaciones</string>
     <string name="editar_campa_a">Editar campaña</string>
+    <string name="buscar_gato">Buscar gato</string>
+    <string name="datos_de_esterilizaci_n">Datos de esterilización</string>
+    <string name="datos_del_gato">Datos del gato</string>
+
+
 </resources>

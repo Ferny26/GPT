@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/gato_datos_esterilizacion"
+        android:iconTint="@color/black"
+        android:title="@string/datos_del_gato"
+        />
+    <item
+        android:id="@+id/esterilizacion_datos"
+        android:iconTint="@color/black"
+        android:title="@string/datos_de_esterilizaci_n"
+        />
+
+
+</menu>

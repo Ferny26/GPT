@@ -29,24 +29,6 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
         );
 
         db.execSQL("CREATE TABLE " +
-                EsterilizacionTable.NAME +
-                "(" +
-                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                EsterilizacionTable.Cols.UUID + ", " +
-                EsterilizacionTable.Cols.FECHA + ", " +
-                EsterilizacionTable.Cols.PRECIO + ", " +
-                EsterilizacionTable.Cols.FAJA + ", " +
-                EsterilizacionTable.Cols.UUID + ", " +
-                EsterilizacionTable.Cols.ANTICIPO + ", " +
-                EsterilizacionTable.Cols.PAGADO + ", " +
-                EsterilizacionTable.Cols.FKUUID_CAMPAÑA + ", " +
-                EsterilizacionTable.Cols.FKUUID_GATO + ", " +
-                "FOREIGN KEY("+ EsterilizacionTable.Cols.FKUUID_CAMPAÑA+") REFERENCES CampañaTable("+CampañaTable.Cols.UUID+")" +
-                "FOREIGN KEY("+ EsterilizacionTable.Cols.FKUUID_GATO+")REFERENCES GatosTable("+ GatoTable.Cols.UUID+")" +
-                ")"
-        );
-
-        db.execSQL("CREATE TABLE " +
                 GatoTable.NAME +
                 "(" +
                 "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -60,6 +42,24 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
                 GatoTable.Cols.PROCEDENCIA +
                 ")"
         );
+
+        db.execSQL("CREATE TABLE " +
+                EsterilizacionTable.NAME +
+                "(" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                EsterilizacionTable.Cols.UUID + ", " +
+                EsterilizacionTable.Cols.FECHA + ", " +
+                EsterilizacionTable.Cols.PRECIO + ", " +
+                EsterilizacionTable.Cols.FAJA + ", " +
+                EsterilizacionTable.Cols.ANTICIPO + ", " +
+                EsterilizacionTable.Cols.PAGADO + ", " +
+                EsterilizacionTable.Cols.FKUUID_CAMPAÑA + ", " +
+                EsterilizacionTable.Cols.FKUUID_GATO + "," +
+                "FOREIGN KEY ("+ EsterilizacionTable.Cols.FKUUID_CAMPAÑA + ") REFERENCES "+ CampañaTable.NAME+"("+CampañaTable.Cols.UUID+")," +
+                "FOREIGN KEY ("+ EsterilizacionTable.Cols.FKUUID_GATO + ") REFERENCES "+ GatoTable.NAME+"("+GatoTable.Cols.UUID+")" +
+                ")"
+        );
+
 
     }
     @Override
