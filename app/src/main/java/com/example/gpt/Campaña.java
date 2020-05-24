@@ -16,7 +16,6 @@ public class Campaña {
 
     public Campaña(UUID id) {
         this.mIdCampaña = id;
-        this.mFechaCampaña = new Date();
     }
 
     public UUID getmIdCampaña() {

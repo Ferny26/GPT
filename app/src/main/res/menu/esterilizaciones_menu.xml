@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/añadir"
+        android:id="@+id/añadir_esterilizacion"
         android:icon="@drawable/gato_agregar"
         android:title="@string/esterilizacion"
         android:iconTint="@color/black"
         app:showAsAction="ifRoom|withText"/>
 
     <item
-        android:id="@+id/editar"
+        android:id="@+id/editar_campaña"
         android:icon="@android:drawable/ic_menu_edit"
         android:title="@string/editar_campa_a"
         android:iconTint="@color/black"

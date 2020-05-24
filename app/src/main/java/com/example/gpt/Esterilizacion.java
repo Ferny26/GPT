@@ -7,10 +7,13 @@ public class Esterilizacion {
     private UUID mIdEsterilizacion, mIdCampaña, mIdGato;
     private Date mFechaEsterilizacion;
     private int mPrecio, mAnticipo;
-    private boolean mFaja;
+    private boolean mFaja, mPagado;
 
-    public Esterilizacion() {
-        this.mIdEsterilizacion = UUID.randomUUID();
+    public Esterilizacion(){
+        this(UUID.randomUUID());
+    }
+    public Esterilizacion(UUID id) {
+        this.mIdEsterilizacion = id;
     }
 
     public UUID getmIdEsterilizacion() {
@@ -55,5 +58,21 @@ public class Esterilizacion {
 
     public void setmIdCampaña(UUID mIdCampaña) {
         this.mIdCampaña = mIdCampaña;
+    }
+
+    public UUID getmIdGato() {
+        return mIdGato;
+    }
+
+    public boolean ismPagado() {
+        return mPagado;
+    }
+
+    public void setmPagado(boolean mPagado) {
+        this.mPagado = mPagado;
+    }
+
+    public void setmIdGato(UUID mIdGato) {
+        this.mIdGato = mIdGato;
     }
 }

@@ -12,7 +12,7 @@ public class GPTDbSchema {
 
     }
 
-    public static final class GatosTable {
+    public static final class GatoTable {
         public static final String NAME = "gatos";
         public static final class Cols{
             public static String UUID = "uuid";
@@ -26,7 +26,7 @@ public class GPTDbSchema {
         }
     }
 
-    public static final class EsterilizacionesTable{
+    public static final class EsterilizacionTable {
         public static final String NAME="esterilizaciones";
         public static final class Cols{
             public static String UUID = "uuid";
@@ -34,6 +34,7 @@ public class GPTDbSchema {
             public static String PRECIO = "precio";
             public static String FAJA = "faja";
             public static String ANTICIPO = "anticipo";
+            public static String PAGADO = "pagado";
             public static String FKUUID_CAMPAÑA= "fkuuid campaña";
             public static String FKUUID_GATO= "fkuuid gato";
         }

@@ -15,7 +15,6 @@ import static com.example.gpt.GPTDbSchema.*;
 public class CampañaStorage {
 
     private static CampañaStorage sCampañaStorage;
-    private List<Campaña> mCampañas;
     private Context mContext;
     private SQLiteDatabase mDataBase;
 

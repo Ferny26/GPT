@@ -29,34 +29,35 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
         );
 
         db.execSQL("CREATE TABLE " +
-                EsterilizacionesTable.NAME +
+                EsterilizacionTable.NAME +
                 "(" +
                 "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                EsterilizacionesTable.Cols.UUID + ", " +
-                EsterilizacionesTable.Cols.FECHA + ", " +
-                EsterilizacionesTable.Cols.PRECIO + ", " +
-                EsterilizacionesTable.Cols.FAJA + ", " +
-                EsterilizacionesTable.Cols.UUID + ", " +
-                EsterilizacionesTable.Cols.ANTICIPO + ", " +
-                EsterilizacionesTable.Cols.FKUUID_CAMPAÑA + ", " +
-                EsterilizacionesTable.Cols.FKUUID_GATO + ", " +
-                "FOREIGN KEY("+EsterilizacionesTable.Cols.FKUUID_CAMPAÑA+") REFERENCES CampañaTable("+CampañaTable.Cols.UUID+")" +
-                "FOREIGN KEY("+EsterilizacionesTable.Cols.FKUUID_GATO+")REFERENCES GatosTable("+GatosTable.Cols.UUID+")" +
+                EsterilizacionTable.Cols.UUID + ", " +
+                EsterilizacionTable.Cols.FECHA + ", " +
+                EsterilizacionTable.Cols.PRECIO + ", " +
+                EsterilizacionTable.Cols.FAJA + ", " +
+                EsterilizacionTable.Cols.UUID + ", " +
+                EsterilizacionTable.Cols.ANTICIPO + ", " +
+                EsterilizacionTable.Cols.PAGADO + ", " +
+                EsterilizacionTable.Cols.FKUUID_CAMPAÑA + ", " +
+                EsterilizacionTable.Cols.FKUUID_GATO + ", " +
+                "FOREIGN KEY("+ EsterilizacionTable.Cols.FKUUID_CAMPAÑA+") REFERENCES CampañaTable("+CampañaTable.Cols.UUID+")" +
+                "FOREIGN KEY("+ EsterilizacionTable.Cols.FKUUID_GATO+")REFERENCES GatosTable("+ GatoTable.Cols.UUID+")" +
                 ")"
         );
 
         db.execSQL("CREATE TABLE " +
-                GatosTable.NAME +
+                GatoTable.NAME +
                 "(" +
                 "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                GatosTable.Cols.UUID + ", " +
-                GatosTable.Cols.PESO + ", " +
-                GatosTable.Cols.FOTO + ", " +
-                GatosTable.Cols.FECHA_NACIMIENTO + ", " +
-                GatosTable.Cols.NOMBRE + ", " +
-                GatosTable.Cols.SEXO + ", " +
-                GatosTable.Cols.CONDICION_ESPECIAL + ", " +
-                GatosTable.Cols.PROCEDENCIA +
+                GatoTable.Cols.UUID + ", " +
+                GatoTable.Cols.PESO + ", " +
+                GatoTable.Cols.FOTO + ", " +
+                GatoTable.Cols.FECHA_NACIMIENTO + ", " +
+                GatoTable.Cols.NOMBRE + ", " +
+                GatoTable.Cols.SEXO + ", " +
+                GatoTable.Cols.CONDICION_ESPECIAL + ", " +
+                GatoTable.Cols.PROCEDENCIA +
                 ")"
         );
 

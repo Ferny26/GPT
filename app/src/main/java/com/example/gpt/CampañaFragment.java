@@ -62,7 +62,7 @@ public class CampañaFragment extends Fragment {
             mAdapter.notifyDataSetChanged();//Actualiza los datos del item
         }
 
-        //updateSubtitle();
+        updateSubtitle();
 
     }
 
