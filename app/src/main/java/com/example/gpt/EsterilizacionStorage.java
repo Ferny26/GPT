@@ -29,7 +29,7 @@ public class EsterilizacionStorage {
     }
 
 
-    public void addEsterlizacion(Esterilizacion e, Context context){
+    public void addEsterilizacion(Esterilizacion e, Context context){
         ContentValues values= getContentValues(e);
         mDataBase.insert(GPTDbSchema.EsterilizacionTable.NAME, null, values);
     }

@@ -1,7 +1,5 @@
 package com.example.gpt;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -29,7 +27,7 @@ public class ListCampaña extends AppCompatActivity {
             fragment = new BotiquinCampañaFragment();
 
         }else{
-            fragment = new EsterilizacionFragment();
+            fragment = new EsterilizacionesFragment();
             arguments.putSerializable ("ARG_CAMPAÑA_ID",campañaId);
             fragment.setArguments(arguments);
         }

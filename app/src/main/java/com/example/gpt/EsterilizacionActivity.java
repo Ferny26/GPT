@@ -1,33 +1,41 @@
 package com.example.gpt;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import android.os.Bundle;
-import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.UUID;
+
+public class EsterilizacionActivity extends AppCompatActivity {
+
+    UUID esterilizacionId;
+
     FragmentManager fm = getSupportFragmentManager();
     Fragment fragment = fm.findFragmentById(R.id.homeFragment);
+
+
 
     private BottomNavigationView mBottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        esterilizacionId = (UUID) getIntent().getSerializableExtra("ESTERILIZACION_ID");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.esterilizacion_activity);
+        fragment = new GatoFragment();
+        fm.beginTransaction()
+                .add(R.id.esterilizacion_container,fragment)
+                .commit();
 
-        fragment = new CampañaFragment();
-                fm.beginTransaction()
-                        .add(R.id.homeFragment,fragment)
-                        .commit();
-
-        mBottomNavigationView=findViewById(R.id.HomeNavigationView);
-
+        mBottomNavigationView=findViewById(R.id.esterilizacion_menu);
 
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -43,21 +51,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void menu (int menuItem){
         switch (menuItem){
-            case R.id.campaña:
-                fragment= new CampañaFragment();
+            case R.id.gato_datos_esterilizacion:
+                fragment= new GatoFragment();
                 break;
-            case R.id.adopcion:
-                fragment=new AdopcionFragment();
-                break;
-            case R.id.capital:
-                break;
-            case R.id.pension:
-                fragment= new PensionFragment();
+            case R.id.esterilizacion_datos:
+                fragment=new EsterilizacionFragment();
                 break;
         }
         if (fragment != null) {
             fm.beginTransaction()
-            .replace(R.id.homeFragment, fragment)
+                    .replace(R.id.esterilizacion_container, fragment)
                     .commit();
         }
     }

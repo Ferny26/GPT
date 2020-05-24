@@ -200,6 +200,7 @@ public class CampañaFragment extends Fragment {
             campaña.setmFechaCampaña(fecha);
             CampañaStorage.get(getActivity()).addCampaña(campaña, getActivity());
             Intent intent = new Intent(getContext(), ListCampaña.class);
+            intent.putExtra("CAMPAÑA_ID", campaña.getmIdCampaña());
             intent.putExtra("TYPE",false);
             startActivity(intent);
         }
