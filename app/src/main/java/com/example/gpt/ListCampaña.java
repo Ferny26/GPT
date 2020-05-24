@@ -10,8 +10,6 @@ import androidx.fragment.app.FragmentManager;
 import java.util.UUID;
 
 public class ListCampaña extends AppCompatActivity {
-
-
     boolean mType;
     FragmentManager fm = getSupportFragmentManager();
     Fragment fragment = fm.findFragmentById(R.id.campaña_list_fragment);
@@ -31,8 +29,6 @@ public class ListCampaña extends AppCompatActivity {
             arguments.putSerializable ("ARG_CAMPAÑA_ID",campañaId);
             fragment.setArguments(arguments);
         }
-
-
 
         fm.beginTransaction()
                 .add(R.id.campaña_list_fragment,fragment)

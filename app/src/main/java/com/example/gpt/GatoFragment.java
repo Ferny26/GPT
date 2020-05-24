@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -32,8 +31,6 @@ public class GatoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gato_fragment, null);
-
-
         mProcedenciaSpinner = view.findViewById(R.id.procedencia);
         mNombreGatoEditText = view.findViewById(R.id.nombre_gato);
         mNombrePersonaEditText = view.findViewById(R.id.nombre_responsable);

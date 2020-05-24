@@ -98,9 +98,6 @@ public class EsterilizacionStorage {
         return new GPTCursorWrapper(cursor);
     }
 
-
-
-
     private static ContentValues getContentValues(Esterilizacion esterilizacion){
         ContentValues values = new ContentValues();
         values.put(GPTDbSchema.EsterilizacionTable.Cols.UUID, esterilizacion.getmIdEsterilizacion().toString());

@@ -15,14 +15,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.UUID;
 
 public class EsterilizacionActivity extends AppCompatActivity {
-
     UUID esterilizacionId;
-
     FragmentManager fm = getSupportFragmentManager();
-    Fragment fragment = fm.findFragmentById(R.id.homeFragment);
-
-
-
+    Fragment fragment = fm.findFragmentById(R.id.esterilizacion_container);
     private BottomNavigationView mBottomNavigationView;
 
     @Override
@@ -34,11 +29,8 @@ public class EsterilizacionActivity extends AppCompatActivity {
         fm.beginTransaction()
                 .add(R.id.esterilizacion_container,fragment)
                 .commit();
-
         mBottomNavigationView=findViewById(R.id.esterilizacion_menu);
-
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 menu(menuItem.getItemId());

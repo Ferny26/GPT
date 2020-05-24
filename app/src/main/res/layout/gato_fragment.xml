@@ -202,7 +202,7 @@
                     android:layout_marginTop="24dp"
                     android:text="Nombre"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/apellido_materno_responsable" />
+                    app:layout_constraintTop_toBottomOf="@+id/datos_responsable" />
 
                 <EditText
                     android:id="@+id/nombre_responsable"
@@ -214,7 +214,7 @@
                     android:ems="10"
                     android:inputType="textPersonName"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/apellido_materno_responsable" />
+                    app:layout_constraintTop_toBottomOf="@+id/datos_responsable" />
 
                 <TextView
                     android:id="@+id/textView16"
@@ -238,7 +238,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/nombre_responsable" />
 
                 <EditText
-                    android:id="@+id/editText6"
+                    android:id="@+id/apellido_materno_responsable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -248,7 +248,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/apellido_paterno_responsable" />
 
                 <TextView
-                    android:id="@+id/apellido_materno_responsable"
+                    android:id="@+id/datos_responsable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="135dp"
@@ -280,7 +280,7 @@
                     android:ems="10"
                     android:inputType="phone"
                     app:layout_constraintStart_toEndOf="@+id/textView18"
-                    app:layout_constraintTop_toBottomOf="@+id/editText6" />
+                    app:layout_constraintTop_toBottomOf="@+id/apellido_materno_responsable" />
 
                 <EditText
                     android:id="@+id/email_responsable"

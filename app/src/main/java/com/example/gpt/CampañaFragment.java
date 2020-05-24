@@ -45,7 +45,6 @@ public class CampañaFragment extends Fragment {
         mCampañaRecyclerView = v.findViewById(R.id.recyclerView);
         mCampañaRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         updateUI();
-
         return v;
     }
 

@@ -38,7 +38,6 @@ public class EsterilizacionesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.esterilizaciones_fragment, null);
         campañaId = (UUID) getArguments().getSerializable("ARG_CAMPAÑA_ID");
-
         mEsterilizacionesRecyclerView = v.findViewById(R.id.esterilizaciones_list);
         mEsterilizacionesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         updateUI();
@@ -46,7 +45,7 @@ public class EsterilizacionesFragment extends Fragment {
     }
 
     private void updateUI (){
-        mEsterilizacionStorage= EsterilizacionStorage.get(getActivity());
+        mEsterilizacionStorage = EsterilizacionStorage.get(getActivity());
         List<Esterilizacion> esterilizaciones = mEsterilizacionStorage.getmEsterilizaciones(campañaId);
         if (mAdapter == null) {
             //Envia la informacion al adaptador
@@ -120,12 +119,18 @@ public class EsterilizacionesFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.añadir_esterilizacion:
                 Esterilizacion esterilizacion = new Esterilizacion();
-                mEsterilizacionStorage.get(getActivity()).addEsterilizacion(esterilizacion, getActivity());
-                Intent intent = new Intent(getContext(), EsterilizacionActivity.class);
+                esterilizacion.setmIdCampaña(campañaId);
+                Intent intent = new Intent(getActivity(), EsterilizacionActivity.class);
                 intent.putExtra("ESTERILIZACION_ID",esterilizacion.getmIdEsterilizacion());
                 startActivity(intent);
             default:
