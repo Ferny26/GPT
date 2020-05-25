@@ -103,7 +103,6 @@ public class EsterilizacionStorage {
         values.put(GPTDbSchema.EsterilizacionTable.Cols.UUID, esterilizacion.getmIdEsterilizacion().toString());
         values.put(GPTDbSchema.EsterilizacionTable.Cols.FKUUID_CAMPAÑA, esterilizacion.getmIdCampaña().toString());
         values.put(GPTDbSchema.EsterilizacionTable.Cols.FKUUID_GATO, esterilizacion.getmIdGato().toString());
-        values.put(GPTDbSchema.EsterilizacionTable.Cols.FECHA, esterilizacion.getmFechaEsterilizacion().getTime());
         values.put(GPTDbSchema.EsterilizacionTable.Cols.PRECIO, esterilizacion.getmPrecio());
         values.put(GPTDbSchema.EsterilizacionTable.Cols.ANTICIPO, esterilizacion.getmAnticipo());
         values.put(GPTDbSchema.EsterilizacionTable.Cols.FAJA, esterilizacion.ismFaja() ? 1 : 0);

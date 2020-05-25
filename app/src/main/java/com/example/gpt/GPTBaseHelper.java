@@ -35,7 +35,7 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
                 GatoTable.Cols.UUID + ", " +
                 GatoTable.Cols.PESO + ", " +
                 GatoTable.Cols.FOTO + ", " +
-                GatoTable.Cols.FECHA_NACIMIENTO + ", " +
+                //GatoTable.Cols.EDAD + ", " +
                 GatoTable.Cols.NOMBRE + ", " +
                 GatoTable.Cols.SEXO + ", " +
                 GatoTable.Cols.CONDICION_ESPECIAL + ", " +
@@ -48,7 +48,6 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
                 "(" +
                 "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 EsterilizacionTable.Cols.UUID + ", " +
-                EsterilizacionTable.Cols.FECHA + ", " +
                 EsterilizacionTable.Cols.PRECIO + ", " +
                 EsterilizacionTable.Cols.FAJA + ", " +
                 EsterilizacionTable.Cols.ANTICIPO + ", " +

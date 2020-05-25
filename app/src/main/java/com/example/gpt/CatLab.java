@@ -105,8 +105,8 @@ public class CatLab {
         values.put(GPTDbSchema.GatoTable.Cols.UUID, gato.getmIdGato().toString());
         values.put(GPTDbSchema.GatoTable.Cols.PESO, gato.getmPeso());
         //----------------------------------------------------------------------------------------------------Falta foto-------------------------------//
-        values.put(GPTDbSchema.GatoTable.Cols.FECHA_NACIMIENTO, gato.getmFechaNacimiento().getTime());
-        values.put(GPTDbSchema.GatoTable.Cols.SEXO, gato.ismSexo() ? 1 : 0);
+        //values.put(GPTDbSchema.GatoTable.Cols.FECHA_NACIMIENTO, gato.getmFechaNacimiento().getTime());
+        values.put(GPTDbSchema.GatoTable.Cols.SEXO, gato.ismSexo());
         values.put(GPTDbSchema.GatoTable.Cols.NOMBRE, gato.getmNombreGato());
         values.put(GPTDbSchema.GatoTable.Cols.CONDICION_ESPECIAL, gato.getmCondicionEspecial());
         values.put(GPTDbSchema.GatoTable.Cols.PROCEDENCIA, gato.getmProcedencia());

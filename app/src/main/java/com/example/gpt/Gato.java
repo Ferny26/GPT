@@ -9,9 +9,8 @@ public class Gato {
     private UUID mIdGato;
     private float mPeso;
     private ImageView mFoto;
-    private Date mFechaNacimiento;
-    private boolean mSexo;
-    private String mNombreGato, mCondicionEspecial, mProcedencia;
+    private int mEdad;
+    private String mNombreGato, mCondicionEspecial, mProcedencia, mSexo;
 
     public Gato(){
         this(UUID.randomUUID());
@@ -33,11 +32,11 @@ public class Gato {
         return mFoto;
     }
 
-    public Date getmFechaNacimiento() {
-        return mFechaNacimiento;
+    public int getmFechaNacimiento() {
+        return mEdad;
     }
 
-    public boolean ismSexo() {
+    public String ismSexo() {
         return mSexo;
     }
 
@@ -57,11 +56,11 @@ public class Gato {
         this.mFoto = mFoto;
     }
 
-    public void setmFechaNacimiento(Date mFechaNacimiento) {
-        this.mFechaNacimiento = mFechaNacimiento;
+    public void setmFechaNacimiento(int mEdad) {
+        this.mEdad = mEdad;
     }
 
-    public void setmSexo(boolean mSexo) {
+    public void setmSexo(String mSexo) {
         this.mSexo = mSexo;
     }
 

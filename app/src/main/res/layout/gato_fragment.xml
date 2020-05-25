@@ -13,7 +13,7 @@
         android:layout_height="150dp"
         android:layout_marginStart="117dp"
         android:layout_marginLeft="117dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="118dp"
         android:layout_marginRight="118dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="413dp"
-        android:layout_height="352dp"
+        android:layout_height="320dp"
         android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,10 +54,10 @@
                 android:layout_height="19dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="25dp"
                 android:text="Nombre:"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/buscar_gato" />
 
 
             <TextView
@@ -88,12 +88,12 @@
                 android:layout_height="41dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:ems="10"
-                android:inputType="textPersonName"
                 android:hint="Michi"
+                android:inputType="textPersonName"
                 app:layout_constraintStart_toEndOf="@+id/textView6"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/buscar_gato" />
 
             <RadioGroup
                 android:id="@+id/sexo"
@@ -107,16 +107,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/nombre_gato">
 
                 <RadioButton
-                    android:id="@+id/radioButton2"
+                    android:id="@+id/macho"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="RadioButton" />
+                    android:text="Macho" />
 
                 <RadioButton
-                    android:id="@+id/radioButton3"
+                    android:id="@+id/hembra"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="RadioButton" />
+                    android:text="Hembra" />
 
             </RadioGroup>
 
@@ -235,13 +235,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="135dp"
                     android:layout_marginLeft="135dp"
-                    android:layout_marginTop="2dp"
                     android:layout_marginEnd="136dp"
                     android:layout_marginRight="136dp"
                     android:text="Datos de Responsable"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/buscar_responsable" />
 
                 <TextView
                     android:id="@+id/textView18"
@@ -316,6 +315,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
+                <Button
+                    android:id="@+id/buscar_responsable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginLeft="9dp"
+                    android:text="@string/buscar_responable"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <CheckBox
@@ -330,6 +339,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
+            <Button
+                android:id="@+id/buscar_gato"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:layout_marginLeft="7dp"
+                android:text="@string/buscar_gato"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -342,7 +361,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="148dp"
         android:layout_marginLeft="148dp"
-        android:layout_marginTop="16dp"
         android:text="Siguiente"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
