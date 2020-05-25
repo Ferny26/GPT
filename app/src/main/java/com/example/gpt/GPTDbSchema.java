@@ -18,7 +18,7 @@ public class GPTDbSchema {
             public static String UUID = "uuid";
             public static String PESO = "peso";
             public static String FOTO = "foto";
-            public static String FECHA_NACIMIENTO = "fechaNacimiento";
+           // public static String EDAD = "edad";
             public static String NOMBRE = "nombre";
             public static String SEXO = "sexo";
             public static String CONDICION_ESPECIAL = "condicionEspecial";
@@ -30,7 +30,6 @@ public class GPTDbSchema {
         public static final String NAME="esterilizaciones";
         public static final class Cols{
             public static String UUID = "uuid";
-            public static String FECHA = "fecha";
             public static String PRECIO = "precio";
             public static String FAJA = "faja";
             public static String ANTICIPO = "anticipo";

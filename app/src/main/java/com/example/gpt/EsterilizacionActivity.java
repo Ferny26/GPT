@@ -13,19 +13,28 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.UUID;
 
 public class EsterilizacionActivity extends SingleFormularioFragment {
-    UUID esterilizacionId;
+    UUID campañaId;
     Fragment fragment;
     private BottomNavigationView mBottomNavigationView;
-    private GatoFragment mGatoFragment;
     private EsterilizacionFragment mEsterilizacionFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         fragment = new GatoFragment();
-        esterilizacionId = (UUID) getIntent().getSerializableExtra("ESTERILIZACION_ID");
+        Bundle arguments = new Bundle();
+        campañaId = (UUID) getIntent().getSerializableExtra("CAMPAÑA_ID");
+        arguments.putSerializable("CAMPAÑA_ID", campañaId);
+        fragment.setArguments(arguments);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.universal_formulario_activity);
     }
+
+    @Override
+    public void onBackPressed() {
+        getFragmentManager().popBackStack();
+        super.onBackPressed();
+    }
+
     @Override
     protected Fragment createFragment() {
         return fragment;

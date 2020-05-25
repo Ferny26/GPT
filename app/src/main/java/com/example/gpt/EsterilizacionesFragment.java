@@ -31,6 +31,7 @@ public class EsterilizacionesFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         getActivity().setTitle("Esterilizaciones");
+
         super.onCreate(savedInstanceState);
     }
 
@@ -75,7 +76,7 @@ public class EsterilizacionesFragment extends Fragment {
             startActivity(intent);
         }
         public EsterilizacionesHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.campania_list_fragment, parent, false));
+            super(inflater.inflate(R.layout.esterilizacion_list_fragment, parent, false));
             mNombreTextView = itemView.findViewById(R.id.nombre_gato);
             mGatoImageView= itemView.findViewById(R.id.gato_foto);
             mPagoImageView= itemView.findViewById(R.id.esterilizacion_pagada);
@@ -131,10 +132,8 @@ public class EsterilizacionesFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.añadir_esterilizacion:
-                Esterilizacion esterilizacion = new Esterilizacion();
-                esterilizacion.setmIdCampaña(campañaId);
                 Intent intent = new Intent(getActivity(), EsterilizacionActivity.class);
-                intent.putExtra("ESTERILIZACION_ID",esterilizacion.getmIdEsterilizacion());
+                intent.putExtra("CAMPAÑA_ID",campañaId);
                 startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
