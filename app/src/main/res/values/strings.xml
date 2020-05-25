@@ -21,6 +21,7 @@
     <string name="buscar_gato">Buscar gato</string>
     <string name="datos_de_esterilizaci_n">Datos de esterilización</string>
     <string name="datos_del_gato">Datos del gato</string>
+    <string name="buscar_responsable">Buscar responsable</string>
 
 
 </resources>

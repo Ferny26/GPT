@@ -25,6 +25,7 @@ public class EsterilizacionesFragment extends Fragment {
     private EsterilizacionStorage mEsterilizacionStorage;
     private EsterilizacionAdapter mAdapter;
     private RecyclerView mEsterilizacionesRecyclerView;
+    private ImageView mMainImageView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,9 +37,11 @@ public class EsterilizacionesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.esterilizaciones_fragment, null);
+        View v = inflater.inflate(R.layout.universal_list_activity, null);
         campañaId = (UUID) getArguments().getSerializable("ARG_CAMPAÑA_ID");
-        mEsterilizacionesRecyclerView = v.findViewById(R.id.esterilizaciones_list);
+        mEsterilizacionesRecyclerView = v.findViewById(R.id.recyclerView);
+        mMainImageView= v.findViewById(R.id.main_image_view);
+        mMainImageView.setImageResource(R.drawable.gato_esterilizacion_color);
         mEsterilizacionesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         updateUI();
         return v;

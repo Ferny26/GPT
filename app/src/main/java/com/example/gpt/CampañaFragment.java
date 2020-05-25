@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ public class CampañaFragment extends Fragment {
     private static final String DIALOG_CREATE = "DialogCreate";
     private CampañaStorage mCampañaStorage;
     private RecyclerView mCampañaRecyclerView;
+    private ImageView mMainImageView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,8 +43,10 @@ public class CampañaFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.campanas_fragment,container,false);
+        View v = inflater.inflate(R.layout.universal_list_activity,container,false);
         mCampañaRecyclerView = v.findViewById(R.id.recyclerView);
+        mMainImageView= v.findViewById(R.id.main_image_view);
+        mMainImageView.setImageResource(R.drawable.campana);
         mCampañaRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         updateUI();
         return v;
@@ -170,7 +174,6 @@ public class CampañaFragment extends Fragment {
                 dialog.setTargetFragment(CampañaFragment.this, REQUEST_CREATE);
                 dialog.show(manager,DIALOG_CREATE);
                 return true;
-
             case R.id.inventario_botiquin:
                 Intent intent = new Intent(getContext(), ListCampaña.class);
                 intent.putExtra("TYPE",true);

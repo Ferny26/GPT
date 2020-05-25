@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -14,46 +12,22 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.UUID;
 
-public class EsterilizacionActivity extends AppCompatActivity {
+public class EsterilizacionActivity extends SingleFormularioFragment {
     UUID esterilizacionId;
-    FragmentManager fm = getSupportFragmentManager();
-    Fragment fragment = fm.findFragmentById(R.id.esterilizacion_container);
+    Fragment fragment;
     private BottomNavigationView mBottomNavigationView;
+    private GatoFragment mGatoFragment;
+    private EsterilizacionFragment mEsterilizacionFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        fragment = new GatoFragment();
         esterilizacionId = (UUID) getIntent().getSerializableExtra("ESTERILIZACION_ID");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.esterilizacion_activity);
-        fragment = new GatoFragment();
-        fm.beginTransaction()
-                .add(R.id.esterilizacion_container,fragment)
-                .commit();
-        mBottomNavigationView=findViewById(R.id.esterilizacion_menu);
-        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                menu(menuItem.getItemId());
-                return true;
-            }
-
-        });
-
+        setContentView(R.layout.universal_formulario_activity);
     }
-
-    private void menu (int menuItem){
-        switch (menuItem){
-            case R.id.gato_datos_esterilizacion:
-                fragment= new GatoFragment();
-                break;
-            case R.id.esterilizacion_datos:
-                fragment=new EsterilizacionFragment();
-                break;
-        }
-        if (fragment != null) {
-            fm.beginTransaction()
-                    .replace(R.id.esterilizacion_container, fragment)
-                    .commit();
-        }
+    @Override
+    protected Fragment createFragment() {
+        return fragment;
     }
 }

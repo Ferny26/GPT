@@ -6,12 +6,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class BotiquinCampañaFragment extends Fragment {
+    private ImageView mMainImageView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,7 +25,9 @@ public class BotiquinCampañaFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.botiquin_campanias_fragment, null);
+        View view = inflater.inflate(R.layout.universal_list_activity, null);
+        mMainImageView = view.findViewById(R.id.main_image_view);
+        mMainImageView.setImageResource(R.drawable.medicina_color);
         return view;
     }
 

@@ -6,8 +6,6 @@
     android:orientation="vertical"
 
     >
-
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/esterilizacion_menu"
         android:layout_width="match_parent"
@@ -21,7 +19,7 @@
         app:menu="@menu/esterilizacion_menu" />
 
     <FrameLayout
-        android:id="@+id/esterilizacion_container"
+        android:id="@+id/formulario_container"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
        />

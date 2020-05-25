@@ -1,42 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:background="@color/capital">
+    android:layout_width="match_parent">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/main_image_view"
         android:layout_width="289dp"
-        android:layout_height="203dp"
-        android:layout_marginTop="68dp"
+        android:layout_height="98dp"
+        android:layout_marginTop="4dp"
         android:scaleType="centerInside"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/adopcion" />
+        app:srcCompat="@drawable/campana" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="263dp"
-        android:layout_height="57dp"
-        android:gravity="center_horizontal"
-        android:text="@string/capital"
-        android:textColor="@color/black"
-        android:textSize="50dp"
-        app:fontFamily="@font/allan_bold"
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="92dp"
+        android:src="@drawable/linea"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="284dp"
-        android:src="@drawable/linea"
+        android:layout_marginTop="108dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/main_image_view" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

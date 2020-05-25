@@ -1,34 +1,28 @@
 package com.example.gpt;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
-    FragmentManager fm = getSupportFragmentManager();
-    Fragment fragment = fm.findFragmentById(R.id.homeFragment);
+public class MainActivity extends SingleFragmentActivity{
 
     private BottomNavigationView mBottomNavigationView;
 
+    Fragment fragment;
+    CampañaFragment mCampañaFragment = new CampañaFragment();
+    AdopcionFragment mAdopcionFragment = new AdopcionFragment();
+    PensionFragment mPensionFragment = new PensionFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        fragment = mCampañaFragment;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        fragment = new CampañaFragment();
-                fm.beginTransaction()
-                        .add(R.id.homeFragment,fragment)
-                        .commit();
-
         mBottomNavigationView=findViewById(R.id.HomeNavigationView);
-
-
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -38,27 +32,27 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
+    }
+    @Override
+    protected Fragment createFragment() {
+        return fragment;
     }
 
     private void menu (int menuItem){
         switch (menuItem){
             case R.id.campaña:
-                fragment= new CampañaFragment();
+                fragment= mCampañaFragment;
                 break;
             case R.id.adopcion:
-                fragment=new AdopcionFragment();
+                fragment= mAdopcionFragment;
                 break;
             case R.id.capital:
                 break;
             case R.id.pension:
-                fragment= new PensionFragment();
+                fragment= mPensionFragment;
                 break;
         }
-        if (fragment != null) {
-            fm.beginTransaction()
-            .replace(R.id.homeFragment, fragment)
-                    .commit();
-        }
+        replaceFragment(fragment);
     }
+
 }
