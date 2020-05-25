@@ -13,26 +13,43 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.UUID;
 
 public class EsterilizacionActivity extends SingleFormularioFragment {
-    UUID campañaId;
-    Fragment fragment;
+    private UUID campañaId;
+    private Fragment fragment;
     private BottomNavigationView mBottomNavigationView;
     private EsterilizacionFragment mEsterilizacionFragment;
+    private GatoFragment mGatoFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        fragment = new GatoFragment();
+        mGatoFragment = new GatoFragment();
+        mEsterilizacionFragment = new EsterilizacionFragment();
+        fragment = mGatoFragment;
         Bundle arguments = new Bundle();
         campañaId = (UUID) getIntent().getSerializableExtra("CAMPAÑA_ID");
         arguments.putSerializable("CAMPAÑA_ID", campañaId);
         fragment.setArguments(arguments);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.universal_formulario_activity);
+        mBottomNavigationView=findViewById(R.id.esterilizacion_menu);
+        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                menu(menuItem.getItemId());
+                return true;
+            }
+        });
     }
 
-    @Override
-    public void onBackPressed() {
-        getFragmentManager().popBackStack();
-        super.onBackPressed();
+    private void menu (int menuItem) {
+        switch (menuItem) {
+            case R.id.gato_datos_esterilizacion:
+                fragment = mGatoFragment;
+                break;
+            case R.id.esterilizacion_datos:
+                fragment = mEsterilizacionFragment;
+                break;
+        }
+        replaceFragment(fragment);
     }
 
     @Override

@@ -25,49 +25,107 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="413dp"
-        android:layout_height="320dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="414dp"
+        android:layout_height="381dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
             android:orientation="vertical">
+
+            <Button
+                android:id="@+id/buscar_gato"
+                android:layout_width="39dp"
+                android:layout_height="33dp"
+                android:layout_marginStart="7dp"
+                android:layout_marginLeft="7dp"
+                android:background="?android:attr/actionModeWebSearchDrawable"
+                android:textAllCaps="false"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/buscar_gato"
+                android:textColor="@color/grey"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/buscar_gato"
+                app:layout_constraintTop_toTopOf="parent"></TextView>
+
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="52dp"
+                android:layout_marginLeft="52dp"
+                android:layout_marginTop="12dp"
+                android:text="Mes"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                app:fontFamily="sans-serif-thin"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/nombre_gato"></TextView>
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="56dp"
+                android:layout_marginLeft="56dp"
+                android:layout_marginTop="12dp"
+                android:text="Año"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                app:fontFamily="sans-serif-thin"
+                app:layout_constraintStart_toEndOf="@+id/textView12"
+                app:layout_constraintTop_toBottomOf="@+id/nombre_gato"></TextView>
 
             <TextView
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="20dp"
                 android:text="Procedencia:"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:fontFamily="@font/annie_use_your_telescope"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/condicion" />
 
             <TextView
                 android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="19dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="25dp"
+                android:layout_width="59dp"
+                android:layout_height="33dp"
+                android:layout_marginTop="8dp"
                 android:text="Nombre:"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:fontFamily="@font/annie_use_your_telescope"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/buscar_gato" />
-
 
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="12dp"
                 android:text="Peso:"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:fontFamily="@font/annie_use_your_telescope"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -75,20 +133,21 @@
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="16dp"
                 android:text="Sexo:"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:fontFamily="@font/annie_use_your_telescope"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <EditText
                 android:id="@+id/nombre_gato"
                 android:layout_width="199dp"
                 android:layout_height="41dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
                 android:ems="10"
                 android:hint="Michi"
                 android:inputType="textPersonName"
@@ -99,24 +158,27 @@
                 android:id="@+id/sexo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="11dp"
-                android:layout_marginLeft="11dp"
-                android:layout_marginTop="17dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toEndOf="@+id/textView8"
-                app:layout_constraintTop_toBottomOf="@+id/nombre_gato">
+                tools:layout_editor_absoluteY="154dp">
 
                 <RadioButton
                     android:id="@+id/macho"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Macho" />
+                    android:text="Macho"
+                    android:textColor="#29B6F6"
+                    android:textStyle="bold" />
 
                 <RadioButton
                     android:id="@+id/hembra"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Hembra" />
+                    android:text="Hembra"
+                    android:textColor="#EC407A"
+                    android:textStyle="bold" />
 
             </RadioGroup>
 
@@ -126,7 +188,7 @@
                 android:layout_height="38dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="12dp"
                 android:ems="10"
                 android:inputType="numberDecimal"
                 app:layout_constraintStart_toEndOf="@+id/textView9"
@@ -136,41 +198,68 @@
                 android:id="@+id/condicion_especial"
                 android:layout_width="171dp"
                 android:layout_height="28dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="12dp"
+                android:fontFamily="@font/annie_use_your_telescope"
                 android:text="Condicion Especial"
+                android:textSize="17dp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/peso" />
 
             <EditText
                 android:id="@+id/condicion"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
                 android:ems="10"
-                android:inputType="textPersonName"
                 android:hint="Preñada"
+                android:inputType="textPersonName"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/condicion_especial" />
 
             <Spinner
                 android:id="@+id/procedencia"
+                style="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
                 android:layout_width="141dp"
                 android:layout_height="20dp"
-                android:layout_marginTop="19dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="12dp"
                 app:layout_constraintStart_toEndOf="@+id/textView10"
                 app:layout_constraintTop_toBottomOf="@+id/condicion" />
 
+            <NumberPicker
+                android:id="@+id/mes_select"
+                android:layout_width="74dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:ems="10"
+                android:solidColor="@color/cardview_shadow_end_color"
+                android:textAllCaps="false"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+            <NumberPicker
+                android:id="@+id/fecha_año_select"
+                android:layout_width="77dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:ems="10"
+                android:solidColor="@color/cardview_shadow_end_color"
+                android:textAllCaps="false"
+                app:layout_constraintStart_toEndOf="@+id/mes_select"
+                app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/formulario_responsable"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/responsable">
 
@@ -179,10 +268,12 @@
                     android:id="@+id/textView15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginLeft="28dp"
                     android:layout_marginTop="24dp"
-                    android:text="Nombre"
+                    android:fontFamily="@font/annie_use_your_telescope"
+                    android:text="Nombre:"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/datos_responsable" />
 
@@ -190,22 +281,24 @@
                     android:id="@+id/nombre_responsable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="120dp"
-                    android:layout_marginLeft="120dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="15dp"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView15"
                     app:layout_constraintTop_toBottomOf="@+id/datos_responsable" />
 
                 <TextView
                     android:id="@+id/textView16"
-                    android:layout_width="105dp"
-                    android:layout_height="19dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="35dp"
-                    android:text="Apellido Paterno"
+                    android:layout_width="126dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/annie_use_your_telescope"
+                    android:text="Apellido Paterno:"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
@@ -213,7 +306,9 @@
                     android:id="@+id/apellido_paterno_responsable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
                     android:ems="10"
                     android:inputType="textPersonName"
                     app:layout_constraintStart_toEndOf="@+id/textView16"
@@ -223,7 +318,9 @@
                     android:id="@+id/apellido_materno_responsable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
                     android:ems="10"
                     android:inputType="textPersonName"
                     app:layout_constraintStart_toEndOf="@+id/textView18"
@@ -238,7 +335,11 @@
                     android:layout_marginEnd="136dp"
                     android:layout_marginRight="136dp"
                     android:text="Datos de Responsable"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.537"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/buscar_responsable" />
 
@@ -246,10 +347,12 @@
                     android:id="@+id/textView18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="35dp"
-                    android:text="Apellido Materno"
+                    android:layout_marginTop="28dp"
+                    android:fontFamily="@font/annie_use_your_telescope"
+                    android:text="Apellido Materno:"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
@@ -257,39 +360,47 @@
                     android:id="@+id/celular_responsable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
                     android:ems="10"
                     android:inputType="phone"
-                    app:layout_constraintStart_toEndOf="@+id/textView18"
+                    app:layout_constraintStart_toEndOf="@+id/textView19"
                     app:layout_constraintTop_toBottomOf="@+id/apellido_materno_responsable" />
 
                 <EditText
                     android:id="@+id/email_responsable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:inputType="textEmailAddress"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
                     android:ems="10"
-                    app:layout_constraintStart_toEndOf="@+id/textView18"
+                    android:inputType="textEmailAddress"
+                    app:layout_constraintStart_toEndOf="@+id/textView20"
                     app:layout_constraintTop_toBottomOf="@+id/celular_responsable" />
 
                 <EditText
                     android:id="@+id/domicilio_responable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
                     android:ems="10"
-                    app:layout_constraintStart_toEndOf="@+id/textView18"
+                    app:layout_constraintStart_toEndOf="@+id/textView21"
                     app:layout_constraintTop_toBottomOf="@+id/email_responsable" />
 
                 <TextView
                     android:id="@+id/textView19"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="46dp"
-                    android:layout_marginLeft="46dp"
-                    android:layout_marginTop="35dp"
-                    android:text="Celular"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/annie_use_your_telescope"
+                    android:text="Celular:"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
@@ -297,10 +408,12 @@
                     android:id="@+id/textView20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="46dp"
-                    android:layout_marginLeft="46dp"
-                    android:layout_marginTop="35dp"
-                    android:text="E-mail"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/annie_use_your_telescope"
+                    android:text="E-mail:"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
@@ -308,21 +421,35 @@
                     android:id="@+id/textView21"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="46dp"
-                    android:layout_marginLeft="46dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/annie_use_your_telescope"
                     android:text="Domicilio"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
                 <Button
                     android:id="@+id/buscar_responsable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="39dp"
+                    android:layout_height="33dp"
                     android:layout_marginStart="9dp"
                     android:layout_marginLeft="9dp"
-                    android:text="@string/buscar_responable"
+                    android:background="?android:attr/actionModeWebSearchDrawable"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/buscar_responsable"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/buscar_responsable"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -333,21 +460,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="25dp"
-                android:visibility="gone"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/annie_use_your_telescope"
                 android:text="Responsable"
+                android:textColor="@color/black"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-            <Button
-                android:id="@+id/buscar_gato"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="7dp"
-                android:layout_marginLeft="7dp"
-                android:text="@string/buscar_gato"
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="132dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/annie_use_your_telescope"
+                android:text="Fecha Nacimiento:"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

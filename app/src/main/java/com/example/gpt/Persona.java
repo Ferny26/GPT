@@ -3,7 +3,7 @@ package com.example.gpt;
 import java.util.UUID;
 
 public class Persona {
-    private String mNombre, mApellidoPaterno, mApellidoMaterno, mDomicilio, mCelular;
+    private String mNombre, mApellidoPaterno, mApellidoMaterno, mDomicilio, mCelular, mEmail;
     private UUID mIdPersona;
 
     public Persona(){
@@ -27,6 +27,14 @@ public class Persona {
 
     public void setmApellidoPaterno(String mApellidoPaterno) {
         this.mApellidoPaterno = mApellidoPaterno;
+    }
+
+    public String getmEmail() {
+        return mEmail;
+    }
+
+    public void setmEmail(String mEmail) {
+        this.mEmail = mEmail;
     }
 
     public String getmApellidoMaterno() {

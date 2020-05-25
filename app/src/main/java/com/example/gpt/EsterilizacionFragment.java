@@ -15,47 +15,31 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class EsterilizacionFragment extends Fragment {
 
-    String mPeso, mNombreGato, mNombrePersona, mApellidoP, mApellidoM, mCondicionEspecial, mDomicilio, mCelular, mEmail, mProcedencia, mSexo, mAnticipo, mCostoExtra;
-    CheckBox mFajaCheckBox, mAnticipoCheckBox;
-    EditText mAnticipoEditText, mCostoExtraEditText;
-    TextView mCostoTotalTextView;
-    Button mTerminarRegistroButton;
-    UUID campañaId;
+    private String  mNombreGato, mNombrePersona, mApellidoP, mApellidoM, mCondicionEspecial, mDomicilio, mCelular, mEmail, mProcedencia, mSexo;
+    private int mPeso, mAnticipo, mCostoExtra, mPrecio;
+    private Long mfecha;
+    private Date mFechaNacimiento;
+    private CheckBox mFajaCheckBox, mAnticipoCheckBox;
+    private EditText mAnticipoEditText, mCostoExtraEditText, mPrecioEditText;
+    private TextView mCostoTotalTextView;
+    private Button mTerminarRegistroButton;
+    private UUID campañaId, gatoId;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
     }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-
-
-    }
-
-
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mPeso = getArguments().getString("PESO");
-        mNombreGato = getArguments().getString("NOMBRE_GATO");
-        mNombrePersona = getArguments().getString("NOMBRE_RESPONSABLE");
-        mApellidoP = getArguments().getString("APELLIDO_PATERNO");
-        mApellidoM = getArguments().getString("APELLIDO_MATERNO");
-        mCondicionEspecial = getArguments().getString("CONDICION_GATO");
-        mDomicilio = getArguments().getString("DOMICILIO");
-        mCelular = getArguments().getString("CELULAR");
-        mEmail = getArguments().getString("EMAIL");
-        mProcedencia = getArguments().getString("PROCEDENCIA");
-        mSexo = getArguments().getString("SEXO");
-        campañaId = (UUID) getArguments().getSerializable("CAMPAÑA_ID");
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        campañaId = (UUID) getArguments().getSerializable("CAMPAÑA_ID");
 
         View view = inflater.inflate(R.layout.esterilizacion_datos_fragment, null);
         mFajaCheckBox = view.findViewById(R.id.faja);
@@ -68,22 +52,14 @@ public class EsterilizacionFragment extends Fragment {
         mAnticipoEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mAnticipo = s.toString();
+                mAnticipo = count;
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
             }
-
-
-
-
         });
 
         mCostoExtraEditText.addTextChangedListener(new TextWatcher() {
@@ -94,12 +70,28 @@ public class EsterilizacionFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mCostoExtra = s.toString();
+                mCostoExtra = count;
+                int cantidad = mCostoExtra + mPrecio;
+                mCostoTotalTextView.setText(getString(R.string.costo_total, cantidad));
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        mPrecioEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mPrecio = count;
+                int cantidad = mCostoExtra + mPrecio;
+                mCostoTotalTextView.setText(getString(R.string.costo_total, cantidad));
+            }
+            @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -108,16 +100,8 @@ public class EsterilizacionFragment extends Fragment {
         mTerminarRegistroButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CatLab catLab = CatLab.get(getContext());
-                EsterilizacionStorage esterilizacionStorage = EsterilizacionStorage.get(getContext());
-                Gato gato = new Gato();
-                gato.setmNombreGato(mNombreGato);
-                gato.setmPeso(Integer.parseInt(mPeso));
-                gato.setmCondicionEspecial(mCondicionEspecial);
-                gato.setmProcedencia(mProcedencia);
-                gato.setmSexo(mSexo);
-                catLab.addGato(gato, getContext());
 
+                EsterilizacionStorage esterilizacionStorage = EsterilizacionStorage.get(getContext());
                 Esterilizacion esterilizacion = new Esterilizacion();
                 esterilizacion.setmIdCampaña(campañaId);
                 esterilizacion.setmIdGato(gato.getmIdGato());
@@ -125,12 +109,7 @@ public class EsterilizacionFragment extends Fragment {
                 getActivity().finish();
             }
         });
-
-
-
-
         return view;
-
 
         }
 

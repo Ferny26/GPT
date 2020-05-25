@@ -22,4 +22,9 @@ public abstract class SingleFormularioFragment extends AppCompatActivity {
                     .commit();
         }
     }
+    protected void  replaceFragment(Fragment fragment){
+        fm.beginTransaction()
+                .replace(R.id.formulario_container, fragment)
+                .commit();
+    }
 }

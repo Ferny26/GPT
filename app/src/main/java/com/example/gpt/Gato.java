@@ -7,10 +7,10 @@ import java.util.UUID;
 
 public class Gato {
     private UUID mIdGato;
-    private float mPeso;
     private ImageView mFoto;
-    private int mEdad;
-    private String mNombreGato, mCondicionEspecial, mProcedencia, mSexo;
+    private Date mFechaNacimiento;
+    private int mEdad, mProcedencia, mSexo;
+    private String mNombreGato, mCondicionEspecial, mPeso;
 
     public Gato(){
         this(UUID.randomUUID());
@@ -24,7 +24,7 @@ public class Gato {
         return mIdGato;
     }
 
-    public float getmPeso() {
+    public String getmPeso() {
         return mPeso;
     }
 
@@ -32,11 +32,16 @@ public class Gato {
         return mFoto;
     }
 
-    public int getmFechaNacimiento() {
+    public int getmEdad() {
+
         return mEdad;
     }
 
-    public String ismSexo() {
+    public Date getmFechaNacimiento() {
+        return mFechaNacimiento;
+    }
+
+    public int ismSexo() {
         return mSexo;
     }
 
@@ -44,11 +49,11 @@ public class Gato {
         return mCondicionEspecial;
     }
 
-    public String getmProcedencia() {
+    public int getmProcedencia() {
         return mProcedencia;
     }
 
-    public void setmPeso(float mPeso) {
+    public void setmPeso(String mPeso) {
         this.mPeso = mPeso;
     }
 
@@ -56,11 +61,11 @@ public class Gato {
         this.mFoto = mFoto;
     }
 
-    public void setmFechaNacimiento(int mEdad) {
-        this.mEdad = mEdad;
+    public void setmFechaNacimiento(Date mFechaNacimiento) {
+        this.mFechaNacimiento = mFechaNacimiento;
     }
 
-    public void setmSexo(String mSexo) {
+    public void setmSexo(int mSexo) {
         this.mSexo = mSexo;
     }
 
@@ -68,7 +73,7 @@ public class Gato {
         this.mCondicionEspecial = mCondicionEspecial;
     }
 
-    public void setmProcedencia(String mProcedencia) {
+    public void setmProcedencia(int mProcedencia) {
         this.mProcedencia = mProcedencia;
     }
 

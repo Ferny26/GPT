@@ -23,6 +23,10 @@
     <string name="datos_del_gato">Datos del gato</string>
     <string name="buscar_responsable">Buscar responsable</string>
     <string name="buscar_responable">Buscar Responable</string>
-
-
+    <string name="costo_total"> $ %1$d </string>
+    <string-array name="procedencia_list">
+        <item>Recien Rescatado</item>
+        <item>Feral</item>
+        <item>Propio</item>
+    </string-array>
 </resources>
