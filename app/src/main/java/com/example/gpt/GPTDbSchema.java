@@ -29,7 +29,6 @@ public class GPTDbSchema {
     public static final class GatoHogarTable {
         public static final String NAME = "gatos_hogar";
         public static final class Cols{
-            public static String UUID = "uuid";
             public static String FKUUID_GATO = "gato_id";
             public static String FKUUID_PERSONA = "persona_id";
         }
@@ -62,7 +61,7 @@ public class GPTDbSchema {
     }
 
     public static final class MaterialCampañaTable {
-        public static final String NAME = "material";
+        public static final String NAME = "material_campaña";
         public static final class Cols{
             public static String FKUUID_CAMPAÑA = "campaña_id";
             public static String CANTIDAD_GASTADA = "cantidad";

@@ -47,7 +47,6 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
                 GatoHogarTable.NAME +
                 "(" +
                 "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                GatoHogarTable.Cols.UUID + ", " +
                 GatoHogarTable.Cols.FKUUID_GATO + ", " +
                 GatoHogarTable.Cols.FKUUID_PERSONA + ", " +
                 "FOREIGN KEY ("+ GatoHogarTable.Cols.FKUUID_GATO + ") REFERENCES "+ GatoTable.NAME+"("+GatoTable.Cols.UUID+")," +

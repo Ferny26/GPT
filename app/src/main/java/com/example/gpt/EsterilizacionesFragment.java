@@ -71,7 +71,7 @@ public class EsterilizacionesFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(getActivity(), ListCampaña.class);
+            Intent intent = new Intent(getActivity(), EsterilizacionActivity.class);
             intent.putExtra("ESTERILIZACION_ID", mEsterilizacion.getmIdEsterilizacion());
             startActivity(intent);
         }
