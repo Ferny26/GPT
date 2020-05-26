@@ -28,7 +28,6 @@ public class EsterilizacionActivity extends SingleFormularioFragment {
         esterilizacionId = (UUID) getIntent().getSerializableExtra("ESTERILIZACION_ID");
 
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.universal_formulario_activity);
         mBottomNavigationView=findViewById(R.id.esterilizacion_menu);
@@ -44,13 +43,13 @@ public class EsterilizacionActivity extends SingleFormularioFragment {
     private void menu (int menuItem) {
         switch (menuItem) {
             case R.id.gato_datos_esterilizacion:
+                fragment = mGatoFragment;
                 if(esterilizacionId == null){
                     arguments.putBoolean("NUEVA_INSTANCIA", true);
                 }
                 else{
                     arguments.putSerializable("ESTERILIZACION_ID", esterilizacionId);
                 }
-                fragment = mGatoFragment;
                 fragment.setArguments(arguments);
                 break;
             case R.id.esterilizacion_datos:

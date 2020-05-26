@@ -62,6 +62,7 @@ public class CampañaFragment extends Fragment {
             mCampañaRecyclerView.setAdapter(mAdapter);
         }else{
             mAdapter.setmCampañas(campañas);
+            mCampañaRecyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();//Actualiza los datos del item
         }
 
@@ -133,12 +134,12 @@ public class CampañaFragment extends Fragment {
 
     }
 
-
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         updateUI();
     }
+
     private void updateSubtitle(){
         mCampañaStorage = mCampañaStorage.get(getActivity());
         int campañasCount = mCampañaStorage.getmCampañas().size();

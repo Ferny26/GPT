@@ -93,8 +93,6 @@ public class GatoFragment extends Fragment {
         mMesNumberPicker = view.findViewById(R.id.mes_select);
         mAñoNumberPicker = view.findViewById(R.id.fecha_año_select);
         ArrayAdapter <String> mAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, mProcedenciaList);
-        mRadio = (RadioButton) mSexoRadioGroup.getChildAt(1);
-        mRadio.setPressed(true);
         mProcedenciaSpinner.setAdapter(mAdapter);
         mGato = new Gato();
         mResponsable = new Persona();
@@ -126,6 +124,7 @@ public class GatoFragment extends Fragment {
                     mResponsableCheckBox.setVisibility(View.VISIBLE);
                 }else{
                     mResponsableCheckBox.setVisibility(View.GONE);
+                    mFormularioResponsableConstraintLayout.setVisibility(View.GONE);
                     mGato.setmProcedencia(position);
                 }
             }
@@ -359,8 +358,8 @@ public class GatoFragment extends Fragment {
         mPesoEditText.setText(mGato.getmPeso());
         mMesNumberPicker.setValue(mGato.getmFechaNacimiento().getMonth());
         mAñoNumberPicker.setValue(mGato.getmFechaNacimiento().getYear());
-        //mRadio = (RadioButton) mSexoRadioGroup.getChildAt(mGato.ismSexo());
-        //mRadio.setPressed(true);
+        mRadio = (RadioButton) mSexoRadioGroup.getChildAt(mGato.ismSexo());
+        mRadio.setPressed(true);
         if(mGato.getmCondicionEspecial() != null){
             mCondicionEspecialCheckBox.setChecked(true);
             mCondicionEditText.setVisibility(View.VISIBLE);
@@ -391,6 +390,7 @@ public class GatoFragment extends Fragment {
             bus.post(mEsterilizacion);
         }
         mGato.setValidacion(verificacion());
+
         bus.post(mGato);
         if (mResponsableCheckBox.isChecked()) {
             bus.post(mResponsable);

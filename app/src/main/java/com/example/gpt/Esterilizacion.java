@@ -5,8 +5,7 @@ import java.util.UUID;
 
 public class Esterilizacion {
     private UUID mIdEsterilizacion, mIdCampaña, mIdGato;
-    private Date mFechaEsterilizacion;
-    private int mPrecio, mAnticipo;
+    private int mPrecio, mAnticipo, mCostoExtra;
     private boolean mFaja, mPagado;
 
     public Esterilizacion(){
@@ -14,15 +13,18 @@ public class Esterilizacion {
     }
     public Esterilizacion(UUID id) {
         this.mIdEsterilizacion = id;
-        this.mFechaEsterilizacion = new Date();
     }
 
     public UUID getmIdEsterilizacion() {
         return mIdEsterilizacion;
     }
 
-    public Date getmFechaEsterilizacion() {
-        return mFechaEsterilizacion;
+    public int getmCostoExtra() {
+        return mCostoExtra;
+    }
+
+    public void setmCostoExtra(int mCostoExtra) {
+        this.mCostoExtra = mCostoExtra;
     }
 
     public int getmPrecio() {
@@ -37,9 +39,6 @@ public class Esterilizacion {
         return mFaja;
     }
 
-    public void setmFechaEsterilizacion(Date mFechaEsterilizacion) {
-        this.mFechaEsterilizacion = mFechaEsterilizacion;
-    }
 
     public void setmPrecio(int mPrecio) {
         this.mPrecio = mPrecio;

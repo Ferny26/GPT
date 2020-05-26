@@ -25,9 +25,5 @@
     <string name="buscar_responable">Buscar Responable</string>
     <string name="costo_total"> $ %1$d </string>
     <string name="actualizar_datos">Actualizar datos</string>
-    <string-array name="procedencia_list">
-        <item>Recien Rescatado</item>
-        <item>Feral</item>
-        <item>Propio</item>
-    </string-array>
+
 </resources>

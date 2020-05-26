@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,21 +19,14 @@ import androidx.fragment.app.Fragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 public class EsterilizacionFragment extends Fragment {
-    private String  mNombreGato, mNombrePersona, mApellidoP, mApellidoM, mCondicionEspecial, mDomicilio, mCelular, mEmail, mProcedencia, mSexo;
-    private int mPeso, mAnticipo, mCostoExtra, mPrecio;
-    private Long mfecha;
-    private Date mFechaNacimiento;
-    private CheckBox mFajaCheckBox, mAnticipoCheckBox;
+    private CheckBox mFajaCheckBox, mAnticipoCheckBox, mCostoExtraCheckButton;
     private EditText mAnticipoEditText, mCostoExtraEditText, mPrecioEditText;
     private TextView mCostoTotalTextView;
-    private Button mTerminarRegistroButton, mActualizarRegistroButton;
-    private UUID campañaId, gatoId;
+    private Button mTerminarRegistroButton;
+    private UUID campañaId;
     private EventBus bus = EventBus.getDefault();
     private Esterilizacion mEsterilizacion = new Esterilizacion();
     private Gato mGato;
@@ -66,6 +60,12 @@ public class EsterilizacionFragment extends Fragment {
         mCostoTotalTextView = view.findViewById(R.id.costo_total);
         mPrecioEditText = view.findViewById(R.id.precio);
         mTerminarRegistroButton = view.findViewById(R.id.terminar_esterilizacion);
+        mCostoExtraCheckButton = view.findViewById(R.id.costo_extra_check);
+
+        if(objetoEnviadoEsterilizacion){
+            mTerminarRegistroButton.setText(R.string.actualizar_datos);
+            ColocarDatos();
+        }
 
         mAnticipoEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -73,10 +73,16 @@ public class EsterilizacionFragment extends Fragment {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mAnticipo = count;
+
             }
             @Override
             public void afterTextChanged(Editable s) {
+                try{
+                    mEsterilizacion.setmAnticipo(Integer.parseInt(mAnticipoEditText.getText().toString()));
+                } catch (Exception e) {
+                    mEsterilizacion.setmAnticipo(0);
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -85,15 +91,24 @@ public class EsterilizacionFragment extends Fragment {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mCostoExtra = count;
-                int cantidad = mCostoExtra + mPrecio;
-                mCostoTotalTextView.setText(getString(R.string.costo_total, cantidad));
+
+
             }
             @Override
             public void afterTextChanged(Editable s) {
+                try{
+                    mEsterilizacion.setmCostoExtra(Integer.parseInt(mCostoExtraEditText.getText().toString()));
+                    int cantidad = mEsterilizacion.getmCostoExtra() + mEsterilizacion.getmPrecio();
+                    mCostoTotalTextView.setText(getString(R.string.costo_total, cantidad));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mEsterilizacion.setmCostoExtra(0);
+                    int cantidad = mEsterilizacion.getmPrecio();
+                    mCostoTotalTextView.setText(getString(R.string.costo_total, cantidad));
+                }
+
             }
         });
         mPrecioEditText.addTextChangedListener(new TextWatcher() {
@@ -104,12 +119,50 @@ public class EsterilizacionFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mPrecio = count;
-                int cantidad = mCostoExtra + mPrecio;
-                mCostoTotalTextView.setText(getString(R.string.costo_total, cantidad));
+
+
             }
             @Override
             public void afterTextChanged(Editable s) {
+                try{
+                    mEsterilizacion.setmPrecio(Integer.parseInt(mPrecioEditText.getText().toString()));
+                    int cantidad =  mEsterilizacion.getmPrecio() + mEsterilizacion.getmCostoExtra();
+                    mCostoTotalTextView.setText(getString(R.string.costo_total, cantidad));
+                } catch (Exception e) {
+                    mEsterilizacion.setmPrecio(0);
+                    int cantidad = mEsterilizacion.getmCostoExtra();
+                    mCostoTotalTextView.setText(getString(R.string.costo_total, cantidad));
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        mAnticipoCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    mAnticipoEditText.setVisibility(View.VISIBLE);
+                }else {
+                    mAnticipoEditText.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        mFajaCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    mEsterilizacion.setmFaja(isChecked);
+            }
+        });
+
+        mCostoExtraCheckButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mCostoExtraEditText.setVisibility(View.VISIBLE);
+                }else {
+                    mCostoExtraEditText.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -126,7 +179,7 @@ public class EsterilizacionFragment extends Fragment {
                     getActivity().finish();
                 }
                 else{
-                    if(mGato.isValidacion()){
+                    if(mGato.isValidacion() && mEsterilizacion.getmPrecio() != 0){
                         crearDatos();
                         getActivity().finish();
                     }
@@ -134,18 +187,16 @@ public class EsterilizacionFragment extends Fragment {
                         Toast.makeText(getActivity(), "Datos incompletos",
                                 Toast.LENGTH_LONG).show();
                     }
-
                 }
-
             }
         });
 
-
-
-
         return view;
-
         }
+
+    private void ColocarDatos() {
+
+    }
 
 
     @Override

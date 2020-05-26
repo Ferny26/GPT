@@ -27,6 +27,7 @@ public class Gato {
 
     public Gato(UUID id){
         this.mIdGato=id;
+        this.mFechaNacimiento= new Date(); 
     }
 
     public UUID getmIdGato() {
