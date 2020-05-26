@@ -3,18 +3,10 @@ package com.example.gpt;
 import java.util.UUID;
 
 public class GatoHogar {
-    private UUID mGatoHogarId, mPersonaId, mGatoId;
-
-    public GatoHogar(){
-        this(UUID.randomUUID());
-    }
+    private UUID mPersonaId, mGatoId;
 
     public GatoHogar (UUID id){
-        this.mGatoHogarId = id;
-    }
-
-    public UUID getmGatoHogarId() {
-        return mGatoHogarId;
+        this.mGatoId = id;
     }
 
     public UUID getmPersonaId() {

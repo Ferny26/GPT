@@ -9,7 +9,6 @@ public class Campaña {
     private Date mFechaCampaña;
     private CharSequence dateFormat;
 
-
     public Campaña(){
         this(UUID.randomUUID());
     }

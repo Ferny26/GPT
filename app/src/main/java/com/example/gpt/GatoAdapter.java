@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+
 public class GatoAdapter extends RecyclerView.Adapter<GatoAdapter.GatoHolder> implements Filterable {
 
     private Context context;
@@ -45,6 +46,7 @@ public class GatoAdapter extends RecyclerView.Adapter<GatoAdapter.GatoHolder> im
             mNombreTextView.setText(mGato.getmNombreGato());
             mGatoImageView.setImageResource(R.drawable.gato_gris);
             mCelularTextView.setVisibility(View.GONE);
+
         }
 
     }

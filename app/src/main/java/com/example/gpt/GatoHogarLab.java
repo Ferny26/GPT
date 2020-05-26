@@ -33,15 +33,15 @@ public class GatoHogarLab {
     }
 
     public void updateGatoHogar(GatoHogar gato){
-        String uuidString = gato.getmGatoHogarId().toString();
+        String uuidString = gato.getmGatoId().toString();
         ContentValues values = getContentValues(gato);
-        mDataBase.update(GPTDbSchema.GatoHogarTable.NAME, values, GPTDbSchema.GatoHogarTable.Cols.UUID + "= ?", new String[] {uuidString});
+        mDataBase.update(GPTDbSchema.GatoHogarTable.NAME, values, GPTDbSchema.GatoHogarTable.Cols.FKUUID_GATO + "= ?", new String[] {uuidString});
     }
 
 
     public void deleteGatoHogar( String whereClause, String[] whereArgs){
         mDataBase.delete(
-                GPTDbSchema.GatoTable.NAME,
+                GPTDbSchema.GatoHogarTable.NAME,
                 whereClause,
                 whereArgs
         );
@@ -81,7 +81,6 @@ public class GatoHogarLab {
 
     private static ContentValues getContentValues(GatoHogar gato){
         ContentValues values = new ContentValues();
-        values.put(GPTDbSchema.GatoHogarTable.Cols.UUID, gato.getmGatoHogarId().toString());
         values.put(GPTDbSchema.GatoHogarTable.Cols.FKUUID_GATO, gato.getmGatoId().toString());
         values.put(GPTDbSchema.GatoHogarTable.Cols.FKUUID_PERSONA, gato.getmPersonaId().toString());
         return values;

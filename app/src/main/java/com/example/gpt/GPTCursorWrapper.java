@@ -48,12 +48,10 @@ public class GPTCursorWrapper extends CursorWrapper {
     }
 
     public GatoHogar getGatoHogar (){
-        String uuidString = getString(getColumnIndex(GatoHogarTable.Cols.UUID));
         String uuidGato = getString(getColumnIndex(GatoHogarTable.Cols.FKUUID_GATO));
         String uuidPersona = getString(getColumnIndex(GatoHogarTable.Cols.FKUUID_PERSONA));
 
-        GatoHogar gatoHogar = new GatoHogar(UUID.fromString(uuidString));
-        gatoHogar.setmGatoId(UUID.fromString(uuidGato));
+        GatoHogar gatoHogar = new GatoHogar(UUID.fromString(uuidGato));
         gatoHogar.setmPersonaId(UUID.fromString(uuidPersona));
         return gatoHogar;
     }

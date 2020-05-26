@@ -11,6 +11,15 @@ public class Gato {
     private Date mFechaNacimiento;
     private int mEdad, mProcedencia, mSexo;
     private String mNombreGato, mCondicionEspecial, mPeso;
+    private boolean validacion;
+
+    public boolean isValidacion() {
+        return validacion;
+    }
+
+    public void setValidacion(boolean validacion) {
+        this.validacion = validacion;
+    }
 
     public Gato(){
         this(UUID.randomUUID());

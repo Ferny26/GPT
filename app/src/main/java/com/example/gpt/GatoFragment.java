@@ -29,12 +29,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 
+
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Date;
 import java.util.UUID;
 
 public class GatoFragment extends Fragment {
-
-    Fragment fragment = new EsterilizacionFragment();
 
     private Spinner mProcedenciaSpinner;
     private NumberPicker  mMesNumberPicker, mAñoNumberPicker;
@@ -44,9 +45,9 @@ public class GatoFragment extends Fragment {
     private RadioGroup mSexoRadioGroup;
     private TextView mFechaNacimientoTextView;
     private RadioButton mSexoRadioButton, mRadio;
-    private Date mFechaNacimiento;
+    private Date mFechaNacimiento = new Date();
     private ConstraintLayout mFormularioResponsableConstraintLayout;
-    private Button mBuscarResponsableButton, mBuscarGatoButton, mSiguienteButton;
+    private Button mBuscarResponsableButton, mBuscarGatoButton;
     private String  mTitle;
     private static final int REQUEST_BUSQUEDA = 0;
     private static final String DIALOG_CREATE = "DialogCreate";
@@ -55,9 +56,12 @@ public class GatoFragment extends Fragment {
     private UUID campañaId, esterilizacionId;
     private Gato mGato;
     private Persona mResponsable;
+    Esterilizacion mEsterilizacion;
+    private EventBus bus = EventBus.getDefault();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
     }
 
@@ -65,11 +69,11 @@ public class GatoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.gato_fragment, null);
-
+        boolean nuevaInstancia = getArguments().getBoolean("NUEVA_INSTANCIA");
+        if(!nuevaInstancia) {
+            esterilizacionId = (UUID) getArguments().getSerializable("ESTERILIZACION_ID");
+        }
         //////////////////////////////////////////////// Wiring Up /////////////////////////////////////////////////
-
-
-        campañaId = (UUID) getArguments().getSerializable("CAMPAÑA_ID");
         mProcedenciaSpinner = view.findViewById(R.id.procedencia);
         mNombreGatoEditText = view.findViewById(R.id.nombre_gato);
         mNombrePersonaEditText = view.findViewById(R.id.nombre_responsable);
@@ -85,7 +89,6 @@ public class GatoFragment extends Fragment {
         mBuscarGatoButton = view.findViewById(R.id.buscar_gato);
         mBuscarResponsableButton = view.findViewById(R.id.buscar_responsable);
         mSexoRadioGroup = view.findViewById(R.id.sexo);
-        mSiguienteButton = view.findViewById(R.id.siguiente);
         mEmailEditText = view.findViewById(R.id.email_responsable);
         mMesNumberPicker = view.findViewById(R.id.mes_select);
         mAñoNumberPicker = view.findViewById(R.id.fecha_año_select);
@@ -95,9 +98,10 @@ public class GatoFragment extends Fragment {
         mProcedenciaSpinner.setAdapter(mAdapter);
         mGato = new Gato();
         mResponsable = new Persona();
+
         if (esterilizacionId != null){
             EsterilizacionStorage mEsterilizacionStorage = EsterilizacionStorage.get(getActivity());
-            Esterilizacion mEsterilizacion = mEsterilizacionStorage.getEsterilizacion(esterilizacionId);
+            mEsterilizacion = mEsterilizacionStorage.getEsterilizacion(esterilizacionId);
             CatLab mCatLab = CatLab.get(getActivity());
             mGato = mCatLab.getmGato(mEsterilizacion.getmIdGato());
             GatoDefinido();
@@ -105,14 +109,13 @@ public class GatoFragment extends Fragment {
             GatoHogar mgatoHogar = mgatoHogarLab.getmGatoHogar(mGato.getmIdGato());
             if (mgatoHogar != null){
                 PersonaStorage mPersonaStorage = PersonaStorage.get(getActivity());
-                 mResponsable = mPersonaStorage.getmPersona(mgatoHogar.getmPersonaId());
-                 ResponsableDefinido();
+                mResponsable = mPersonaStorage.getmPersona(mgatoHogar.getmPersonaId());
+                ResponsableDefinido();
             }
-
 
         }
 
-        //////////////////////////////////////////////// Spinner /////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////// Spinner ///////////////////////////////////////////////////////////////////////////////////////////////////
         //Seleccion de procedencia
         mProcedenciaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -131,7 +134,7 @@ public class GatoFragment extends Fragment {
             }
         });
 
-        //////////////////////////////////////////////// Number Pickers /////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////// Number Pickers /////////////////////////////////////////////////////////////////////////////////////////////////////
 
         mMesNumberPicker.setMinValue(1);
         mMesNumberPicker.setMaxValue(12);
@@ -156,7 +159,7 @@ public class GatoFragment extends Fragment {
             }
         });
 
-        //////////////////////////////////////////////// Buttons y Check Boxes /////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////// Buttons y Check Boxes /////////////////////////////////////////////////////////////////////////////
 
         //Busquedas Gato y Persona
         mBuscarResponsableButton.setOnClickListener(new View.OnClickListener() {
@@ -209,9 +212,6 @@ public class GatoFragment extends Fragment {
 
             }
         });
-
-        Toast.makeText(getActivity(), "Datos incompletos",
-                Toast.LENGTH_LONG).show();
 
 
         //////////////////////////////////////////////// Edit Texts /////////////////////////////////////////////////
@@ -359,8 +359,8 @@ public class GatoFragment extends Fragment {
         mPesoEditText.setText(mGato.getmPeso());
         mMesNumberPicker.setValue(mGato.getmFechaNacimiento().getMonth());
         mAñoNumberPicker.setValue(mGato.getmFechaNacimiento().getYear());
-        mRadio = (RadioButton) mSexoRadioGroup.getChildAt(mGato.ismSexo());
-        mRadio.setPressed(true);
+        //mRadio = (RadioButton) mSexoRadioGroup.getChildAt(mGato.ismSexo());
+        //mRadio.setPressed(true);
         if(mGato.getmCondicionEspecial() != null){
             mCondicionEspecialCheckBox.setChecked(true);
             mCondicionEditText.setVisibility(View.VISIBLE);
@@ -370,10 +370,33 @@ public class GatoFragment extends Fragment {
     }
 
     private void ResponsableDefinido(){
-
+        mResponsableCheckBox.setChecked(true);
+        mNombrePersonaEditText.setText(mResponsable.getmNombre());
+        mApellidoPaternoEditText.setText(mResponsable.getmApellidoPaterno());
+        if(mResponsable.getmApellidoMaterno() == null){
+            mApellidoMaternoEditText.setText(mResponsable.getmApellidoMaterno());
+        }
+        if(mResponsable.getmEmail() == null){
+            mEmailEditText.setText(mResponsable.getmEmail());
+        }
+        mDomicilioEditText.setText(mResponsable.getmDomicilio());
+        mCelularEditText.setText(mResponsable.getmCelular());
     }
 
 
+
+    @Override
+    public void onPause() {
+        if(esterilizacionId!=null) {
+            bus.post(mEsterilizacion);
+        }
+        mGato.setValidacion(verificacion());
+        bus.post(mGato);
+        if (mResponsableCheckBox.isChecked()) {
+            bus.post(mResponsable);
+        }
+        super.onPause();
+    }
 
     private boolean verificacion(){
         boolean validacionDatos = true;
