@@ -358,8 +358,8 @@ public class GatoFragment extends Fragment {
         mPesoEditText.setText(mGato.getmPeso());
         mMesNumberPicker.setValue(mGato.getmFechaNacimiento().getMonth());
         mAñoNumberPicker.setValue(mGato.getmFechaNacimiento().getYear());
-        mRadio = (RadioButton) mSexoRadioGroup.getChildAt(mGato.ismSexo());
-        mRadio.setPressed(true);
+        //mRadio = (RadioButton) mSexoRadioGroup.getChildAt(mGato.ismSexo());
+        //mRadio.setPressed(true);
         if(mGato.getmCondicionEspecial() != null){
             mCondicionEspecialCheckBox.setChecked(true);
             mCondicionEditText.setVisibility(View.VISIBLE);

@@ -1,5 +1,6 @@
 package com.example.gpt;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +14,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,12 +30,14 @@ public class EsterilizacionesFragment extends Fragment {
     private EsterilizacionAdapter mAdapter;
     private RecyclerView mEsterilizacionesRecyclerView;
     private ImageView mMainImageView;
+    private static final int REQUEST_CREATE = 0;
+    private static final String DIALOG_CREATE = "DialogCreate";
+    private boolean mSubtitleVisible;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         getActivity().setTitle("Esterilizaciones");
-
         super.onCreate(savedInstanceState);
     }
 
@@ -60,7 +66,7 @@ public class EsterilizacionesFragment extends Fragment {
             mAdapter.notifyDataSetChanged();//Actualiza los datos del item
         }
 
-        //updateSubtitle();
+        updateSubtitle();
 
     }
 
@@ -135,15 +141,74 @@ public class EsterilizacionesFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), EsterilizacionActivity.class);
                 intent.putExtra("CAMPAÑA_ID",campañaId);
                 startActivity(intent);
+                return true;
+            case R.id.editar_campaña:
+                Bundle arguments = new Bundle();
+                FragmentManager manager = getFragmentManager();
+                CrearCampañaDialog dialog = new CrearCampañaDialog();
+                arguments.putSerializable("CAMPAÑA_ID", campañaId);
+                arguments.putBoolean("NUEVA_INSTANCIA", true);
+                dialog.setArguments(arguments);
+                dialog.setTargetFragment(EsterilizacionesFragment.this, REQUEST_CREATE);
+                dialog.show(manager,DIALOG_CREATE);
+                return true;
+            case R.id.show_esterilizaciones:
+                mSubtitleVisible = !mSubtitleVisible;
+                getActivity().invalidateOptionsMenu();
+                updateSubtitle();
+                return true;
+
+            case R.id.borrar_campaña:
+                final AlertDialog.Builder mDeleteDialog = new AlertDialog.Builder(getActivity());
+                mDeleteDialog.setTitle("Borrar campaña")
+                        .setIcon(android.R.drawable.ic_menu_delete)
+                        .setMessage("Estas segura de borrar la campaña, se borraras todas las esterilizaciones")
+                        .setPositiveButton("ok",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //Elimina el crimen de la BD y regresa a la pantalla anterior
+                                        CampañaStorage.get(getActivity()).deleteCampaña(GPTDbSchema.CampañaTable.Cols.UUID + "= ?", new String[] {campañaId.toString()});
+                                        getActivity().finish();
+                                    }
+                                })
+                        //Cancela la accion de delete
+                        .setNegativeButton("cancelar",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                })
+                        .create().show();
+
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+    private void updateSubtitle(){
+        int esterilizacionesCount = mEsterilizacionStorage.getmEsterilizaciones(campañaId).size();
+        String subtitle = getString(R.string.show_esterilizaciones, esterilizacionesCount);
+        if(!mSubtitleVisible){
+            subtitle = null;
+        }
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.getSupportActionBar().setSubtitle(subtitle);
+
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.esterilizaciones_menu,menu);
+        MenuItem subtitleItem = menu.findItem(R.id.show_esterilizaciones);
+        //Cambia el subtitulo según la opción seleccionada
+        if(mSubtitleVisible) {
+            subtitleItem.setTitle(R.string.ocultar);
+        }else {
+            subtitleItem.setTitle(R.string.contar_esterilziacioens);
+        }
     }
 }
