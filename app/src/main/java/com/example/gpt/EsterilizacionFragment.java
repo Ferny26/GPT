@@ -36,7 +36,7 @@ public class EsterilizacionFragment extends Fragment {
     private CatLab mCatLab;
     private GatoHogarLab mGatoHogarLab;
     private PersonaStorage mPersonaStorage;
-
+    EsterilizacionStorage mEsterilizacionStorage;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         bus.register(this);
@@ -51,6 +51,7 @@ public class EsterilizacionFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mEsterilizacionStorage = EsterilizacionStorage.get(getActivity());
         campañaId = (UUID) getArguments().getSerializable("CAMPAÑA_ID");
         View view = inflater.inflate(R.layout.esterilizacion_datos_fragment, null);
         mFajaCheckBox = view.findViewById(R.id.faja);
@@ -195,7 +196,10 @@ public class EsterilizacionFragment extends Fragment {
         }
 
     private void ColocarDatos() {
-
+        mPrecioEditText.setText(Integer.toString(mEsterilizacion.getmPrecio()));
+        if(mEsterilizacion.getmCostoExtra() != 0){
+            mCostoExtraEditText.setText(Integer.toString(mEsterilizacion.getmCostoExtra()));
+        }
     }
 
 
@@ -211,10 +215,6 @@ public class EsterilizacionFragment extends Fragment {
     }
 
     public void crearDatos(){
-        EsterilizacionStorage mEsterilizacionStorage = EsterilizacionStorage.get(getActivity());
-        mEsterilizacion.setmIdCampaña(campañaId);
-        mEsterilizacion.setmIdGato(mGato.getmIdGato());
-        mEsterilizacionStorage.addEsterilizacion(mEsterilizacion, getActivity());
         if(mCatLab.getmGato(mGato.getmIdGato())==null){
             mCatLab.addGato(mGato, getActivity());
         }
@@ -230,7 +230,9 @@ public class EsterilizacionFragment extends Fragment {
                 mGatoHogarLab.addGatoHogar(mGatoHogar, getActivity());
             }
         }
-
+        mEsterilizacion.setmIdCampaña(campañaId);
+        mEsterilizacion.setmIdGato(mGato.getmIdGato());
+        mEsterilizacionStorage.addEsterilizacion(mEsterilizacion, getActivity());
     }
 
     public void actualizarDatos(){
@@ -257,6 +259,7 @@ public class EsterilizacionFragment extends Fragment {
             }
         }
         mCatLab.updateGato(mGato);
+        mEsterilizacionStorage.updateEsterilizacion(mEsterilizacion);
     }
 
     @Subscribe

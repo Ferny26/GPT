@@ -170,8 +170,11 @@ public class CampañaFragment extends Fragment {
 
         switch (item.getItemId()){
             case R.id.añadir:
+                Bundle arguments = new Bundle();
                 FragmentManager manager = getFragmentManager();
                 CrearCampañaDialog dialog = new CrearCampañaDialog();
+                arguments.putBoolean("NUEVA_INSTANCIA", false);
+                dialog.setArguments(arguments);
                 dialog.setTargetFragment(CampañaFragment.this, REQUEST_CREATE);
                 dialog.show(manager,DIALOG_CREATE);
                 return true;

@@ -18,11 +18,12 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
     @Override
     //Creacion de la tabla de la BD para almacenar los crimenes
     public void onCreate(SQLiteDatabase db) {
+
+
         db.execSQL("CREATE TABLE " +
                 CampañaTable.NAME +
                 "(" +
-                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                CampañaTable.Cols.UUID + ", " +
+                CampañaTable.Cols.UUID + " PRIMARY KEY, " +
                 CampañaTable.Cols.NOMBRE + ", " +
                 CampañaTable.Cols.FECHA +
                 ")"
@@ -31,8 +32,7 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " +
                 GatoTable.NAME +
                 "(" +
-                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                GatoTable.Cols.UUID + ", " +
+                GatoTable.Cols.UUID + " PRIMARY KEY, " +
                 GatoTable.Cols.PESO + ", " +
                 GatoTable.Cols.FOTO + ", " +
                 GatoTable.Cols.FECHA_NACIMIENTO + ", " +
@@ -57,8 +57,7 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " +
                 PersonaTable.NAME +
                 "(" +
-                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                PersonaTable.Cols.UUID + ", " +
+                PersonaTable.Cols.UUID + " PRIMARY KEY, " +
                 PersonaTable.Cols.NOMBRE + ", " +
                 PersonaTable.Cols.APELLIDO_MATERNO + ", " +
                 PersonaTable.Cols.APELLIDO_PATERNO + ", " +
@@ -71,8 +70,7 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " +
                 MaterialTable.NAME +
                 "(" +
-                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                MaterialTable.Cols.UUID + ", " +
+                MaterialTable.Cols.UUID + " PRIMARY KEY, " +
                 MaterialTable.Cols.NOMBRE + ", " +
                 MaterialTable.Cols.TIPO_INVENTARIO + ", " +
                 MaterialTable.Cols.PRESENTACION + ", " +
@@ -97,23 +95,29 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " +
                 EsterilizacionTable.NAME +
                 "(" +
-                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                EsterilizacionTable.Cols.UUID + ", " +
+                EsterilizacionTable.Cols.UUID + " PRIMARY KEY, " +
                 EsterilizacionTable.Cols.PRECIO + ", " +
+                EsterilizacionTable.Cols.COSTO_EXTRA + ", " +
                 EsterilizacionTable.Cols.FAJA + ", " +
                 EsterilizacionTable.Cols.ANTICIPO + ", " +
                 EsterilizacionTable.Cols.PAGADO + ", " +
-                EsterilizacionTable.Cols.FKUUID_CAMPAÑA + ", " +
+                EsterilizacionTable.Cols.FKUUID_CAMPAÑA + "," +
                 EsterilizacionTable.Cols.FKUUID_GATO + "," +
-                "FOREIGN KEY ("+ EsterilizacionTable.Cols.FKUUID_CAMPAÑA + ") REFERENCES "+ CampañaTable.NAME+"("+CampañaTable.Cols.UUID+")," +
-                "FOREIGN KEY ("+ EsterilizacionTable.Cols.FKUUID_GATO + ") REFERENCES "+ GatoTable.NAME+"("+GatoTable.Cols.UUID+")" +
+                "FOREIGN KEY ("+ EsterilizacionTable.Cols.FKUUID_CAMPAÑA + ") REFERENCES "+ CampañaTable.NAME+"("+CampañaTable.Cols.UUID+") ON DELETE CASCADE, " +
+                "FOREIGN KEY ("+ EsterilizacionTable.Cols.FKUUID_GATO + ") REFERENCES "+ GatoTable.NAME+"("+GatoTable.Cols.UUID+") ON DELETE CASCADE" +
                 ")"
         );
 
-
     }
-    @Override
 
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        db.execSQL("PRAGMA foreign_keys = ON");
+    }
+
+    @Override
     //Esta funcion no hace nada aun jaja10
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 

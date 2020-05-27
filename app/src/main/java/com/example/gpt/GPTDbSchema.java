@@ -75,6 +75,7 @@ public class GPTDbSchema {
             public static String UUID = "uuid";
             public static String PRECIO = "precio";
             public static String FAJA = "faja";
+            public static String COSTO_EXTRA = "costo_extra";
             public static String ANTICIPO = "anticipo";
             public static String PAGADO = "pagado";
             public static String FKUUID_CAMPAÑA= "campaña_id";

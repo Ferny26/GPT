@@ -25,5 +25,7 @@
     <string name="buscar_responable">Buscar Responable</string>
     <string name="costo_total"> $ %1$d </string>
     <string name="actualizar_datos">Actualizar datos</string>
+    <string name="contar_esterilziacioens">Contar Esterilizaciones</string>
+    <string name="show_esterilizaciones">%1$d esterilizaciones</string>
 
 </resources>

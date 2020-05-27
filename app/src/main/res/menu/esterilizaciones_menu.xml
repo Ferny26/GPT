@@ -7,12 +7,22 @@
         android:title="@string/esterilizacion"
         android:iconTint="@color/black"
         app:showAsAction="ifRoom|withText"/>
-
+    <item
+        android:id="@+id/borrar_campaña"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/editar_campa_a"
+        android:iconTint="@color/black"
+        app:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/editar_campaña"
         android:icon="@android:drawable/ic_menu_edit"
         android:title="@string/editar_campa_a"
         android:iconTint="@color/black"
         app:showAsAction="ifRoom|withText"/>
+
+    <item
+        android:id="@+id/show_esterilizaciones"
+        android:iconTint="@color/black"
+        android:title="@string/contar_esterilziacioens"/>
 
 </menu>

@@ -111,12 +111,14 @@ public class GPTCursorWrapper extends CursorWrapper {
         String uuidStringGato = getString(getColumnIndex(EsterilizacionTable.Cols.FKUUID_GATO));
         int precio = getInt(getColumnIndex(EsterilizacionTable.Cols.PRECIO));
         int anticipo = getInt(getColumnIndex(EsterilizacionTable.Cols.ANTICIPO));
+        int costoExtra = getInt(getColumnIndex(EsterilizacionTable.Cols.COSTO_EXTRA));
         int pagado = getInt(getColumnIndex(EsterilizacionTable.Cols.PAGADO));
         int faja = getInt(getColumnIndex(EsterilizacionTable.Cols.FAJA));
 
         Esterilizacion esterilizacion = new Esterilizacion(UUID.fromString(uuidString));
         esterilizacion.setmPrecio(precio);
         esterilizacion.setmAnticipo(anticipo);
+        esterilizacion.setmCostoExtra(costoExtra);
         esterilizacion.setmFaja(faja != 0);
         esterilizacion.setmPagado(pagado != 0);
         esterilizacion.setmIdCampaña(UUID.fromString(uuidStringCamp));
