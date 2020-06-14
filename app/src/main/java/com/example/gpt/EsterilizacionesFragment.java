@@ -81,6 +81,7 @@ public class EsterilizacionesFragment extends Fragment {
             intent.putExtra("ESTERILIZACION_ID", mEsterilizacion.getmIdEsterilizacion());
             startActivity(intent);
         }
+
         public EsterilizacionesHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.esterilizacion_list_fragment, parent, false));
             mNombreTextView = itemView.findViewById(R.id.nombre_gato);
@@ -114,7 +115,7 @@ public class EsterilizacionesFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull EsterilizacionesFragment.EsterilizacionesHolder holder, int position) {
             Esterilizacion esterilizacion = mEsterilizaciones.get(position);
-            CatLab mCatLab =CatLab.get(getActivity());
+            CatLab mCatLab = CatLab.get(getActivity());
             Gato mgato = mCatLab.getmGato(esterilizacion.getmIdGato());
             holder.bind(esterilizacion, mgato);
         }

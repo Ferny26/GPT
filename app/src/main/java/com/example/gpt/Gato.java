@@ -94,4 +94,8 @@ public class Gato {
     public void setmNombreGato(String mNombreGato) {
         this.mNombreGato = mNombreGato;
     }
+
+    public String getPhotoFilename(){
+        return "IMG_" + getmIdGato().toString() + ".jpg";
+    }
 }
