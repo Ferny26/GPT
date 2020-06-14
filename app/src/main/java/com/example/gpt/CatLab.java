@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -57,6 +59,10 @@ public class CatLab {
         return gatos;
     }
 
+    public File getPhotoFile(Gato gato){
+        File filesDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        return new File(filesDir, gato.getPhotoFilename());
+    }
     public void deleteGatos( String whereClause, String[] whereArgs){
         mDataBase.delete(
                 GPTDbSchema.GatoTable.NAME,

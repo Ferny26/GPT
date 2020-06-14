@@ -1,8 +1,14 @@
 package com.example.gpt;
 
+import android.app.Activity;
 import android.app.usage.UsageEvents;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.EventLog;
@@ -25,6 +31,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
@@ -32,7 +39,9 @@ import androidx.lifecycle.Lifecycle;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class GatoFragment extends Fragment {
@@ -50,18 +59,23 @@ public class GatoFragment extends Fragment {
     private Button mBuscarResponsableButton, mBuscarGatoButton;
     private String  mTitle;
     private static final int REQUEST_BUSQUEDA = 0;
+    private static final int REQUEST_FOTO = 1;
     private static final String DIALOG_CREATE = "DialogCreate";
     private Bundle arguments = new Bundle();
     private String [] mProcedenciaList = {"Recien rescatado", "Feral", "Propio"};
     private UUID campañaId, esterilizacionId;
     private Gato mGato;
     private Persona mResponsable;
+    CatLab mCatLab = CatLab.get(getActivity());
     Esterilizacion mEsterilizacion;
     private EventBus bus = EventBus.getDefault();
+    private File mPhotoFile;
+    Uri photoUri;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-
+        mPhotoFile = CatLab.get(getActivity()).getPhotoFile(mGato);
+        photoUri = FileProvider.getUriForFile(getActivity(), "com.example.crime.FileProvider", mPhotoFile);
         super.onCreate(savedInstanceState);
     }
 
@@ -100,7 +114,6 @@ public class GatoFragment extends Fragment {
         if (esterilizacionId != null){
             EsterilizacionStorage mEsterilizacionStorage = EsterilizacionStorage.get(getActivity());
             mEsterilizacion = mEsterilizacionStorage.getEsterilizacion(esterilizacionId);
-            CatLab mCatLab = CatLab.get(getActivity());
             mGato = mCatLab.getmGato(mEsterilizacion.getmIdGato());
             GatoDefinido();
             GatoHogarLab mgatoHogarLab = GatoHogarLab.get(getActivity());
@@ -342,6 +355,28 @@ public class GatoFragment extends Fragment {
         return view;
     }
 
+    PackageManager packageManager = getActivity().getPackageManager();
+    final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    boolean canTakePhoto = mPhotoFile != null && captureImage.resolveActivity(packageManager) != null;
+        mCameraButton.setEnabled(canTakePhoto);
+
+        mCameraButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //Se obtiene el uri de la imagen con su ruta especifica para poder guardar el archivo una vez que la foto se haya tomado
+            captureImage.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+            List<ResolveInfo> cameraActivities = getActivity().
+                    getPackageManager().queryIntentActivities(captureImage, PackageManager.MATCH_DEFAULT_ONLY);
+            //Se otorga el permiso siempre y cuando la actividad tenga permitido usarla y esta no este usada por otras actividades
+            for(ResolveInfo activity : cameraActivities){
+                getActivity().grantUriPermission("activity.activityInfo", photoUri,
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                ;
+            }
+            //Se llama a la camara para poder obtener su resultado
+            startActivityForResult(captureImage, REQUEST_FOTO);
+        }
+    });
     //////////////////////////////////////////////// Functions /////////////////////////////////////////////
 
     private void Busqueda (){
@@ -413,4 +448,16 @@ public class GatoFragment extends Fragment {
         return validacionDatos;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode!= Activity.RESULT_OK){
+            return;
+        }
+        if (requestCode == REQUEST_BUSQUEDA){
+            UUID gatoId = (UUID) data.getSerializableExtra(Busqueda.EXTRA_GATO_ID);
+            mGato = mCatLab.getmGato(gatoId);
+            GatoDefinido();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }
