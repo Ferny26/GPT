@@ -1,12 +1,19 @@
 package com.example.gpt;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -21,6 +28,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -31,6 +40,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -39,7 +50,9 @@ import androidx.lifecycle.Lifecycle;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -57,16 +70,19 @@ public class GatoFragment extends Fragment {
     private Date mFechaNacimiento = new Date();
     private ConstraintLayout mFormularioResponsableConstraintLayout;
     private Button mBuscarResponsableButton, mBuscarGatoButton;
+    private ImageButton mCameraImageButton, mGalleryImageButton;
+    private ImageView mGatoImagenImageView;
     private String  mTitle;
     private static final int REQUEST_BUSQUEDA = 0;
     private static final int REQUEST_FOTO = 1;
+    private static final int REQUEST_GALLERY=2;
     private static final String DIALOG_CREATE = "DialogCreate";
     private Bundle arguments = new Bundle();
     private String [] mProcedenciaList = {"Recien rescatado", "Feral", "Propio"};
     private UUID campañaId, esterilizacionId;
     private Gato mGato;
     private Persona mResponsable;
-    CatLab mCatLab = CatLab.get(getActivity());
+    CatLab mCatLab;
     Esterilizacion mEsterilizacion;
     private EventBus bus = EventBus.getDefault();
     private File mPhotoFile;
@@ -74,8 +90,9 @@ public class GatoFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        mPhotoFile = CatLab.get(getActivity()).getPhotoFile(mGato);
-        photoUri = FileProvider.getUriForFile(getActivity(), "com.example.crime.FileProvider", mPhotoFile);
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&  ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1000);
+        }
         super.onCreate(savedInstanceState);
     }
 
@@ -106,10 +123,16 @@ public class GatoFragment extends Fragment {
         mEmailEditText = view.findViewById(R.id.email_responsable);
         mMesNumberPicker = view.findViewById(R.id.mes_select);
         mAñoNumberPicker = view.findViewById(R.id.fecha_año_select);
+        mCameraImageButton = view.findViewById(R.id.cameraButton);
+        mGalleryImageButton = view.findViewById(R.id.galleryButton);
+        mGatoImagenImageView = view.findViewById(R.id.gatoImagen);
         ArrayAdapter <String> mAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, mProcedenciaList);
         mProcedenciaSpinner.setAdapter(mAdapter);
+        mCatLab = CatLab.get(getActivity());
         mGato = new Gato();
+
         mResponsable = new Persona();
+        //putImageGallery();
 
         if (esterilizacionId != null){
             EsterilizacionStorage mEsterilizacionStorage = EsterilizacionStorage.get(getActivity());
@@ -173,6 +196,37 @@ public class GatoFragment extends Fragment {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////// Buttons y Check Boxes /////////////////////////////////////////////////////////////////////////////
 
+        PackageManager packageManager = getActivity().getPackageManager();
+        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        boolean canTakePhoto = mPhotoFile != null && captureImage.resolveActivity(packageManager) != null;
+        mCameraImageButton.setEnabled(canTakePhoto);
+        //mPhotoFile = CatLab.get(getActivity()).getPhotoFile(mGato);
+        //photoUri = FileProvider.getUriForFile(getActivity(), "com.example.gpt.FileProvider", mPhotoFile);
+        mCameraImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Se obtiene el uri de la imagen con su ruta especifica para poder guardar el archivo una vez que la foto se haya tomado
+                captureImage.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                List<ResolveInfo> cameraActivities = getActivity().
+                        getPackageManager().queryIntentActivities(captureImage, PackageManager.MATCH_DEFAULT_ONLY);
+                //Se otorga el permiso siempre y cuando la actividad tenga permitido usarla y esta no este usada por otras actividades
+                for(ResolveInfo activity : cameraActivities){
+                    getActivity().grantUriPermission("activity.activityInfo", photoUri,
+                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                }
+                //Se llama a la camara para poder obtener su resultado
+                startActivityForResult(captureImage, REQUEST_FOTO);
+            }
+        });
+
+        mGalleryImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                gallery.setType("image/*");
+                startActivityForResult(gallery, REQUEST_GALLERY);
+            }
+        });
         //Busquedas Gato y Persona
         mBuscarResponsableButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -355,28 +409,7 @@ public class GatoFragment extends Fragment {
         return view;
     }
 
-    PackageManager packageManager = getActivity().getPackageManager();
-    final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-    boolean canTakePhoto = mPhotoFile != null && captureImage.resolveActivity(packageManager) != null;
-        mCameraButton.setEnabled(canTakePhoto);
 
-        mCameraButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            //Se obtiene el uri de la imagen con su ruta especifica para poder guardar el archivo una vez que la foto se haya tomado
-            captureImage.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-            List<ResolveInfo> cameraActivities = getActivity().
-                    getPackageManager().queryIntentActivities(captureImage, PackageManager.MATCH_DEFAULT_ONLY);
-            //Se otorga el permiso siempre y cuando la actividad tenga permitido usarla y esta no este usada por otras actividades
-            for(ResolveInfo activity : cameraActivities){
-                getActivity().grantUriPermission("activity.activityInfo", photoUri,
-                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                ;
-            }
-            //Se llama a la camara para poder obtener su resultado
-            startActivityForResult(captureImage, REQUEST_FOTO);
-        }
-    });
     //////////////////////////////////////////////// Functions /////////////////////////////////////////////
 
     private void Busqueda (){
@@ -393,8 +426,8 @@ public class GatoFragment extends Fragment {
         mPesoEditText.setText(mGato.getmPeso());
         mMesNumberPicker.setValue(mGato.getmFechaNacimiento().getMonth());
         mAñoNumberPicker.setValue(mGato.getmFechaNacimiento().getYear());
-        //mRadio = (RadioButton) mSexoRadioGroup.getChildAt(mGato.ismSexo());
-        //mRadio.setPressed(true);
+        RadioButton opcionI2 = (RadioButton) mSexoRadioGroup.getChildAt(mGato.ismSexo());
+        opcionI2.setChecked(true);
         if(mGato.getmCondicionEspecial() != null){
             mCondicionEspecialCheckBox.setChecked(true);
             mCondicionEditText.setVisibility(View.VISIBLE);
@@ -425,7 +458,6 @@ public class GatoFragment extends Fragment {
             bus.post(mEsterilizacion);
         }
         mGato.setValidacion(verificacion());
-
         bus.post(mGato);
         if (mResponsableCheckBox.isChecked()) {
             bus.post(mResponsable);
@@ -457,7 +489,101 @@ public class GatoFragment extends Fragment {
             UUID gatoId = (UUID) data.getSerializableExtra(Busqueda.EXTRA_GATO_ID);
             mGato = mCatLab.getmGato(gatoId);
             GatoDefinido();
+        }else if(requestCode == REQUEST_FOTO ){
+            photoUri = data.getData();
+            //putImageView();
+        }else if(requestCode==REQUEST_GALLERY ){
+            photoUri = data.getData();
         }
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            byte[] img = bos.toByteArray();
+            mGato.setmFoto(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        putImageGallery();
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private  void putImageGallery(){
+        byte[] img = mGato.getmFoto();
+        if(img!=null){
+            Bitmap bitmap = BitmapFactory.decodeByteArray(img,0,img.length);
+            mGatoImagenImageView.setImageBitmap(bitmap);
+        }else{
+            mGatoImagenImageView.setImageResource(R.drawable.gato_gris);
+        }
+    }
+
+
+
+    /*private void putImageView() {
+        Bitmap bitmap;
+        try {
+            byte[] img = mGato.getmFoto();
+            bitmap = BitmapFactory.decodeByteArray(img,0,img.length);
+            //Recupera la foto segun el uri y la asigna a un bitmap
+            //Asignacion de orientacion correcta para la foto
+            ExifInterface exif = null;
+            exif = new ExifInterface(mPhotoFile.getAbsolutePath());
+            //obtiene la orientacion de la foto
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_UNDEFINED);
+            //Envia la orientacion y el bitmap como parametros para modificarlos
+            Bitmap bmRotated = rotateBitmap(bitmap, orientation);
+            //Una vez adecuada la foto, se coloca en el imageView
+            mGatoImagenImageView.setImageBitmap(bmRotated);
+        } catch (IOException e) {
+            mGatoImagenImageView.setImageResource(R.drawable.gato_gris);
+            e.printStackTrace();
+        }
+    }*/
+
+    public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
+
+        //Verifica la orientacion de la foto y asigna los parametros necesarios de escala y rotacion
+        Matrix matrix = new Matrix();
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_NORMAL:
+                break;
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                matrix.setScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                matrix.setRotate(180);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                matrix.setRotate(90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                matrix.setRotate(-90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90);
+                break;
+            default:
+                return bitmap;
+        }
+        try {
+            //Crea un nuevo bitmap con los parametros correctos de orientacion de la foto y lo regresa
+            Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            return bmRotated;
+        }
+        catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

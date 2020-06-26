@@ -36,6 +36,7 @@ public class GPTCursorWrapper extends CursorWrapper {
         String nombre = getString(getColumnIndex(GatoTable.Cols.NOMBRE));
         String condicionEspecial = getString(getColumnIndex(GatoTable.Cols.CONDICION_ESPECIAL));
         int procedencia = getInt(getColumnIndex(GatoTable.Cols.PROCEDENCIA));
+        byte [] foto =getBlob(getColumnIndex(GatoTable.Cols.PROCEDENCIA));
 
         Gato gato = new Gato(UUID.fromString(uuidString));
         gato.setmPeso(peso);
@@ -44,6 +45,7 @@ public class GPTCursorWrapper extends CursorWrapper {
         gato.setmNombreGato(nombre);
         gato.setmCondicionEspecial(condicionEspecial);
         gato.setmProcedencia(procedencia);
+        gato.setmFoto(foto);
         return gato;
     }
 
@@ -114,6 +116,7 @@ public class GPTCursorWrapper extends CursorWrapper {
         int costoExtra = getInt(getColumnIndex(EsterilizacionTable.Cols.COSTO_EXTRA));
         int pagado = getInt(getColumnIndex(EsterilizacionTable.Cols.PAGADO));
         int faja = getInt(getColumnIndex(EsterilizacionTable.Cols.FAJA));
+
 
         Esterilizacion esterilizacion = new Esterilizacion(UUID.fromString(uuidString));
         esterilizacion.setmPrecio(precio);

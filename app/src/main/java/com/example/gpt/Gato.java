@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class Gato {
     private UUID mIdGato;
-    private ImageView mFoto;
+    private byte [] mFoto;
     private Date mFechaNacimiento;
     private int mEdad, mProcedencia, mSexo;
     private String mNombreGato, mCondicionEspecial, mPeso;
@@ -38,7 +38,7 @@ public class Gato {
         return mPeso;
     }
 
-    public ImageView getmFoto() {
+    public byte [] getmFoto() {
         return mFoto;
     }
 
@@ -67,7 +67,7 @@ public class Gato {
         this.mPeso = mPeso;
     }
 
-    public void setmFoto(ImageView mFoto) {
+    public void setmFoto(byte[] mFoto) {
         this.mFoto = mFoto;
     }
 
