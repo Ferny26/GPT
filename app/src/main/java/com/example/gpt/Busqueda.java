@@ -38,13 +38,17 @@ import java.util.List;
 import java.util.UUID;
 
 public class Busqueda extends DialogFragment {
-    private String  mTitle;
+    private String  mTitle, query;
     private RecyclerView mBusquedaRecyclerView;
     private SearchView mSearchView;
     private CatLab mCatLab;
+    private PersonaStorage mPersonaStorage;
+    private UUID personaId;
     private UUID gatoId;
     public static final String EXTRA_GATO_ID = "gatoId";
+    public static final String EXTRA_PERSONA_ID = "personaId";
     private GatoAdapter mGatoAdapter;
+    private PersonaAdapter mPersonaAdapter;
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -52,24 +56,50 @@ public class Busqueda extends DialogFragment {
         mBusquedaRecyclerView = view.findViewById(R.id.busqueda_recyclerView);
         mSearchView = view.findViewById(R.id.buscador);
         mTitle = (String) getArguments().getSerializable("TITLE");
-        mCatLab = CatLab.get(getActivity());
-        List<Gato> mGatos = mCatLab.getmGatos();
-        mGatoAdapter = new GatoAdapter(getActivity(), mGatos);
-        mBusquedaRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mBusquedaRecyclerView.setAdapter(mGatoAdapter);
+        if(mTitle == "Gato"){
+            mCatLab = CatLab.get(getActivity());
+            query =  "SELECT * FROM gatos WHERE NOT EXISTS (SELECT * FROM esterilizaciones WHERE gatos.uuid = esterilizaciones.gato_id)";
 
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
+            List<Gato> mGatos = mCatLab.getmBusquedaGatos(query);
+            mGatoAdapter = new GatoAdapter(getActivity(), mGatos);
+            mBusquedaRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            mBusquedaRecyclerView.setAdapter(mGatoAdapter);
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                mGatoAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
+            mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    mGatoAdapter.getFilter().filter(newText);
+                    return false;
+                }
+            });
+
+
+        }else if(mTitle == "Responsable") {
+            mPersonaStorage = PersonaStorage.get(getActivity());
+            List<Persona> mPersonas = mPersonaStorage.getmPersonas();
+            mPersonaAdapter = new PersonaAdapter(getActivity(), mPersonas);
+            mBusquedaRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            mBusquedaRecyclerView.setAdapter(mPersonaAdapter);
+
+            mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    mPersonaAdapter.getFilter().filter(newText);
+                    return false;
+                }
+            });
+        }
+
 
         return new AlertDialog.Builder(getActivity())
                 .setView(view)
@@ -219,15 +249,14 @@ public class Busqueda extends DialogFragment {
     }
 
     class   GatoHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
-        private TextView mNombreTextView, mCelularTextView;
+        private TextView mNombreTextView;
         private ImageView mGatoImageView;
         private Gato mGato;
 
         public GatoHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.busqueda_list, parent, false));
             mNombreTextView = itemView.findViewById(R.id.nombre);
-            mGatoImageView = itemView.findViewById(R.id.image_gato);
-            mCelularTextView = itemView.findViewById(R.id.celular);
+            mGatoImageView = itemView.findViewById(R.id.image_busqueda);
             itemView.setOnClickListener(this);
         }
 
@@ -235,7 +264,6 @@ public class Busqueda extends DialogFragment {
             mGato = gato;
             mNombreTextView.setText(mGato.getmNombreGato());
             putImageView(mGato, mGatoImageView);
-            mCelularTextView.setVisibility(View.GONE);
         }
 
         @Override
@@ -249,9 +277,102 @@ public class Busqueda extends DialogFragment {
         }
     }
 
-    public static void gatoSeleccionadoId(UUID gatoId){
+    public class PersonaAdapter extends RecyclerView.Adapter<Busqueda.PersonaHolder> implements Filterable {
 
+        private Context context;
+        private List<Persona> mPersonas, mPersonasFull;
+        private UUID personaId;
+
+
+        public PersonaAdapter(Context context, List<Persona> personas) {
+            this.context = context;
+            this.mPersonas = personas;
+            this.mPersonasFull = new ArrayList<>(personas);
+        }
+
+        @NonNull
+        @Override
+        public Busqueda.PersonaHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(context);
+            return new PersonaHolder(layoutInflater, parent);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull Busqueda.PersonaHolder holder, int position) {
+            Persona persona = mPersonas.get(position);
+            holder.bind(persona);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mPersonas.size();
+        }
+
+        @Override
+        public Filter getFilter() {
+            return personaFilter;
+        }
+
+        private Filter personaFilter = new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                List<Persona> filterList = new ArrayList<>();
+                if (constraint == null || constraint.length() == 0) {
+                    filterList.addAll(mPersonasFull);
+                } else {
+                    String filterPattern = constraint.toString().toLowerCase().trim();
+                    for (Persona item : mPersonasFull) {
+                        if (item.getmNombre().toLowerCase().contains(filterPattern)) {
+                            filterList.add(item);
+                        }
+                    }
+                }
+                FilterResults results = new FilterResults();
+                results.values = filterList;
+                return results;
+            }
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                mPersonas.clear();
+                mPersonas.addAll((List) results.values);
+                notifyDataSetChanged();
+            }
+        };
     }
+
+    class PersonaHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
+        private TextView mNombreTextView, mCelularTextView;
+        private ImageView mPersonaImageView;
+        private Persona mPersona;
+
+        public PersonaHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.busqueda_list, parent, false));
+            mCelularTextView = itemView.findViewById(R.id.celular);
+            mPersonaImageView = itemView.findViewById(R.id.image_busqueda);
+            mNombreTextView = itemView.findViewById(R.id.nombre);
+            itemView.setOnClickListener(this);
+        }
+
+        public void bind (Persona persona){
+            mPersona = persona;
+            mNombreTextView.setText(mPersona.getmNombre());
+            mCelularTextView.setText(mPersona.getmCelular());
+            mPersonaImageView.setImageResource(R.drawable.usuario);
+        }
+
+        @Override
+        public void onClick(View v) {
+            personaId = mPersona.getmIdPersona();
+            Intent intent = new Intent();
+            intent.putExtra(EXTRA_PERSONA_ID, personaId);
+            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+            Dialog dialog = getDialog();
+            dialog.cancel();
+        }
+    }
+
+
+
 }
 
 
