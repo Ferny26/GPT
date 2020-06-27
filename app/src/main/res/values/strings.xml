@@ -28,6 +28,13 @@
     <string name="contar_esterilziacioens">Contar Esterilizaciones</string>
     <string name="show_esterilizaciones">%1$d esterilizaciones</string>
     <string name="eliminar_esterilizacion">Eliminar esterilizacion</string>
+    <string name="cantidad">Cantidad:</string>
+    <string name="presentacion">Presentacion:</string>
+    <string name="guardar">Guardar</string>
+    <string name="nombre">Nombre:</string>
+    <string name="categor_a">Categoría:</string>
+    <string name="nombre_material">nombre_material</string>
+    <string name="borrar_campa_a">Borrar campaña</string>
 
 
 </resources>
