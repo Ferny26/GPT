@@ -27,7 +27,6 @@
     <string name="actualizar_datos">Actualizar datos</string>
     <string name="contar_esterilziacioens">Contar Esterilizaciones</string>
     <string name="show_esterilizaciones">%1$d esterilizaciones</string>
-    <string name="nombre_material">Nombre Material</string>
-    <string name="categoria">Categoria</string>
+
 
 </resources>
