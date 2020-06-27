@@ -9,24 +9,20 @@
 
     <ImageView
         android:id="@+id/gatoImagen"
-        android:layout_width="162dp"
-        android:layout_height="117dp"
-        android:layout_marginStart="117dp"
-        android:layout_marginLeft="117dp"
-        android:layout_marginEnd="118dp"
-        android:layout_marginRight="118dp"
+        android:layout_width="183dp"
+        android:layout_height="128dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/gato_gris" />
 
-
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="390dp"
+        android:layout_width="match_parent"
         android:layout_height="335dp"
         android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +36,7 @@
             <Button
                 android:id="@+id/buscar_gato"
                 android:layout_width="39dp"
-                android:layout_height="33dp"
+                android:layout_height="39dp"
                 android:layout_marginStart="7dp"
                 android:layout_marginLeft="7dp"
                 android:background="?android:attr/actionModeWebSearchDrawable"
@@ -49,47 +45,19 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="133dp"
+                android:layout_height="31dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginTop="6dp"
                 android:text="@string/buscar_gato"
                 android:textColor="@color/grey"
+                android:textSize="23dp"
+                app:fontFamily="@font/amaranth_bold"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/buscar_gato"
                 app:layout_constraintTop_toTopOf="parent"></TextView>
 
-
-            <TextView
-                android:id="@+id/textView12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="12dp"
-                android:text="Mes"
-                android:textColor="@color/colorPrimary"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:fontFamily="sans-serif-thin"
-                app:layout_constraintStart_toEndOf="@+id/textView"
-                app:layout_constraintTop_toBottomOf="@+id/nombre_gato"></TextView>
-
-            <TextView
-                android:id="@+id/textView13"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="12dp"
-                android:text="Año"
-                android:textColor="@color/colorPrimary"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:fontFamily="sans-serif-thin"
-                app:layout_constraintStart_toEndOf="@+id/textView12"
-                app:layout_constraintTop_toBottomOf="@+id/nombre_gato"></TextView>
 
             <TextView
                 android:id="@+id/textView10"
@@ -147,9 +115,9 @@
                 android:id="@+id/nombre_gato"
                 android:layout_width="199dp"
                 android:layout_height="41dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="12dp"
                 android:ems="10"
                 android:hint="Michi"
                 android:inputType="textPersonName"
@@ -162,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="35dp"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toEndOf="@+id/textView8"
                 app:layout_constraintTop_toBottomOf="@+id/mes_select">
@@ -191,12 +159,13 @@
             <EditText
                 android:id="@+id/peso"
                 android:layout_width="55dp"
-                android:layout_height="38dp"
+                android:layout_height="45dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="29dp"
                 android:ems="10"
                 android:inputType="numberDecimal"
+                android:textAlignment="center"
                 app:layout_constraintStart_toEndOf="@+id/textView9"
                 app:layout_constraintTop_toBottomOf="@+id/sexo" />
 
@@ -237,26 +206,60 @@
                 app:layout_constraintTop_toBottomOf="@+id/condicion" />
 
             <NumberPicker
-                android:id="@+id/mes_select"
-                android:layout_width="65dp"
-                android:layout_height="59dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:ems="10"
-                android:solidColor="@color/withe"
-                android:textAllCaps="false"
-                app:layout_constraintStart_toEndOf="@+id/textView"
-                app:layout_constraintTop_toBottomOf="@+id/textView12" />
-
-            <NumberPicker
                 android:id="@+id/fecha_año_select"
-                android:layout_width="65dp"
-                android:layout_height="57dp"
+                android:layout_width="69dp"
+                android:selectionDividerHeight="10dp"
+                android:layout_height="59dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
                 android:ems="10"
                 android:solidColor="@color/withe"
                 android:textAllCaps="false"
                 app:layout_constraintStart_toEndOf="@+id/mes_select"
                 app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginTop="12dp"
+                android:text="Año"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:fontFamily="sans-serif-thin"
+                app:layout_constraintStart_toEndOf="@+id/textView12"
+                app:layout_constraintTop_toBottomOf="@+id/nombre_gato"></TextView>
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="12dp"
+                android:text="Mes"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:fontFamily="sans-serif-thin"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/nombre_gato"></TextView>
+
+            <NumberPicker
+                android:id="@+id/mes_select"
+                android:layout_width="65dp"
+                android:layout_height="59dp"
+                android:selectionDividerHeight="10dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginLeft="48dp"
+                android:ems="10"
+                android:solidColor="@color/withe"
+                android:textAllCaps="false"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/formulario_responsable"
@@ -475,7 +478,7 @@
                 android:id="@+id/textView"
                 android:layout_width="140dp"
                 android:layout_height="64dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="36dp"
                 android:fontFamily="@font/annie_use_your_telescope"
                 android:text="Fecha Nacimiento:"
                 android:textColor="@color/black"
@@ -495,22 +498,10 @@
         android:id="@+id/cameraButton"
         android:layout_width="64dp"
         android:layout_height="57dp"
-        android:layout_marginStart="128dp"
-        android:layout_marginLeft="128dp"
         android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gatoImagen"
         app:srcCompat="@android:drawable/ic_menu_camera" />
-
-    <ImageButton
-        android:id="@+id/galleryButton"
-        android:layout_width="64dp"
-        android:layout_height="57dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintStart_toEndOf="@+id/cameraButton"
-        app:layout_constraintTop_toBottomOf="@+id/gatoImagen"
-        app:srcCompat="@android:drawable/ic_menu_gallery" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

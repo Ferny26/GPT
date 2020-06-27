@@ -32,11 +32,10 @@ public class GPTCursorWrapper extends CursorWrapper {
         //Blob foto = getBlob(getColumnIndex(GPTDbSchema.GatoTable.Cols.FOTO));
         long fecha_nacimiento = getLong(getColumnIndex(GatoTable.Cols.FECHA_NACIMIENTO));
         String peso = getString(getColumnIndex(GatoTable.Cols.PESO));
-        int sexo = getInt(getColumnIndex(GatoTable.Cols.SEXO));
+        String sexo = getString(getColumnIndex(GatoTable.Cols.SEXO));
         String nombre = getString(getColumnIndex(GatoTable.Cols.NOMBRE));
         String condicionEspecial = getString(getColumnIndex(GatoTable.Cols.CONDICION_ESPECIAL));
         int procedencia = getInt(getColumnIndex(GatoTable.Cols.PROCEDENCIA));
-        byte [] foto =getBlob(getColumnIndex(GatoTable.Cols.PROCEDENCIA));
 
         Gato gato = new Gato(UUID.fromString(uuidString));
         gato.setmPeso(peso);
@@ -45,7 +44,6 @@ public class GPTCursorWrapper extends CursorWrapper {
         gato.setmNombreGato(nombre);
         gato.setmCondicionEspecial(condicionEspecial);
         gato.setmProcedencia(procedencia);
-        gato.setmFoto(foto);
         return gato;
     }
 

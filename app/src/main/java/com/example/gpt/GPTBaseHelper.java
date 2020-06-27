@@ -34,7 +34,6 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
                 "(" +
                 GatoTable.Cols.UUID + " PRIMARY KEY, " +
                 GatoTable.Cols.PESO + ", " +
-                GatoTable.Cols.FOTO + ", " +
                 GatoTable.Cols.FECHA_NACIMIENTO + ", " +
                 GatoTable.Cols.NOMBRE + ", " +
                 GatoTable.Cols.SEXO + ", " +
