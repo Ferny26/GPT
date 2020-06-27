@@ -52,7 +52,6 @@ public class CampañaFragment extends Fragment {
         return v;
     }
 
-
     private void updateUI (){
         mCampañaStorage= CampañaStorage.get(getActivity());
         List<Campaña> campañas = mCampañaStorage.getmCampañas();

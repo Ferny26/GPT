@@ -2,23 +2,17 @@ package com.example.gpt;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.EventLog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +29,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,13 +38,11 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Lifecycle;
 
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -108,12 +99,12 @@ public class GatoFragment extends Fragment {
             esterilizacionId = (UUID) getArguments().getSerializable("ESTERILIZACION_ID");
         }
         //////////////////////////////////////////////// Wiring Up /////////////////////////////////////////////////
-        mProcedenciaSpinner = view.findViewById(R.id.procedencia);
-        mNombreGatoEditText = view.findViewById(R.id.nombre_gato);
+        mProcedenciaSpinner = view.findViewById(R.id.categoria);
+        mNombreGatoEditText = view.findViewById(R.id.nombreMaterial);
         mNombrePersonaEditText = view.findViewById(R.id.nombre_responsable);
         mApellidoPaternoEditText = view.findViewById(R.id.apellido_paterno_responsable);
         mApellidoMaternoEditText = view.findViewById(R.id.apellido_materno_responsable);
-        mPesoEditText = view.findViewById(R.id.peso);
+        mPesoEditText = view.findViewById(R.id.cantidad);
         mDomicilioEditText = view.findViewById(R.id.domicilio_responable);
         mCelularEditText = view.findViewById(R.id.celular_responsable);
         mCondicionEditText = view.findViewById(R.id.condicion);
@@ -127,7 +118,7 @@ public class GatoFragment extends Fragment {
         mMesNumberPicker = view.findViewById(R.id.mes_select);
         mAñoNumberPicker = view.findViewById(R.id.fecha_año_select);
         mCameraImageButton = view.findViewById(R.id.cameraButton);
-        mGatoImagenImageView = view.findViewById(R.id.gatoImagen);
+        mGatoImagenImageView = view.findViewById(R.id.materialImagen);
         mHembraRadioButton = view.findViewById(R.id.hembra);
         mMachoRadioButton = view.findViewById(R.id.macho);
         ArrayAdapter <String> mAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, mProcedenciaList);

@@ -74,8 +74,7 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
                 MaterialTable.Cols.TIPO_INVENTARIO + ", " +
                 MaterialTable.Cols.PRESENTACION + ", " +
                 MaterialTable.Cols.CANTIDAD + ", " +
-                MaterialTable.Cols.CATEGORIA + ", " +
-                MaterialTable.Cols.FOTO +
+                MaterialTable.Cols.CATEGORIA +
                 ")"
         );
 
@@ -104,6 +103,17 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
                 EsterilizacionTable.Cols.FKUUID_GATO + "," +
                 "FOREIGN KEY ("+ EsterilizacionTable.Cols.FKUUID_CAMPAÑA + ") REFERENCES "+ CampañaTable.NAME+"("+CampañaTable.Cols.UUID+") ON DELETE CASCADE, " +
                 "FOREIGN KEY ("+ EsterilizacionTable.Cols.FKUUID_GATO + ") REFERENCES "+ GatoTable.NAME+"("+GatoTable.Cols.UUID+") ON DELETE CASCADE" +
+                ")"
+        );
+
+        db.execSQL("CREATE TABLE " +
+                IngresoTable.NAME +
+                "(" +
+                IngresoTable.Cols.UUID + " PRIMARY KEY, " +
+                IngresoTable.Cols.CANTIDAD + ", " +
+                IngresoTable.Cols.MOTIVO + ", " +
+                IngresoTable.Cols.FECHA + ", " +
+                IngresoTable.Cols.AUTOMATICO +
                 ")"
         );
 

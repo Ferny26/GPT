@@ -2,27 +2,28 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/adopcion"
+    android:background="@color/material"
     android:layout_marginBottom="3dp"
     android:layout_marginHorizontal="5dp">
 
     <TextView
         android:id="@+id/nombreMaterial"
-        android:layout_width="135dp"
-        android:layout_height="59dp"
-        android:layout_marginStart="120dp"
-        android:layout_marginLeft="120dp"
+        android:layout_width="223dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/alegreya_sans_extrabold"
         android:gravity="center_vertical"
-        android:text="Nombre Gato"
+        android:text="@string/nombre_material"
         android:textColor="@color/black"
         android:textSize="23dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/material_foto"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -34,17 +35,6 @@
         android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/gato_gris" />
-
-    <ImageView
-        android:id="@+id/esterilizacion_pagada"
-        android:layout_width="108dp"
-        android:layout_height="92dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/coins" />
+        app:srcCompat="@drawable/medicina_color" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,7 +8,7 @@
 
 
     <ImageView
-        android:id="@+id/gatoImagen"
+        android:id="@+id/materialImagen"
         android:layout_width="183dp"
         android:layout_height="128dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -112,7 +112,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <EditText
-                android:id="@+id/nombre_gato"
+                android:id="@+id/nombreMaterial"
                 android:layout_width="199dp"
                 android:layout_height="41dp"
                 android:layout_marginStart="16dp"
@@ -157,7 +157,7 @@
             </RadioGroup>
 
             <EditText
-                android:id="@+id/peso"
+                android:id="@+id/cantidad"
                 android:layout_width="55dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="10dp"
@@ -179,7 +179,7 @@
                 android:textSize="23dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/peso" />
+                app:layout_constraintTop_toBottomOf="@+id/cantidad" />
 
             <EditText
                 android:id="@+id/condicion"
@@ -195,7 +195,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/condicion_especial" />
 
             <Spinner
-                android:id="@+id/procedencia"
+                android:id="@+id/categoria"
                 style="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
                 android:layout_width="141dp"
                 android:layout_height="20dp"
@@ -231,7 +231,7 @@
                 android:textStyle="bold"
                 app:fontFamily="sans-serif-thin"
                 app:layout_constraintStart_toEndOf="@+id/textView12"
-                app:layout_constraintTop_toBottomOf="@+id/nombre_gato"></TextView>
+                app:layout_constraintTop_toBottomOf="@+id/nombreMaterial"></TextView>
 
             <TextView
                 android:id="@+id/textView12"
@@ -246,7 +246,7 @@
                 android:textStyle="bold"
                 app:fontFamily="sans-serif-thin"
                 app:layout_constraintStart_toEndOf="@+id/textView"
-                app:layout_constraintTop_toBottomOf="@+id/nombre_gato"></TextView>
+                app:layout_constraintTop_toBottomOf="@+id/nombreMaterial"></TextView>
 
             <NumberPicker
                 android:id="@+id/mes_select"
@@ -501,7 +501,7 @@
         android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gatoImagen"
+        app:layout_constraintTop_toBottomOf="@+id/materialImagen"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

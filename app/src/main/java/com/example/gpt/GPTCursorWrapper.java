@@ -78,7 +78,6 @@ public class GPTCursorWrapper extends CursorWrapper {
     public Material getMaterial (){
         String uuidString = getString(getColumnIndex(MaterialTable.Cols.UUID));
         String nombre = getString(getColumnIndex(MaterialTable.Cols.NOMBRE));
-        //Blob foto = getBlob(getColumnIndex(MaterialTable.Cols.FOTO));
         String presentacion = getString(getColumnIndex(MaterialTable.Cols.PRESENTACION));
         int tipoInventario = getInt(getColumnIndex(MaterialTable.Cols.TIPO_INVENTARIO));
         int categoria = getInt(getColumnIndex(MaterialTable.Cols.CATEGORIA));
@@ -125,6 +124,22 @@ public class GPTCursorWrapper extends CursorWrapper {
         esterilizacion.setmIdCampaña(UUID.fromString(uuidStringCamp));
         esterilizacion.setmIdGato(UUID.fromString(uuidStringGato));
         return esterilizacion;
+    }
+
+    public Ingreso getIngreso (){
+        String uuidString = getString(getColumnIndex(IngresoTable.Cols.UUID));
+        int cantidad = getInt(getColumnIndex(IngresoTable.Cols.CANTIDAD));
+        String motivo = getString(getColumnIndex(IngresoTable.Cols.MOTIVO));
+        long fecha = getLong(getColumnIndex(IngresoTable.Cols.FECHA));
+        int automatico = getInt(getColumnIndex(IngresoTable.Cols.AUTOMATICO));
+
+
+        Ingreso ingreso = new Ingreso(UUID.fromString(uuidString));
+        ingreso.setmCantidad(cantidad);
+        ingreso.setMotivo(motivo);
+        ingreso.setmFecha(new Date(fecha));
+        ingreso.setmAutomatico(automatico != 0);
+        return ingreso;
     }
 
 }

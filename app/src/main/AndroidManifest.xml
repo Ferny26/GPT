@@ -24,8 +24,12 @@
             android:parentActivityName=".MainActivity"
             >
 
+
         </activity>
         <activity android:name=".EsterilizacionActivity" >
+        </activity>
+
+        <activity android:name=".FormularioMaterialActivity">
         </activity>
 
         <meta-data

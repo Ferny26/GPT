@@ -8,7 +8,6 @@ public class Material {
     private UUID mMaterialId;
     private String mNombre, mPresentacion;
     private int mTipoInventario, mCategoria, mCantidad;
-    private ImageView mFoto;
 
     public Material (){ this(UUID.randomUUID());}
 
@@ -40,9 +39,6 @@ public class Material {
         return mMaterialId;
     }
 
-    public ImageView getmFoto() {
-        return mFoto;
-    }
 
     public void setmNombre(String mNombre) {
         this.mNombre = mNombre;
@@ -64,7 +60,7 @@ public class Material {
         this.mCantidad = mCantidad;
     }
 
-    public void setmFoto(ImageView mFoto) {
-        this.mFoto = mFoto;
+    public String getmPhotoFile(){
+        return "IMG_" + getmMaterialId().toString() + ".jpg";
     }
 }

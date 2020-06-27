@@ -93,9 +93,9 @@ public class EsterilizacionesFragment extends Fragment {
 
         public EsterilizacionesHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.esterilizacion_list_fragment, parent, false));
-            mNombreTextView = itemView.findViewById(R.id.nombre_gato);
+            mNombreTextView = itemView.findViewById(R.id.nombreMaterial);
             mPagoImageView= itemView.findViewById(R.id.esterilizacion_pagada);
-            mGatoFotoImageView= itemView.findViewById(R.id.gato_foto);
+            mGatoFotoImageView= itemView.findViewById(R.id.material_foto);
             itemView.setOnClickListener(this);
         }
 

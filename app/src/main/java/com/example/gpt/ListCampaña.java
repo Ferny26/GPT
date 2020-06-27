@@ -4,11 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import com.google.android.material.bottomnavigation.BottomNavigationMenu;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.UUID;
@@ -24,7 +21,7 @@ public class ListCampaña extends SingleFragmentActivity {
         UUID campañaId= (UUID) getIntent().getSerializableExtra("CAMPAÑA_ID");
         Bundle arguments = new Bundle();
         if(mType){
-            fragment = new BotiquinCampañaFragment();
+            fragment = new BotiquinCampañasFragment();
 
         }else{
             fragment = new EsterilizacionesFragment();

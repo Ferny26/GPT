@@ -64,6 +64,8 @@ public class EsterilizacionFragment extends Fragment {
         mTerminarRegistroButton = view.findViewById(R.id.terminar_esterilizacion);
         mCostoExtraCheckButton = view.findViewById(R.id.costo_extra_check);
         mPagadoButton = view.findViewById(R.id.pagado);
+
+
         if(mEsterilizacion.ismPagado()){
             mPagadoButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.green)));
         }else{
@@ -302,6 +304,7 @@ public class EsterilizacionFragment extends Fragment {
                 mGatoHogarLab.addGatoHogar(mGatoHogar, getActivity());
             }
         }
+        CrearIngreso();
         mEsterilizacion.setmIdCampaña(campañaId);
         mEsterilizacion.setmIdGato(mGato.getmIdGato());
         mEsterilizacionStorage.addEsterilizacion(mEsterilizacion, getActivity());
@@ -330,8 +333,34 @@ public class EsterilizacionFragment extends Fragment {
             }
         }
 
+        Ingreso mIngreso = IngresoBank.get(getActivity()).getmIngreso(mEsterilizacion.getmIdEsterilizacion());
+        if (IngresoBank.get(getActivity()).getmIngreso(mEsterilizacion.getmIdEsterilizacion())!=null) {
+            if(mEsterilizacion.ismPagado()){
+                mIngreso.setmCantidad(mEsterilizacion.getmPrecio() + mEsterilizacion.getmCostoExtra());
+                IngresoBank.get(getActivity()).updateIngreso(mIngreso);
+            }else{
+                IngresoBank.get(getActivity()).deleteIngreso(GPTDbSchema.IngresoTable.Cols.UUID + "= ?", new String[]{mIngreso.getmIdIngreso().toString()});
+            }
+        }else{
+            if(mEsterilizacion.ismPagado()){
+                CrearIngreso();
+            }
+        }
+
         mCatLab.updateGato(mGato);
         mEsterilizacionStorage.updateEsterilizacion(mEsterilizacion);
+    }
+
+    public void CrearIngreso(){
+        if(mEsterilizacion.ismPagado()){
+            Ingreso mIngreso = new Ingreso(mEsterilizacion.getmIdEsterilizacion());
+            Campaña mCampaña = CampañaStorage.get(getActivity()).getCampaña(campañaId);
+            mIngreso.setmAutomatico(true);
+            mIngreso.setMotivo("Esterilizacion");
+            mIngreso.setmCantidad(mEsterilizacion.getmPrecio() + mEsterilizacion.getmCostoExtra());
+            mIngreso.setmFecha(mCampaña.getmFechaCampaña());
+            IngresoBank.get(getActivity()).addIngreso(mIngreso, getActivity());
+        }
     }
 
     @Subscribe

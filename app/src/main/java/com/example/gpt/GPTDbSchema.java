@@ -51,7 +51,6 @@ public class GPTDbSchema {
         public static final class Cols{
             public static String UUID = "uuid";
             public static String TIPO_INVENTARIO = "tipo_inventario";
-            public static String FOTO = "foto";
             public static String PRESENTACION = "presentacion";
             public static String CATEGORIA = "categoria";
             public static String NOMBRE = "nombre";
@@ -79,6 +78,17 @@ public class GPTDbSchema {
             public static String PAGADO = "pagado";
             public static String FKUUID_CAMPAÑA= "campaña_id";
             public static String FKUUID_GATO= "gato_id";
+        }
+    }
+
+    public static final class IngresoTable {
+        public static final String NAME="ingresos";
+        public static final class Cols{
+            public static String UUID = "uuid";
+            public static String MOTIVO = "motivo";
+            public static String FECHA = "fecha";
+            public static String CANTIDAD = "cantidad";
+            public static String AUTOMATICO = "automatico";
         }
     }
 }

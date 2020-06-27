@@ -85,6 +85,7 @@ public class EsterilizacionStorage {
         }
     }
 
+
     private CursorWrapper queryEsterilizacion(String whereClause, String[] whereArgs){
         Cursor cursor = mDataBase.query(
                 GPTDbSchema.EsterilizacionTable.NAME,
