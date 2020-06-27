@@ -42,6 +42,29 @@ public class CatLab {
         mDataBase.update(GPTDbSchema.GatoTable.NAME, values, GPTDbSchema.GatoTable.Cols.UUID + "= ?", new String[] {uuidString});
     }
 
+    private CursorWrapper queryBusquedaGato(String query){
+        Cursor cursor = mDataBase.rawQuery(query,null);
+        return new GPTCursorWrapper(cursor);
+    }
+
+    List<Gato> getmBusquedaGatos(String query){
+        List <Gato> gatos = new ArrayList<>();
+        GPTCursorWrapper cursor = (GPTCursorWrapper) queryBusquedaGato(query);
+        try{
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()){
+                //Envia los datos encontrados para que sean inicializados
+                gatos.add(cursor.getGato());
+                cursor.moveToNext();
+            }
+        }
+        finally {
+            cursor.close();
+        }
+        return gatos;
+    }
+
+
     List<Gato> getmGatos(){
         List <Gato> gatos = new ArrayList<>();
         GPTCursorWrapper cursor = (GPTCursorWrapper) queryGato(null,null);
@@ -70,6 +93,7 @@ public class CatLab {
                 whereArgs
         );
     }
+
 
     public Gato getmGato(UUID id){
         GPTCursorWrapper cursor = (GPTCursorWrapper) queryGato(

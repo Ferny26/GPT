@@ -92,4 +92,5 @@ public class Gato {
     public String getPhotoFilename(){
         return "IMG_" + getmIdGato().toString() + ".jpg";
     }
+
 }

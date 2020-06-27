@@ -64,4 +64,6 @@ public class Persona {
     public UUID getmIdPersona() {
         return mIdPersona;
     }
+
+
 }

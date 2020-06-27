@@ -29,15 +29,14 @@ public class PersonaStorage {
     }
 
 
-    public void addPersona(Persona p, Context context){
+    public void addPersona(Persona p){
         ContentValues values= getContentValues(p);
         mDataBase.insert(GPTDbSchema.PersonaTable.NAME, null, values);
     }
 
-    List<Persona> getmPersonas(UUID campañaId){
+    List<Persona> getmPersonas(){
         List <Persona> personas = new ArrayList<>();
-        GPTCursorWrapper cursor = (GPTCursorWrapper) queryPersona(GPTDbSchema.PersonaTable.Cols.UUID + " = ? ",
-                new String[] {campañaId.toString()});
+        GPTCursorWrapper cursor = (GPTCursorWrapper) queryPersona(null,null);
         try{
             cursor.moveToFirst();
             while (!cursor.isAfterLast()){

@@ -59,7 +59,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class GatoFragment extends Fragment {
-
     private Spinner mProcedenciaSpinner;
     private NumberPicker  mMesNumberPicker, mAñoNumberPicker;
     private EditText mNombreGatoEditText, mNombrePersonaEditText, mPesoEditText, mDomicilioEditText, mApellidoPaternoEditText, mApellidoMaternoEditText, mCelularEditText;
@@ -82,6 +81,7 @@ public class GatoFragment extends Fragment {
     private UUID campañaId, esterilizacionId;
     private Gato mGato;
     private Persona mResponsable;
+    private boolean buscada = false;
     CatLab mCatLab;
     RadioButton mRadioSexo;
     Esterilizacion mEsterilizacion, mTemporalEsterilizacion;
@@ -136,10 +136,11 @@ public class GatoFragment extends Fragment {
 
         if(mGato==null){
             mGato = new Gato();
-
+        }
+        if(mResponsable==null){
+            mResponsable = new Persona();
         }
 
-        mResponsable = new Persona();
         if (esterilizacionId != null){
             EsterilizacionStorage mEsterilizacionStorage = EsterilizacionStorage.get(getActivity());
             mEsterilizacion = mEsterilizacionStorage.getEsterilizacion(esterilizacionId);
@@ -207,7 +208,6 @@ public class GatoFragment extends Fragment {
         PackageManager packageManager = getActivity().getPackageManager();
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         boolean canTakePhoto = mPhotoFile != null && captureImage.resolveActivity(packageManager) != null;
-        //mCameraImageButton.setEnabled(canTakePhoto);
         mPhotoFile = CatLab.get(getActivity()).getPhotoFile(mGato);
         photoUri = FileProvider.getUriForFile(getActivity(), "com.example.gpt.FileProvider", mPhotoFile);
         int radioId = mSexoRadioGroup.getCheckedRadioButtonId();
@@ -254,7 +254,6 @@ public class GatoFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    mResponsable = new Persona();
                     mFormularioResponsableConstraintLayout.setVisibility(View.VISIBLE);
                     if(!mNombrePersonaEditText.getText().toString().isEmpty()){
                         mResponsable.setmNombre(mNombrePersonaEditText.getText().toString());
@@ -276,9 +275,7 @@ public class GatoFragment extends Fragment {
                     }
                 }
                 else {
-                  mFormularioResponsableConstraintLayout.setVisibility(View.GONE);
-                  mResponsable = null;
-
+                    mFormularioResponsableConstraintLayout.setVisibility(View.GONE);
                 }
             }
         });
@@ -449,24 +446,6 @@ public class GatoFragment extends Fragment {
             public void afterTextChanged(Editable s) {
             }
         });
-        mNombrePersonaEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                mResponsable.setmNombre(s.toString());
-                if(mResponsable.getmNombre().isEmpty()){
-                    mResponsable.setmNombre(null);
-                }
-            }
-        });
-
         return view;
     }
 
@@ -508,12 +487,8 @@ public class GatoFragment extends Fragment {
         mNombrePersonaEditText.setText(mResponsable.getmNombre());
         mFormularioResponsableConstraintLayout.setVisibility(View.VISIBLE);
         mApellidoPaternoEditText.setText(mResponsable.getmApellidoPaterno());
-        if(mResponsable.getmApellidoMaterno() == null){
-            mApellidoMaternoEditText.setText(mResponsable.getmApellidoMaterno());
-        }
-        if(mResponsable.getmEmail() == null){
-            mEmailEditText.setText(mResponsable.getmEmail());
-        }
+        mApellidoMaternoEditText.setText(mResponsable.getmApellidoMaterno());
+        mEmailEditText.setText(mResponsable.getmEmail());
         mDomicilioEditText.setText(mResponsable.getmDomicilio());
         mCelularEditText.setText(mResponsable.getmCelular());
     }
@@ -529,6 +504,12 @@ public class GatoFragment extends Fragment {
         mTemporalEsterilizacion = esterilizacion;
         validacionTemporal = true;
     }
+
+    @Subscribe
+    public void recibirResponsable(Persona responsable){
+        mResponsable = responsable;
+        ResponsableDefinido();
+    }
     @Override
     public void onPause() {
         if(esterilizacionId!=null) {
@@ -539,7 +520,7 @@ public class GatoFragment extends Fragment {
         }
         mGato.setValidacion(verificacion());
         bus.post(mGato);
-        if (mResponsableCheckBox.isChecked() && mGato.isValidacion()) {
+        if (mResponsableCheckBox.isChecked()) {
             bus.post(mResponsable);
         }
         super.onPause();
@@ -573,13 +554,27 @@ public class GatoFragment extends Fragment {
             return;
         }
         if (requestCode == REQUEST_BUSQUEDA){
-            UUID gatoId = (UUID) data.getSerializableExtra(Busqueda.EXTRA_GATO_ID);
+            if(mTitle == "Gato"){
+                UUID gatoId = (UUID) data.getSerializableExtra(Busqueda.EXTRA_GATO_ID);
+                mGato = mCatLab.getmGato(gatoId);
+                GatoDefinido();
+                mPhotoFile = CatLab.get(getActivity()).getPhotoFile(mGato);
+                photoUri = FileProvider.getUriForFile(getActivity(), "com.example.gpt.FileProvider", mPhotoFile);
+                putImageView();
+                GatoHogarLab mgatoHogarLab = GatoHogarLab.get(getActivity());
+                GatoHogar mgatoHogar = mgatoHogarLab.getmGatoHogar(mGato.getmIdGato());
+                if (mgatoHogar != null){
+                    PersonaStorage mPersonaStorage = PersonaStorage.get(getActivity());
+                    mResponsable = mPersonaStorage.getmPersona(mgatoHogar.getmPersonaId());
+                    ResponsableDefinido();
+                }
+            }
+            else{
+                UUID personaId = (UUID) data.getSerializableExtra(Busqueda.EXTRA_PERSONA_ID);
+                mResponsable = PersonaStorage.get(getActivity()).getmPersona(personaId);
+                ResponsableDefinido();
+            }
 
-            mGato = mCatLab.getmGato(gatoId);
-            GatoDefinido();
-            mPhotoFile = CatLab.get(getActivity()).getPhotoFile(mGato);
-            photoUri = FileProvider.getUriForFile(getActivity(), "com.example.gpt.FileProvider", mPhotoFile);
-            putImageView();
         }else if(requestCode == REQUEST_FOTO ){
             putImageView();
         }

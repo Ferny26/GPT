@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/image_gato"
+        android:id="@+id/image_busqueda"
         android:layout_width="81dp"
         android:layout_height="84dp"
         android:layout_marginStart="16dp"
@@ -25,7 +25,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="28dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/image_gato"
+        app:layout_constraintStart_toEndOf="@+id/image_busqueda"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -36,6 +36,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/image_gato"
+        app:layout_constraintStart_toEndOf="@+id/image_busqueda"
         app:layout_constraintTop_toBottomOf="@+id/nombre" />
 </androidx.constraintlayout.widget.ConstraintLayout>

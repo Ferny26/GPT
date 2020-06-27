@@ -1,10 +1,14 @@
 package com.example.gpt;
 
+import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -70,6 +75,7 @@ public class EsterilizacionFragment extends Fragment {
             mPagadoButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.red)));
         }
         if(objetoEnviadoEsterilizacion && mEsterilizacion.getmIdGato() != null){
+            setHasOptionsMenu(true);
             mTerminarRegistroButton.setText(R.string.actualizar_datos);
             ColocarDatos();
         }
@@ -272,6 +278,9 @@ public class EsterilizacionFragment extends Fragment {
     public void onPause() {
         bus.post(mGato);
         bus.post(mEsterilizacion);
+        if(mPersona!=null){
+            bus.post(mPersona);
+        }
         super.onPause();
     }
 
@@ -289,11 +298,16 @@ public class EsterilizacionFragment extends Fragment {
     public void crearDatos(){
         if(mCatLab.getmGato(mGato.getmIdGato())==null){
             mCatLab.addGato(mGato, getActivity());
+        }else{
+            mCatLab.updateGato(mGato);
         }
 
         if(objetoEnviadoPersona){
             if(mPersonaStorage.getmPersona(mPersona.getmIdPersona()) == null){
-                mPersonaStorage.addPersona(mPersona, getActivity());
+                mPersonaStorage.addPersona(mPersona);
+            }
+            else{
+                mPersonaStorage.updatePersona(mPersona);
             }
 
             if(mGatoHogarLab.getmGatoHogar(mGato.getmIdGato()) == null){
@@ -311,7 +325,7 @@ public class EsterilizacionFragment extends Fragment {
         if(objetoEnviadoPersona){
             GatoHogar mGatoHogar = new GatoHogar(mGato.getmIdGato());
             if(mPersonaStorage.getmPersona(mPersona.getmIdPersona()) == null){
-                mPersonaStorage.addPersona(mPersona, getActivity());
+                mPersonaStorage.addPersona(mPersona);
             }
 
             if(mGatoHogarLab.getmGatoHogar(mGato.getmIdGato()) == null){
@@ -345,4 +359,46 @@ public class EsterilizacionFragment extends Fragment {
         mPersona = persona;
         objetoEnviadoPersona = true;
     }
+
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.esterilizacion_borrar, menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.eliminar_esterilizacion:
+                final AlertDialog.Builder mDeleteDialog = new AlertDialog.Builder(getActivity());
+                mDeleteDialog.setTitle("Borrar esterilizacion")
+                        .setIcon(android.R.drawable.ic_menu_delete)
+                        .setMessage("¿Estas segura de querer borrar la esterilización?")
+                        .setPositiveButton("ok",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //Elimina el crimen de la BD y regresa a la pantalla anterior
+                                        mEsterilizacionStorage.deleteEsterilizaciones(GPTDbSchema.EsterilizacionTable.Cols.UUID + "= ?", new String[] {mEsterilizacion.getmIdEsterilizacion().toString()});
+                                        getActivity().finish();
+                                    }
+                                })
+                        //Cancela la accion de delete
+                        .setNegativeButton("cancelar",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                })
+                        .create().show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
+

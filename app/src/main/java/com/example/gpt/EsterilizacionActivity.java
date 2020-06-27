@@ -26,8 +26,6 @@ public class EsterilizacionActivity extends SingleFormularioFragment {
         fragment = mGatoFragment;
         campañaId = (UUID) getIntent().getSerializableExtra("CAMPAÑA_ID");
         esterilizacionId = (UUID) getIntent().getSerializableExtra("ESTERILIZACION_ID");
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.universal_formulario_activity);
         mBottomNavigationView=findViewById(R.id.esterilizacion_menu);
