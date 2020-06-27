@@ -49,6 +49,7 @@ import androidx.lifecycle.Lifecycle;
 
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -66,16 +67,15 @@ public class GatoFragment extends Fragment {
     private CheckBox mResponsableCheckBox, mCondicionEspecialCheckBox;
     private RadioGroup mSexoRadioGroup;
     private TextView mFechaNacimientoTextView;
-    private RadioButton mSexoRadioButton, mRadio;
+    private RadioButton mHembraRadioButton, mMachoRadioButton;
     private Date mFechaNacimiento = new Date();
     private ConstraintLayout mFormularioResponsableConstraintLayout;
     private Button mBuscarResponsableButton, mBuscarGatoButton;
-    private ImageButton mCameraImageButton, mGalleryImageButton;
+    private ImageButton mCameraImageButton;
     private ImageView mGatoImagenImageView;
     private String  mTitle;
     private static final int REQUEST_BUSQUEDA = 0;
     private static final int REQUEST_FOTO = 1;
-    private static final int REQUEST_GALLERY=2;
     private static final String DIALOG_CREATE = "DialogCreate";
     private Bundle arguments = new Bundle();
     private String [] mProcedenciaList = {"Recien rescatado", "Feral", "Propio"};
@@ -83,7 +83,9 @@ public class GatoFragment extends Fragment {
     private Gato mGato;
     private Persona mResponsable;
     CatLab mCatLab;
-    Esterilizacion mEsterilizacion;
+    RadioButton mRadioSexo;
+    Esterilizacion mEsterilizacion, mTemporalEsterilizacion;
+    private boolean validacionTemporal = false;
     private EventBus bus = EventBus.getDefault();
     private File mPhotoFile;
     Uri photoUri;
@@ -93,6 +95,7 @@ public class GatoFragment extends Fragment {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&  ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1000);
         }
+        bus.register(this);
         super.onCreate(savedInstanceState);
     }
 
@@ -124,30 +127,35 @@ public class GatoFragment extends Fragment {
         mMesNumberPicker = view.findViewById(R.id.mes_select);
         mAñoNumberPicker = view.findViewById(R.id.fecha_año_select);
         mCameraImageButton = view.findViewById(R.id.cameraButton);
-        mGalleryImageButton = view.findViewById(R.id.galleryButton);
         mGatoImagenImageView = view.findViewById(R.id.gatoImagen);
+        mHembraRadioButton = view.findViewById(R.id.hembra);
+        mMachoRadioButton = view.findViewById(R.id.macho);
         ArrayAdapter <String> mAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, mProcedenciaList);
         mProcedenciaSpinner.setAdapter(mAdapter);
         mCatLab = CatLab.get(getActivity());
-        mGato = new Gato();
+
+        if(mGato==null){
+            mGato = new Gato();
+
+        }
 
         mResponsable = new Persona();
-        //putImageGallery();
-
         if (esterilizacionId != null){
             EsterilizacionStorage mEsterilizacionStorage = EsterilizacionStorage.get(getActivity());
             mEsterilizacion = mEsterilizacionStorage.getEsterilizacion(esterilizacionId);
             mGato = mCatLab.getmGato(mEsterilizacion.getmIdGato());
             GatoDefinido();
+            mBuscarGatoButton.setEnabled(false);
             GatoHogarLab mgatoHogarLab = GatoHogarLab.get(getActivity());
             GatoHogar mgatoHogar = mgatoHogarLab.getmGatoHogar(mGato.getmIdGato());
             if (mgatoHogar != null){
+                mBuscarResponsableButton.setEnabled(false);
                 PersonaStorage mPersonaStorage = PersonaStorage.get(getActivity());
                 mResponsable = mPersonaStorage.getmPersona(mgatoHogar.getmPersonaId());
                 ResponsableDefinido();
             }
-
         }
+
 
         //////////////////////////////////////////////////////////////////////////////////////////////////// Spinner ///////////////////////////////////////////////////////////////////////////////////////////////////
         //Seleccion de procedencia
@@ -199,9 +207,13 @@ public class GatoFragment extends Fragment {
         PackageManager packageManager = getActivity().getPackageManager();
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         boolean canTakePhoto = mPhotoFile != null && captureImage.resolveActivity(packageManager) != null;
-        mCameraImageButton.setEnabled(canTakePhoto);
-        //mPhotoFile = CatLab.get(getActivity()).getPhotoFile(mGato);
-        //photoUri = FileProvider.getUriForFile(getActivity(), "com.example.gpt.FileProvider", mPhotoFile);
+        //mCameraImageButton.setEnabled(canTakePhoto);
+        mPhotoFile = CatLab.get(getActivity()).getPhotoFile(mGato);
+        photoUri = FileProvider.getUriForFile(getActivity(), "com.example.gpt.FileProvider", mPhotoFile);
+        int radioId = mSexoRadioGroup.getCheckedRadioButtonId();
+        mRadioSexo = mSexoRadioGroup.findViewById(radioId);
+        mGato.setmSexo(mRadioSexo.getText().toString());
+        putImageView();
         mCameraImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -219,14 +231,7 @@ public class GatoFragment extends Fragment {
             }
         });
 
-        mGalleryImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-                gallery.setType("image/*");
-                startActivityForResult(gallery, REQUEST_GALLERY);
-            }
-        });
+
         //Busquedas Gato y Persona
         mBuscarResponsableButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,11 +254,31 @@ public class GatoFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
+                    mResponsable = new Persona();
                     mFormularioResponsableConstraintLayout.setVisibility(View.VISIBLE);
-
+                    if(!mNombrePersonaEditText.getText().toString().isEmpty()){
+                        mResponsable.setmNombre(mNombrePersonaEditText.getText().toString());
+                    }
+                    if(!mApellidoMaternoEditText.getText().toString().isEmpty()){
+                        mResponsable.setmApellidoMaterno(mApellidoMaternoEditText.getText().toString());
+                    }
+                    if(!mApellidoPaternoEditText.getText().toString().isEmpty()){
+                        mResponsable.setmApellidoPaterno(mApellidoPaternoEditText.getText().toString());
+                    }
+                    if(!mEmailEditText.getText().toString().isEmpty()){
+                        mResponsable.setmEmail(mEmailEditText.getText().toString());
+                    }
+                    if(!mCelularEditText.toString().isEmpty()){
+                        mResponsable.setmCelular(mCelularEditText.getText().toString());
+                    }
+                    if(!mDomicilioEditText.getText().toString().isEmpty()){
+                        mResponsable.setmDomicilio(mDomicilioEditText.getText().toString());
+                    }
                 }
                 else {
                   mFormularioResponsableConstraintLayout.setVisibility(View.GONE);
+                  mResponsable = null;
+
                 }
             }
         });
@@ -265,19 +290,20 @@ public class GatoFragment extends Fragment {
                     mCondicionEditText.setVisibility(View.VISIBLE);
                 }
                 else {
+                    mGato.setmCondicionEspecial(null);
                     mCondicionEditText.setVisibility(View.GONE);
                 }
             }
         });
 
-        mSexoRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                mSexoRadioButton = view.findViewById(mSexoRadioGroup.getCheckedRadioButtonId());
-                mGato.setmSexo(checkedId);
+       mSexoRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+           @Override
+           public void onCheckedChanged(RadioGroup group, int checkedId) {
+               mRadioSexo = view.findViewById(checkedId);
+               mGato.setmSexo(mRadioSexo.getText().toString());
 
-            }
-        });
+           }
+       });
 
 
         //////////////////////////////////////////////// Edit Texts /////////////////////////////////////////////////
@@ -289,6 +315,9 @@ public class GatoFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mGato.setmCondicionEspecial(s.toString());
+                if(mGato.getmCondicionEspecial().isEmpty()){
+                    mGato.setmCondicionEspecial(null);
+                }
             }
             @Override
             public void afterTextChanged(Editable s) {
@@ -300,10 +329,14 @@ public class GatoFragment extends Fragment {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mResponsable.setmNombre(s.toString());
+
             }
             @Override
             public void afterTextChanged(Editable s) {
+                mResponsable.setmNombre(s.toString());
+                if(mResponsable.getmNombre().isEmpty()){
+                    mResponsable.setmNombre(null);
+                }
             }
         });
         mApellidoPaternoEditText.addTextChangedListener(new TextWatcher() {
@@ -312,10 +345,14 @@ public class GatoFragment extends Fragment {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mResponsable.setmApellidoPaterno(s.toString());
+
             }
             @Override
             public void afterTextChanged(Editable s) {
+                mResponsable.setmApellidoPaterno(s.toString());
+                if(mResponsable.getmApellidoPaterno().isEmpty()){
+                    mResponsable.setmApellidoPaterno(null);
+                }
             }
         });
         mEmailEditText.addTextChangedListener(new TextWatcher() {
@@ -325,6 +362,9 @@ public class GatoFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mResponsable.setmEmail(s.toString());
+                if(mResponsable.getmEmail().isEmpty()){
+                    mResponsable.setmEmail(null);
+                }
             }
             @Override
             public void afterTextChanged(Editable s) {
@@ -336,11 +376,14 @@ public class GatoFragment extends Fragment {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mResponsable.setmApellidoMaterno(s.toString());
+
             }
             @Override
             public void afterTextChanged(Editable s) {
-
+                mResponsable.setmApellidoMaterno(s.toString());
+                if(mResponsable.getmApellidoMaterno().isEmpty()){
+                    mResponsable.setmApellidoMaterno(null);
+                }
             }
         });
         mDomicilioEditText.addTextChangedListener(new TextWatcher() {
@@ -349,11 +392,16 @@ public class GatoFragment extends Fragment {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mResponsable.setmDomicilio(s.toString());
+
             }
             @Override
             public void afterTextChanged(Editable s) {
+                mResponsable.setmDomicilio(s.toString());
+                if(mResponsable.getmDomicilio().isEmpty()){
+                    mResponsable.setmDomicilio(null);
+                }
             }
+
         });
         mCelularEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -361,10 +409,13 @@ public class GatoFragment extends Fragment {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mResponsable.setmCelular(s.toString());
             }
             @Override
             public void afterTextChanged(Editable s) {
+                mResponsable.setmCelular(s.toString());
+                if(mResponsable.getmCelular().isEmpty()){
+                    mResponsable.setmCelular(null);
+                }
             }
         });
         mNombreGatoEditText.addTextChangedListener(new TextWatcher() {
@@ -373,10 +424,14 @@ public class GatoFragment extends Fragment {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mGato.setmNombreGato(s.toString());
+                mGato.setmNombreGato(mNombreGatoEditText.getText().toString());
+                if(mGato.getmNombreGato().isEmpty()){
+                    mGato.setmNombreGato(null);
+                }
             }
             @Override
             public void afterTextChanged(Editable s) {
+
             }
         });
         mPesoEditText.addTextChangedListener(new TextWatcher() {
@@ -385,7 +440,10 @@ public class GatoFragment extends Fragment {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mGato.setmPeso(s.toString());
+                mGato.setmPeso(mPesoEditText.getText().toString());
+                if(mGato.getmPeso().isEmpty()){
+                    mGato.setmPeso(null);
+                }
             }
             @Override
             public void afterTextChanged(Editable s) {
@@ -398,11 +456,14 @@ public class GatoFragment extends Fragment {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mResponsable.setmNombre(s.toString());
+
             }
             @Override
             public void afterTextChanged(Editable s) {
-
+                mResponsable.setmNombre(s.toString());
+                if(mResponsable.getmNombre().isEmpty()){
+                    mResponsable.setmNombre(null);
+                }
             }
         });
 
@@ -426,9 +487,15 @@ public class GatoFragment extends Fragment {
         mPesoEditText.setText(mGato.getmPeso());
         mMesNumberPicker.setValue(mGato.getmFechaNacimiento().getMonth());
         mAñoNumberPicker.setValue(mGato.getmFechaNacimiento().getYear());
-        RadioButton opcionI2 = (RadioButton) mSexoRadioGroup.getChildAt(mGato.ismSexo());
-        opcionI2.setChecked(true);
-        if(mGato.getmCondicionEspecial() != null){
+
+        if(mGato.ismSexo().equals("Hembra")){
+            mHembraRadioButton.setChecked(true);
+        }
+        else if(mGato.ismSexo().equals("Macho")){
+            mMachoRadioButton.setChecked(true);
+        }
+
+        if(mGato.getmCondicionEspecial() !=null){
             mCondicionEspecialCheckBox.setChecked(true);
             mCondicionEditText.setVisibility(View.VISIBLE);
             mCondicionEditText.setText(mGato.getmCondicionEspecial());
@@ -439,6 +506,7 @@ public class GatoFragment extends Fragment {
     private void ResponsableDefinido(){
         mResponsableCheckBox.setChecked(true);
         mNombrePersonaEditText.setText(mResponsable.getmNombre());
+        mFormularioResponsableConstraintLayout.setVisibility(View.VISIBLE);
         mApellidoPaternoEditText.setText(mResponsable.getmApellidoPaterno());
         if(mResponsable.getmApellidoMaterno() == null){
             mApellidoMaternoEditText.setText(mResponsable.getmApellidoMaterno());
@@ -450,28 +518,47 @@ public class GatoFragment extends Fragment {
         mCelularEditText.setText(mResponsable.getmCelular());
     }
 
+    @Subscribe
+    public void recibirGato(Gato gato){
+        mGato = gato;
+    }
 
-
+    @Subscribe
+    public void recibirEsterilizacion(Esterilizacion esterilizacion){
+        mEsterilizacion = esterilizacion;
+        mTemporalEsterilizacion = esterilizacion;
+        validacionTemporal = true;
+    }
     @Override
     public void onPause() {
         if(esterilizacionId!=null) {
+            if (validacionTemporal) {
+                mEsterilizacion = mTemporalEsterilizacion;
+            }
             bus.post(mEsterilizacion);
         }
         mGato.setValidacion(verificacion());
         bus.post(mGato);
-        if (mResponsableCheckBox.isChecked()) {
+        if (mResponsableCheckBox.isChecked() && mGato.isValidacion()) {
             bus.post(mResponsable);
         }
         super.onPause();
     }
 
+    @Override
+    public void onDestroy() {
+        bus.unregister(this);
+        super.onDestroy();
+    }
+
     private boolean verificacion(){
         boolean validacionDatos = true;
 
-        if(mResponsableCheckBox.isChecked() && (mResponsable.getmNombre() == null || mResponsable.getmApellidoPaterno() == null || mResponsable.getmCelular() == null || mResponsable.getmDomicilio() == null )){
+        if((mResponsableCheckBox.isChecked() && (mResponsable.getmNombre() == null || mResponsable.getmCelular() == null)) && mGato.getmProcedencia() != 1){
             validacionDatos = false;
         }
         if(mCondicionEspecialCheckBox.isChecked() && (mGato.getmCondicionEspecial() == null)){
+            mGato.setmCondicionEspecial(null);
             validacionDatos = false;
         }
         if(mGato.getmNombreGato() == null || mGato.getmPeso() == null  || mFechaNacimiento == null){
@@ -487,45 +574,26 @@ public class GatoFragment extends Fragment {
         }
         if (requestCode == REQUEST_BUSQUEDA){
             UUID gatoId = (UUID) data.getSerializableExtra(Busqueda.EXTRA_GATO_ID);
+
             mGato = mCatLab.getmGato(gatoId);
             GatoDefinido();
+            mPhotoFile = CatLab.get(getActivity()).getPhotoFile(mGato);
+            photoUri = FileProvider.getUriForFile(getActivity(), "com.example.gpt.FileProvider", mPhotoFile);
+            putImageView();
         }else if(requestCode == REQUEST_FOTO ){
-            photoUri = data.getData();
-            //putImageView();
-        }else if(requestCode==REQUEST_GALLERY ){
-            photoUri = data.getData();
+            putImageView();
         }
-        try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-            byte[] img = bos.toByteArray();
-            mGato.setmFoto(img);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        putImageGallery();
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private  void putImageGallery(){
-        byte[] img = mGato.getmFoto();
-        if(img!=null){
-            Bitmap bitmap = BitmapFactory.decodeByteArray(img,0,img.length);
-            mGatoImagenImageView.setImageBitmap(bitmap);
-        }else{
-            mGatoImagenImageView.setImageResource(R.drawable.gato_gris);
-        }
-    }
 
 
 
-    /*private void putImageView() {
+    private void putImageView() {
         Bitmap bitmap;
         try {
-            byte[] img = mGato.getmFoto();
-            bitmap = BitmapFactory.decodeByteArray(img,0,img.length);
             //Recupera la foto segun el uri y la asigna a un bitmap
+            bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
             //Asignacion de orientacion correcta para la foto
             ExifInterface exif = null;
             exif = new ExifInterface(mPhotoFile.getAbsolutePath());
@@ -540,7 +608,7 @@ public class GatoFragment extends Fragment {
             mGatoImagenImageView.setImageResource(R.drawable.gato_gris);
             e.printStackTrace();
         }
-    }*/
+    }
 
     public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
 

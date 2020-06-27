@@ -6,7 +6,7 @@ import java.util.UUID;
 public class Esterilizacion {
     private UUID mIdEsterilizacion, mIdCampaña, mIdGato;
     private int mPrecio, mAnticipo, mCostoExtra;
-    private boolean mFaja, mPagado;
+    private boolean mFaja, mPagado=false;
 
     public Esterilizacion(){
         this(UUID.randomUUID());

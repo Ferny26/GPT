@@ -1,5 +1,6 @@
 package com.example.gpt;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,7 +26,7 @@ public class EsterilizacionFragment extends Fragment {
     private CheckBox mFajaCheckBox, mAnticipoCheckBox, mCostoExtraCheckButton;
     private EditText mAnticipoEditText, mCostoExtraEditText, mPrecioEditText;
     private TextView mCostoTotalTextView;
-    private Button mTerminarRegistroButton;
+    private Button mTerminarRegistroButton, mPagadoButton;
     private UUID campañaId;
     private EventBus bus = EventBus.getDefault();
     private Esterilizacion mEsterilizacion = new Esterilizacion();
@@ -62,11 +63,42 @@ public class EsterilizacionFragment extends Fragment {
         mPrecioEditText = view.findViewById(R.id.precio);
         mTerminarRegistroButton = view.findViewById(R.id.terminar_esterilizacion);
         mCostoExtraCheckButton = view.findViewById(R.id.costo_extra_check);
-
-        if(objetoEnviadoEsterilizacion){
+        mPagadoButton = view.findViewById(R.id.pagado);
+        if(mEsterilizacion.ismPagado()){
+            mPagadoButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.green)));
+        }else{
+            mPagadoButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.red)));
+        }
+        if(objetoEnviadoEsterilizacion && mEsterilizacion.getmIdGato() != null){
             mTerminarRegistroButton.setText(R.string.actualizar_datos);
             ColocarDatos();
         }
+
+
+        mAnticipoCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                   mAnticipoEditText.setVisibility(View.VISIBLE);
+
+                }
+                else {
+                    mAnticipoEditText.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        mCostoExtraCheckButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    mCostoExtraEditText.setVisibility(View.VISIBLE);
+                }
+                else {
+                    mCostoExtraEditText.setVisibility(View.GONE);
+                }
+            }
+        });
 
         mAnticipoEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -79,9 +111,13 @@ public class EsterilizacionFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 try{
-                    mEsterilizacion.setmAnticipo(Integer.parseInt(mAnticipoEditText.getText().toString()));
+                    if(mAnticipoEditText.getVisibility()==View.VISIBLE){
+                        mEsterilizacion.setmAnticipo(Integer.parseInt(mAnticipoEditText.getText().toString()));
+                    }
+
                 } catch (Exception e) {
                     mEsterilizacion.setmAnticipo(0);
+
                     e.printStackTrace();
                 }
             }
@@ -94,14 +130,11 @@ public class EsterilizacionFragment extends Fragment {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
                 try{
-                    mEsterilizacion.setmCostoExtra(Integer.parseInt(mCostoExtraEditText.getText().toString()));
-                    int cantidad = mEsterilizacion.getmCostoExtra() + mEsterilizacion.getmPrecio();
+                    if(mCostoExtraEditText.getVisibility()==View.VISIBLE){
+                        mEsterilizacion.setmCostoExtra(Integer.parseInt(mCostoExtraEditText.getText().toString()));
+                    }
+                    int cantidad = mEsterilizacion.getmPrecio() + Integer.parseInt(mCostoExtraEditText.getText().toString());
                     mCostoTotalTextView.setText(getString(R.string.costo_total, cantidad));
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -109,6 +142,10 @@ public class EsterilizacionFragment extends Fragment {
                     int cantidad = mEsterilizacion.getmPrecio();
                     mCostoTotalTextView.setText(getString(R.string.costo_total, cantidad));
                 }
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
 
             }
         });
@@ -120,11 +157,6 @@ public class EsterilizacionFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
                 try{
                     mEsterilizacion.setmPrecio(Integer.parseInt(mPrecioEditText.getText().toString()));
                     int cantidad =  mEsterilizacion.getmPrecio() + mEsterilizacion.getmCostoExtra();
@@ -135,6 +167,11 @@ public class EsterilizacionFragment extends Fragment {
                     mCostoTotalTextView.setText(getString(R.string.costo_total, cantidad));
                     e.printStackTrace();
                 }
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -144,6 +181,7 @@ public class EsterilizacionFragment extends Fragment {
                 if(isChecked){
                     mAnticipoEditText.setVisibility(View.VISIBLE);
                 }else {
+                    mEsterilizacion.setmAnticipo(0);
                     mAnticipoEditText.setVisibility(View.GONE);
                 }
             }
@@ -162,11 +200,24 @@ public class EsterilizacionFragment extends Fragment {
                 if (isChecked) {
                     mCostoExtraEditText.setVisibility(View.VISIBLE);
                 }else {
+                    mEsterilizacion.setmCostoExtra(0);
                     mCostoExtraEditText.setVisibility(View.GONE);
                 }
             }
         });
 
+        mPagadoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!mEsterilizacion.ismPagado()){
+                    mEsterilizacion.setmPagado(true);
+                    mPagadoButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.green)));
+                }else{
+                    mEsterilizacion.setmPagado(false);
+                    mPagadoButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.red)));
+                }
+            }
+        });
 
 
         mTerminarRegistroButton.setOnClickListener(new View.OnClickListener() {
@@ -175,7 +226,7 @@ public class EsterilizacionFragment extends Fragment {
                 mCatLab = CatLab.get(getActivity());
                 mGatoHogarLab = GatoHogarLab.get(getActivity());
                 mPersonaStorage = PersonaStorage.get(getActivity());
-                if(objetoEnviadoEsterilizacion){
+                if((objetoEnviadoEsterilizacion && mGato.isValidacion()) && mEsterilizacion.getmIdGato() != null){
                     actualizarDatos();
                     getActivity().finish();
                 }
@@ -197,11 +248,32 @@ public class EsterilizacionFragment extends Fragment {
 
     private void ColocarDatos() {
         mPrecioEditText.setText(Integer.toString(mEsterilizacion.getmPrecio()));
+        int cantidad = mEsterilizacion.getmCostoExtra() + mEsterilizacion.getmPrecio();
+        mCostoTotalTextView.setText(getString(R.string.costo_total, cantidad));
         if(mEsterilizacion.getmCostoExtra() != 0){
+            mCostoExtraEditText.setVisibility(View.VISIBLE);
+            mCostoExtraCheckButton.setChecked(true);
             mCostoExtraEditText.setText(Integer.toString(mEsterilizacion.getmCostoExtra()));
+        }
+        if(mEsterilizacion.getmAnticipo() != 0){
+            mAnticipoEditText.setVisibility(View.VISIBLE);
+            mAnticipoCheckBox.setChecked(true);
+            mAnticipoEditText.setText(Integer.toString(mEsterilizacion.getmAnticipo()));
+        }
+        if(mEsterilizacion.ismFaja()){
+            mFajaCheckBox.setChecked(true);
+        }
+        if(mEsterilizacion.ismPagado()){
+            mPagadoButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.green)));
         }
     }
 
+    @Override
+    public void onPause() {
+        bus.post(mGato);
+        bus.post(mEsterilizacion);
+        super.onPause();
+    }
 
     @Override
     public void onDestroy() {
@@ -236,9 +308,8 @@ public class EsterilizacionFragment extends Fragment {
     }
 
     public void actualizarDatos(){
-        GatoHogar mGatoHogar = new GatoHogar(mGato.getmIdGato());
         if(objetoEnviadoPersona){
-
+            GatoHogar mGatoHogar = new GatoHogar(mGato.getmIdGato());
             if(mPersonaStorage.getmPersona(mPersona.getmIdPersona()) == null){
                 mPersonaStorage.addPersona(mPersona, getActivity());
             }
@@ -258,6 +329,7 @@ public class EsterilizacionFragment extends Fragment {
                 mGatoHogarLab.deleteGatoHogar(GPTDbSchema.GatoHogarTable.Cols.FKUUID_GATO + " = ?", new String[]{mGato.getmIdGato().toString()});
             }
         }
+
         mCatLab.updateGato(mGato);
         mEsterilizacionStorage.updateEsterilizacion(mEsterilizacion);
     }

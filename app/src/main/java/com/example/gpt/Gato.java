@@ -7,9 +7,9 @@ import java.util.UUID;
 
 public class Gato {
     private UUID mIdGato;
-    private byte [] mFoto;
     private Date mFechaNacimiento;
-    private int mEdad, mProcedencia, mSexo;
+    private int mEdad, mProcedencia;
+    private String mSexo;
     private String mNombreGato, mCondicionEspecial, mPeso;
     private boolean validacion;
 
@@ -38,10 +38,6 @@ public class Gato {
         return mPeso;
     }
 
-    public byte [] getmFoto() {
-        return mFoto;
-    }
-
     public int getmEdad() {
 
         return mEdad;
@@ -51,7 +47,7 @@ public class Gato {
         return mFechaNacimiento;
     }
 
-    public int ismSexo() {
+    public String ismSexo() {
         return mSexo;
     }
 
@@ -67,15 +63,13 @@ public class Gato {
         this.mPeso = mPeso;
     }
 
-    public void setmFoto(byte[] mFoto) {
-        this.mFoto = mFoto;
-    }
+
 
     public void setmFechaNacimiento(Date mFechaNacimiento) {
         this.mFechaNacimiento = mFechaNacimiento;
     }
 
-    public void setmSexo(int mSexo) {
+    public void setmSexo(String mSexo) {
         this.mSexo = mSexo;
     }
 

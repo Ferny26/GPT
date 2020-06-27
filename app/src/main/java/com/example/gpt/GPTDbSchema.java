@@ -17,7 +17,6 @@ public class GPTDbSchema {
         public static final class Cols{
             public static String UUID = "uuid";
             public static String PESO = "peso";
-            public static String FOTO = "foto";
             public static String FECHA_NACIMIENTO = "fecha_nacimiento";
             public static String NOMBRE = "nombre";
             public static String SEXO = "sexo";
