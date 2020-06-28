@@ -31,9 +31,25 @@
         <activity android:name=".EsterilizacionActivity" >
         </activity>
 
-        <activity android:name=".FormularioMaterialActivity">
+        <activity android:name=".FormularioMaterialActivity"
+            >
+
         </activity>
 
+        <activity android:name=".MaterialCampañaActivity"
+
+            >
+
+
+
+
+        </activity>
+
+        <activity android:name=".AgregarMaterialActivity"
+            android:parentActivityName=".MaterialCampañaActivity"
+            >
+
+        </activity>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

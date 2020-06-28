@@ -92,7 +92,7 @@ public class GPTCursorWrapper extends CursorWrapper {
         return material;
     }
 
-    public MaterialCampaña getMaterialCampaña (){
+    public MaterialCampaña getMaterialCampaña(){
         String uuidCampaña = getString(getColumnIndex(MaterialCampañaTable.Cols.FKUUID_CAMPAÑA));
         String uuidMaterial= getString(getColumnIndex(MaterialCampañaTable.Cols.FKUUID_MATERIAL));
         int cantidadGastada = getInt(getColumnIndex(MaterialCampañaTable.Cols.CANTIDAD_GASTADA));
@@ -132,8 +132,6 @@ public class GPTCursorWrapper extends CursorWrapper {
         String motivo = getString(getColumnIndex(IngresoTable.Cols.MOTIVO));
         long fecha = getLong(getColumnIndex(IngresoTable.Cols.FECHA));
         int automatico = getInt(getColumnIndex(IngresoTable.Cols.AUTOMATICO));
-
-
         Ingreso ingreso = new Ingreso(UUID.fromString(uuidString));
         ingreso.setmCantidad(cantidad);
         ingreso.setMotivo(motivo);

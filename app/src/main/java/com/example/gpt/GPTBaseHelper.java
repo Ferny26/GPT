@@ -81,7 +81,7 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " +
                 MaterialCampañaTable.NAME +
                 "(" +
-                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 MaterialCampañaTable.Cols.FKUUID_CAMPAÑA + ", " +
                 MaterialCampañaTable.Cols.FKUUID_MATERIAL+ ", " +
                 MaterialCampañaTable.Cols.CANTIDAD_GASTADA+ ", " +

@@ -100,9 +100,6 @@ public class CampañaStorage {
         return new GPTCursorWrapper(cursor);
     }
 
-
-
-
     private static ContentValues getContentValues(Campaña campaña){
         ContentValues values = new ContentValues();
         values.put(CampañaTable.Cols.UUID, campaña.getmIdCampaña().toString());
