@@ -18,7 +18,7 @@
 
     <item
         android:id="@+id/adopcion"
-        android:icon="@android:drawable/ic_btn_speak_now"
+        android:icon="@drawable/adopcion_bn"
         android:iconTint="@color/black"
         android:title="@string/adopciones"
         app:showAsAction="ifRoom|withText"/>

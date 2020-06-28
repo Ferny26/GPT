@@ -318,10 +318,10 @@ public class EsterilizacionFragment extends Fragment {
                 mGatoHogarLab.addGatoHogar(mGatoHogar, getActivity());
             }
         }
-        CrearIngreso();
         mEsterilizacion.setmIdCampaña(campañaId);
         mEsterilizacion.setmIdGato(mGato.getmIdGato());
         mEsterilizacionStorage.addEsterilizacion(mEsterilizacion, getActivity());
+        CrearIngreso();
     }
 
     public void actualizarDatos(){
@@ -368,7 +368,7 @@ public class EsterilizacionFragment extends Fragment {
     public void CrearIngreso(){
         if(mEsterilizacion.ismPagado()){
             Ingreso mIngreso = new Ingreso(mEsterilizacion.getmIdEsterilizacion());
-            Campaña mCampaña = CampañaStorage.get(getActivity()).getCampaña(campañaId);
+            Campaña mCampaña = CampañaStorage.get(getActivity()).getCampaña(mEsterilizacion.getmIdCampaña());
             mIngreso.setmAutomatico(true);
             mIngreso.setMotivo("Esterilizacion");
             mIngreso.setmCantidad(mEsterilizacion.getmPrecio() + mEsterilizacion.getmCostoExtra());

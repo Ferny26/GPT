@@ -140,4 +140,24 @@ public class GPTCursorWrapper extends CursorWrapper {
         return ingreso;
     }
 
+    public RegistroAdopcion getRegistroAdopcion (){
+        String uuidString = getString(getColumnIndex(RegistroAdopcionTable.Cols.UUID));
+        String adoptante = getString(getColumnIndex(RegistroAdopcionTable.Cols.FKUUID_ADOPTANTE));
+        String gato = getString(getColumnIndex(RegistroAdopcionTable.Cols.FKUUID_GATO));
+        int status = getInt(getColumnIndex(RegistroAdopcionTable.Cols.ESTATUS));
+
+        RegistroAdopcion registroAdopcion = new RegistroAdopcion(UUID.fromString(uuidString));
+        registroAdopcion.setmAdoptanteId(UUID.fromString(adoptante));
+        registroAdopcion.setmGatoId(UUID.fromString(gato));
+        registroAdopcion.setmEstatus(status);
+        return registroAdopcion;
+    }
+
+    public Adopcion getAdopcion (){
+        String gato = getString(getColumnIndex(AdopcionTable.Cols.FKUUID_GATO));
+
+        Adopcion adopcion = new Adopcion(UUID.fromString(gato));
+        return adopcion;
+    }
+
 }

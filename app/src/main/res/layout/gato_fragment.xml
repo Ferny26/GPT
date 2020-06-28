@@ -21,8 +21,8 @@
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="335dp"
-        android:layout_marginTop="20dp"
         android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,8 +53,8 @@
                 android:text="@string/buscar_gato"
                 android:textColor="@color/grey"
                 android:textSize="23dp"
-                app:fontFamily="@font/amaranth_bold"
                 android:textStyle="bold"
+                app:fontFamily="@font/amaranth_bold"
                 app:layout_constraintStart_toEndOf="@+id/buscar_gato"
                 app:layout_constraintTop_toTopOf="parent"></TextView>
 
@@ -208,11 +208,11 @@
             <NumberPicker
                 android:id="@+id/fecha_año_select"
                 android:layout_width="69dp"
-                android:selectionDividerHeight="10dp"
                 android:layout_height="59dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:ems="10"
+                android:selectionDividerHeight="10dp"
                 android:solidColor="@color/withe"
                 android:textAllCaps="false"
                 app:layout_constraintStart_toEndOf="@+id/mes_select"
@@ -252,10 +252,10 @@
                 android:id="@+id/mes_select"
                 android:layout_width="65dp"
                 android:layout_height="59dp"
-                android:selectionDividerHeight="10dp"
                 android:layout_marginStart="48dp"
                 android:layout_marginLeft="48dp"
                 android:ems="10"
+                android:selectionDividerHeight="10dp"
                 android:solidColor="@color/withe"
                 android:textAllCaps="false"
                 app:layout_constraintStart_toEndOf="@+id/textView"
@@ -471,6 +471,7 @@
                 android:textColor="@color/black"
                 android:textSize="23dp"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
@@ -503,5 +504,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/materialImagen"
         app:srcCompat="@android:drawable/ic_menu_camera" />
+
+    <Button
+        android:id="@+id/guardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:background="@color/adopcion"
+        android:textAllCaps="false"
+        android:padding="10dp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:textSize="20dp"
+        android:text="Guardar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

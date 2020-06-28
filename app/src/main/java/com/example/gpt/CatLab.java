@@ -129,8 +129,6 @@ public class CatLab {
     }
 
 
-
-
     private static ContentValues getContentValues(Gato gato){
         ContentValues values = new ContentValues();
         values.put(GPTDbSchema.GatoTable.Cols.UUID, gato.getmIdGato().toString());

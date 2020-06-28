@@ -21,11 +21,13 @@
         </activity>
 
         <activity android:name=".ListCampaña"
-            android:parentActivityName=".MainActivity"
-            >
-
-
+            android:parentActivityName=".MainActivity">
         </activity>
+
+        <activity android:name=".AdopcionesActivity"
+            android:parentActivityName=".MainActivity">
+        </activity>
+
         <activity android:name=".EsterilizacionActivity" >
         </activity>
 

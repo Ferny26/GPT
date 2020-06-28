@@ -117,6 +117,42 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
                 ")"
         );
 
+        db.execSQL("CREATE TABLE " +
+                AdoptanteTable.NAME +
+                "(" +
+                AdoptanteTable.Cols.UUID + " PRIMARY KEY, " +
+                AdoptanteTable.Cols.NOMBRE + ", " +
+                AdoptanteTable.Cols.APELLIDO_MATERNO + ", " +
+                AdoptanteTable.Cols.APELLIDO_PATERNO + ", " +
+                AdoptanteTable.Cols.CELULAR + ", " +
+                AdoptanteTable.Cols.DOMICILIO + ", " +
+                AdoptanteTable.Cols.EMAIL +
+                ")"
+        );
+
+        db.execSQL("CREATE TABLE " +
+                AdopcionTable.NAME +
+                "(" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                AdopcionTable.Cols.FKUUID_GATO + ", " +
+                "FOREIGN KEY ("+ AdopcionTable.Cols.FKUUID_GATO + ") REFERENCES "+ GatoTable.NAME+"("+GatoTable.Cols.UUID+")" +
+                ")"
+        );
+
+        db.execSQL("CREATE TABLE " +
+                RegistroAdopcionTable.NAME +
+                "(" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                RegistroAdopcionTable.Cols.UUID + ", " +
+                RegistroAdopcionTable.Cols.FKUUID_GATO + ", " +
+                RegistroAdopcionTable.Cols.FKUUID_ADOPTANTE + ", " +
+                RegistroAdopcionTable.Cols.ESTATUS + ", " +
+                "FOREIGN KEY ("+ RegistroAdopcionTable.Cols.FKUUID_GATO + ") REFERENCES "+ AdopcionTable.NAME+"("+AdopcionTable.Cols.FKUUID_GATO+")," +
+                "FOREIGN KEY ("+ RegistroAdopcionTable.Cols.FKUUID_ADOPTANTE + ") REFERENCES "+ AdoptanteTable.NAME+"("+AdoptanteTable.Cols.UUID+")" +
+                ")"
+        );
+
+
     }
 
 

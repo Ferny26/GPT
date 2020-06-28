@@ -8,12 +8,26 @@
 
     <ImageView
         android:id="@+id/main_image_view"
-        android:layout_width="289dp"
-        android:layout_height="98dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
         android:layout_gravity="center"
         android:layout_marginTop="4dp"
         android:scaleType="centerInside"
         app:srcCompat="@drawable/campana" />
+
+    <Button
+        android:id="@+id/estadisticas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="7dp"
+        android:background="@color/material"
+        android:paddingHorizontal="10dp"
+        android:scaleType="centerInside"
+        android:text="@string/generar_estadisticas"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -21,6 +35,14 @@
         android:layout_height="wrap_content"
         android:src="@drawable/linea"
          />
+
+    <Spinner
+        android:id="@+id/estatus_adopcion"
+        style="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
