@@ -268,8 +268,14 @@ public class EsterilizacionesFragment extends Fragment {
                                     }
                                 })
                         .create().show();
-
                 return true;
+
+            case R.id.inventario:
+                Intent intent2 = new Intent(getActivity(), MaterialCampañaActivity.class);
+                intent2.putExtra("CAMPAÑA_ID",campañaId);
+                startActivity(intent2);
+                return true;
+                
             default:
                 return super.onOptionsItemSelected(item);
 

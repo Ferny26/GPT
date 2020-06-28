@@ -25,4 +25,8 @@ public class MaterialCampaña {
     public void setmCantidadGastada(int mCantidadGastada) {
         this.mCantidadGastada = mCantidadGastada;
     }
+
+    public UUID getmCampañaId() {
+        return mCampañaId;
+    }
 }

@@ -8,6 +8,7 @@ public class Material {
     private UUID mMaterialId;
     private String mNombre, mPresentacion;
     private int mTipoInventario, mCategoria, mCantidad;
+    private boolean mAgregado = false;
 
     public Material (){ this(UUID.randomUUID());}
 
@@ -62,5 +63,13 @@ public class Material {
 
     public String getmPhotoFile(){
         return "IMG_" + getmMaterialId().toString() + ".jpg";
+    }
+
+    public boolean ismAgregado() {
+        return mAgregado;
+    }
+
+    public void setmAgregado(boolean mAgregado) {
+        this.mAgregado = mAgregado;
     }
 }

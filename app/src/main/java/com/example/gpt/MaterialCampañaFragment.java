@@ -20,26 +20,28 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
-public class BotiquinCampañasFragment extends Fragment {
+public class MaterialCampañaFragment extends Fragment {
     private ImageView mMainImageView;
-    private MaterialStorage mMaterialStorage;
-    private BotiquinCampañasFragment.MaterialAdapter mAdapter;
+    private MaterialCampañaStorage mMaterialStorage;
+    private TextView mCantidadGastadaTextView;
+    private MaterialCampañaFragment.MaterialAdapter mAdapter;
     private RecyclerView mMaterialesRecyclerView;
-
+    private UUID campañaId;
+    private static final String BUNDLE_USER_ID = "BUNDLE_USER_ID";
+    private long user_id;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        getActivity().setTitle(getString(R.string.inventario_botiquin));
+        getActivity().setTitle(getString(R.string.material_de_campaña));
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
@@ -48,6 +50,7 @@ public class BotiquinCampañasFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.universal_list_activity, null);
+        campañaId = (UUID) getArguments().getSerializable("ARG_CAMPAÑA_ID");
         mMainImageView = view.findViewById(R.id.main_image_view);
         mMainImageView.setImageResource(R.drawable.medicina_color);
         mMaterialesRecyclerView = view.findViewById(R.id.recyclerView);
@@ -56,11 +59,15 @@ public class BotiquinCampañasFragment extends Fragment {
         return view;
     }
     private void updateUI (){
-        mMaterialStorage = MaterialStorage.get(getActivity());
-        List<Material> materiales = mMaterialStorage.getmMateriales();
+        mMaterialStorage = MaterialCampañaStorage.get(getActivity());
+        List<MaterialCampaña> materiales;
+        String query = "SELECT * FROM material_campaña WHERE campaña_id = '"+ campañaId.toString() +"'";
+        materiales = mMaterialStorage.getmBusquedaMaterialesCampaña(query);
+
+
         if (mAdapter == null) {
             //Envia la informacion al adaptador
-            mAdapter = new MaterialAdapter(materiales);
+            mAdapter = new MaterialCampañaFragment.MaterialAdapter(materiales);
             mMaterialesRecyclerView.setAdapter(mAdapter);
         }else{
             mAdapter.setmMateriales(materiales);
@@ -70,54 +77,83 @@ public class BotiquinCampañasFragment extends Fragment {
 
     }
 
+
+
     private class MaterialesHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private TextView mNombreTextView, mCantidadTextView;
+        private TextView mNombreTextView;
         private ImageView mMaterialImageView;
-        private Material mMaterial;
+        private MaterialCampaña mMaterialCampaña;
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(getActivity(), FormularioMaterialActivity.class);
-            intent.putExtra("MATERIAL_ID", mMaterial.getmMaterialId());
-            startActivity(intent);
+            final AlertDialog.Builder mDeleteDialog = new AlertDialog.Builder(getActivity());
+            mDeleteDialog.setTitle("Borrar material gastado")
+                    .setIcon(android.R.drawable.ic_menu_delete)
+                    .setMessage("Estas segura de borrar este material de campaña, la cantidad gastada no se recupera")
+                    .setPositiveButton("ok",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //Elimina el crimen de la BD y regresa a la pantalla anterior
+
+                                    String query = "DELETE FROM material_campaña WHERE material_campaña.campaña_id = '"+
+                                            campañaId.toString() + "' AND material_campaña.material_id = '" + mMaterialCampaña.getmMaterialId().toString() + "'";
+                                    MaterialCampañaStorage.get(getActivity()).deleteMaterial(query);
+                                    updateUI();
+                                    Material material = MaterialStorage.get(getContext()).getmMaterial(mMaterialCampaña.getmMaterialId());
+                                    int cantidadSumada = mMaterialCampaña.getmCantidadGastada();
+                                    material.setmCantidad(material.getmCantidad() + cantidadSumada);
+                                    MaterialStorage.get(getContext()).updateMaterial(material);
+                                }
+                            })
+                    //Cancela la accion de delete
+                    .setNegativeButton("cancelar",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            })
+                    .create().show();
         }
 
         public MaterialesHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.material_list, parent, false));
             mNombreTextView = itemView.findViewById(R.id.nombreMaterial);
+            mCantidadGastadaTextView = itemView.findViewById(R.id.cantidad_gastada);
+            mCantidadGastadaTextView.setVisibility(View.VISIBLE);
             mMaterialImageView= itemView.findViewById(R.id.material_foto);
-            mCantidadTextView = itemView.findViewById(R.id.cantidad_gastada);
             itemView.setOnClickListener(this);
         }
 
-        public void bind (Material material){
-            mMaterial=material;
-            mNombreTextView.setText(mMaterial.getmNombre());
-            putImageView(mMaterial, mMaterialImageView);
-            mCantidadTextView.setVisibility(View.VISIBLE);
-            mCantidadTextView.setText(Integer.toString(mMaterial.getmCantidad()));
+        public void bind (MaterialCampaña materialcampaña){
+            mMaterialCampaña = materialcampaña;
+            Material material = MaterialStorage.get(getActivity()).getmMaterial(mMaterialCampaña.getmMaterialId());
+            mNombreTextView.setText(material.getmNombre());
+            mCantidadGastadaTextView.setText(Integer.toString(mMaterialCampaña.getmCantidadGastada()));
+            putImageView(material, mMaterialImageView);
         }
     }
 
 
 
 
-    private class MaterialAdapter extends RecyclerView.Adapter<BotiquinCampañasFragment.MaterialesHolder>{
-        private List<Material> mMateriales;
-        public MaterialAdapter (List<Material> materiales){
+    private class MaterialAdapter extends RecyclerView.Adapter<MaterialCampañaFragment.MaterialesHolder>{
+        private List<MaterialCampaña> mMateriales;
+        public MaterialAdapter (List<MaterialCampaña> materiales){
             mMateriales = materiales;
         }
 
         @NonNull
         @Override
-        public BotiquinCampañasFragment.MaterialesHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public MaterialCampañaFragment.MaterialesHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            return new BotiquinCampañasFragment.MaterialesHolder(layoutInflater, parent);
+            return new MaterialCampañaFragment.MaterialesHolder(layoutInflater, parent);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull BotiquinCampañasFragment.MaterialesHolder holder, int position) {
-            Material material = mMateriales.get(position);
+        public void onBindViewHolder(@NonNull MaterialCampañaFragment.MaterialesHolder holder, int position) {
+            MaterialCampaña material = mMateriales.get(position);
             holder.bind(material);
         }
         @Override
@@ -125,7 +161,7 @@ public class BotiquinCampañasFragment extends Fragment {
             return mMateriales.size();
         }
 
-        public void setmMateriales(List<Material> materiales ){
+        public void setmMateriales(List<MaterialCampaña> materiales ){
             mMateriales = materiales;
         }
     }
@@ -210,7 +246,7 @@ public class BotiquinCampañasFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.botiquin_campanias, menu);
+        inflater.inflate(R.menu.agregar_material, menu);
     }
 
 
@@ -218,9 +254,9 @@ public class BotiquinCampañasFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.inventario_botiquin:
-                Intent intent = new Intent(getContext(), FormularioMaterialActivity.class);
-                intent.putExtra("TYPE",true);
+            case R.id.agregar_material:
+                Intent intent = new Intent(getContext(), AgregarMaterialActivity.class);
+                intent.putExtra("CAMPAÑA_ID", campañaId);
                 startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);

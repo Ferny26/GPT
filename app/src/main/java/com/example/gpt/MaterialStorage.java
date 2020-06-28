@@ -41,6 +41,34 @@ public class MaterialStorage {
         return new File(filesDir, material.getmPhotoFile());
     }
 
+    private CursorWrapper queryBusquedaMaterial(String query){
+        Cursor cursor = mDataBase.rawQuery(query,null);
+        return new GPTCursorWrapper(cursor);
+    }
+
+    List<Material> getmBusquedaMateriales(String query){
+        List <Material> materiales = new ArrayList<>();
+        GPTCursorWrapper cursor = (GPTCursorWrapper) queryBusquedaMaterial(query);
+        try{
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()){
+                //Envia los datos encontrados para que sean inicializados
+                materiales.add(cursor.getMaterial());
+                cursor.moveToNext();
+            }
+        }
+        finally {
+            cursor.close();
+        }
+        return materiales;
+    }
+
+
+
+
+
+
+
     List<Material> getmMateriales(){
         List <Material> materiales = new ArrayList<>();
         GPTCursorWrapper cursor = (GPTCursorWrapper) queryMaterial(null, null);
