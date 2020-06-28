@@ -28,20 +28,17 @@ import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,33 +46,27 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class GatoFragment extends Fragment {
+public class GatoFragmentAdopciones extends Fragment {
+
     private Spinner mProcedenciaSpinner;
-    private NumberPicker  mMesNumberPicker, mAñoNumberPicker;
-    private EditText mNombreGatoEditText, mNombrePersonaEditText, mPesoEditText, mDomicilioEditText, mApellidoPaternoEditText, mApellidoMaternoEditText, mCelularEditText;
-    private EditText  mCondicionEditText, mEmailEditText;
-    private CheckBox mResponsableCheckBox, mCondicionEspecialCheckBox;
+    private NumberPicker mMesNumberPicker, mAñoNumberPicker;
+    private EditText mNombreGatoEditText, mPesoEditText, mCondicionEditText;
+    private CheckBox  mCondicionEspecialCheckBox;
     private RadioGroup mSexoRadioGroup;
     private RadioButton mHembraRadioButton, mMachoRadioButton;
+    private String  mTitle;
     private Date mFechaNacimiento = new Date();
-    private ConstraintLayout mFormularioResponsableConstraintLayout;
-    private Button mBuscarResponsableButton, mBuscarGatoButton;
+    private Button mBuscarGatoButton, mGuardarButton;
     private ImageButton mCameraImageButton;
     private ImageView mGatoImagenImageView;
-    private String  mTitle;
     private static final int REQUEST_BUSQUEDA = 0;
     private static final int REQUEST_FOTO = 1;
     private static final String DIALOG_CREATE = "DialogCreate";
     private Bundle arguments = new Bundle();
-    private String [] mProcedenciaList = {"Recien rescatado", "Feral", "Propio"};
-    private UUID campañaId, esterilizacionId;
-    private Gato mGato;
-    private Persona mResponsable;
-    CatLab mCatLab;
+    private CatLab mCatLab;
     RadioButton mRadioSexo;
-    Esterilizacion mEsterilizacion, mTemporalEsterilizacion;
-    private boolean validacionTemporal = false;
-    private EventBus bus = EventBus.getDefault();
+    private String [] mProcedenciaList = {"Recien rescatado", "Feral", "Propio"};
+    private Gato mGato;
     private File mPhotoFile;
     Uri photoUri;
 
@@ -84,7 +75,6 @@ public class GatoFragment extends Fragment {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&  ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1000);
         }
-        bus.register(this);
         super.onCreate(savedInstanceState);
     }
 
@@ -92,59 +82,28 @@ public class GatoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.gato_fragment, null);
-        boolean nuevaInstancia = getArguments().getBoolean("NUEVA_INSTANCIA");
-        if(!nuevaInstancia) {
-            esterilizacionId = (UUID) getArguments().getSerializable("ESTERILIZACION_ID");
-        }
+
         //////////////////////////////////////////////// Wiring Up /////////////////////////////////////////////////
         mProcedenciaSpinner = view.findViewById(R.id.categoria);
         mNombreGatoEditText = view.findViewById(R.id.nombreMaterial);
-        mNombrePersonaEditText = view.findViewById(R.id.nombre_responsable);
-        mApellidoPaternoEditText = view.findViewById(R.id.apellido_paterno_responsable);
-        mApellidoMaternoEditText = view.findViewById(R.id.apellido_materno_responsable);
         mPesoEditText = view.findViewById(R.id.cantidad);
-        mDomicilioEditText = view.findViewById(R.id.domicilio_responable);
-        mCelularEditText = view.findViewById(R.id.celular_responsable);
         mCondicionEditText = view.findViewById(R.id.condicion);
-        mResponsableCheckBox = view.findViewById(R.id.responsable);
         mCondicionEspecialCheckBox = view.findViewById(R.id.condicion_especial);
-        mFormularioResponsableConstraintLayout = view.findViewById(R.id.formulario_responsable);
         mBuscarGatoButton = view.findViewById(R.id.buscar_gato);
-        mBuscarResponsableButton = view.findViewById(R.id.buscar_responsable);
         mSexoRadioGroup = view.findViewById(R.id.sexo);
-        mEmailEditText = view.findViewById(R.id.email_responsable);
         mMesNumberPicker = view.findViewById(R.id.mes_select);
         mAñoNumberPicker = view.findViewById(R.id.fecha_año_select);
         mCameraImageButton = view.findViewById(R.id.cameraButton);
         mGatoImagenImageView = view.findViewById(R.id.materialImagen);
         mHembraRadioButton = view.findViewById(R.id.hembra);
         mMachoRadioButton = view.findViewById(R.id.macho);
-        ArrayAdapter <String> mAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, mProcedenciaList);
+        mGuardarButton = view.findViewById(R.id.guardar);
+        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, mProcedenciaList);
         mProcedenciaSpinner.setAdapter(mAdapter);
         mCatLab = CatLab.get(getActivity());
 
-        if(mGato==null){
-            mGato = new Gato();
-        }
-        if(mResponsable==null){
-            mResponsable = new Persona();
-        }
-
-        if (esterilizacionId != null){
-            EsterilizacionStorage mEsterilizacionStorage = EsterilizacionStorage.get(getActivity());
-            mEsterilizacion = mEsterilizacionStorage.getEsterilizacion(esterilizacionId);
-            mGato = mCatLab.getmGato(mEsterilizacion.getmIdGato());
-            GatoDefinido();
-            mBuscarGatoButton.setEnabled(false);
-            GatoHogarLab mgatoHogarLab = GatoHogarLab.get(getActivity());
-            GatoHogar mgatoHogar = mgatoHogarLab.getmGatoHogar(mGato.getmIdGato());
-            if (mgatoHogar != null){
-                mBuscarResponsableButton.setEnabled(false);
-                PersonaStorage mPersonaStorage = PersonaStorage.get(getActivity());
-                mResponsable = mPersonaStorage.getmPersona(mgatoHogar.getmPersonaId());
-                ResponsableDefinido();
-            }
-        }
+        mGuardarButton.setVisibility(View.VISIBLE);
+        mGato = new Gato();
 
 
         //////////////////////////////////////////////////////////////////////////////////////////////////// Spinner ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -152,15 +111,7 @@ public class GatoFragment extends Fragment {
         mProcedenciaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //Responsable activo para procedencia permitida
-                if (position == 0 || position == 2){
-                    mGato.setmProcedencia(position);
-                    mResponsableCheckBox.setVisibility(View.VISIBLE);
-                }else{
-                    mResponsableCheckBox.setVisibility(View.GONE);
-                    mFormularioResponsableConstraintLayout.setVisibility(View.GONE);
-                    mGato.setmProcedencia(position);
-                }
+                mGato.setmProcedencia(position);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -221,15 +172,6 @@ public class GatoFragment extends Fragment {
         });
 
 
-        //Busquedas Gato y Persona
-        mBuscarResponsableButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTitle = "Responsable";
-                Busqueda();
-            }
-        });
-
         mBuscarGatoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,35 +181,6 @@ public class GatoFragment extends Fragment {
             }
         });
 
-        mResponsableCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mFormularioResponsableConstraintLayout.setVisibility(View.VISIBLE);
-                    if(!mNombrePersonaEditText.getText().toString().isEmpty()){
-                        mResponsable.setmNombre(mNombrePersonaEditText.getText().toString());
-                    }
-                    if(!mApellidoMaternoEditText.getText().toString().isEmpty()){
-                        mResponsable.setmApellidoMaterno(mApellidoMaternoEditText.getText().toString());
-                    }
-                    if(!mApellidoPaternoEditText.getText().toString().isEmpty()){
-                        mResponsable.setmApellidoPaterno(mApellidoPaternoEditText.getText().toString());
-                    }
-                    if(!mEmailEditText.getText().toString().isEmpty()){
-                        mResponsable.setmEmail(mEmailEditText.getText().toString());
-                    }
-                    if(!mCelularEditText.toString().isEmpty()){
-                        mResponsable.setmCelular(mCelularEditText.getText().toString());
-                    }
-                    if(!mDomicilioEditText.getText().toString().isEmpty()){
-                        mResponsable.setmDomicilio(mDomicilioEditText.getText().toString());
-                    }
-                }
-                else {
-                    mFormularioResponsableConstraintLayout.setVisibility(View.GONE);
-                }
-            }
-        });
 
         mCondicionEspecialCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -282,15 +195,37 @@ public class GatoFragment extends Fragment {
             }
         });
 
-       mSexoRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-           @Override
-           public void onCheckedChanged(RadioGroup group, int checkedId) {
-               mRadioSexo = view.findViewById(checkedId);
-               mGato.setmSexo(mRadioSexo.getText().toString());
+        mSexoRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                mRadioSexo = view.findViewById(checkedId);
+                mGato.setmSexo(mRadioSexo.getText().toString());
 
-           }
-       });
+            }
+        });
 
+        mGuardarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (verificacion()){
+                    if(mCatLab.getmGato(mGato.getmIdGato())==null){
+                        mCatLab.addGato(mGato, getActivity());
+                        Adopcion mAdopcion = new Adopcion(mGato.getmIdGato());
+                        AdopcionStorage.get(getActivity()).addAdopcion(mAdopcion, getActivity());
+                    }else if(AdopcionStorage.get(getActivity()).getmAdopcion(mGato.getmIdGato())==null){
+                        mCatLab.updateGato(mGato);
+                        Adopcion mAdopcion = new Adopcion(mGato.getmIdGato());
+                        AdopcionStorage.get(getActivity()).addAdopcion(mAdopcion, getActivity());
+                    }else {
+                        mCatLab.updateGato(mGato);
+                    }
+                }else {
+                    Toast.makeText(getActivity(), "Datos incompletos",
+                            Toast.LENGTH_LONG).show();
+                }
+                getActivity().finish();
+            }
+        });
 
         //////////////////////////////////////////////// Edit Texts /////////////////////////////////////////////////
 
@@ -309,101 +244,7 @@ public class GatoFragment extends Fragment {
             public void afterTextChanged(Editable s) {
             }
         });
-        mNombrePersonaEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                mResponsable.setmNombre(s.toString());
-                if(mResponsable.getmNombre().isEmpty()){
-                    mResponsable.setmNombre(null);
-                }
-            }
-        });
-        mApellidoPaternoEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                mResponsable.setmApellidoPaterno(s.toString());
-                if(mResponsable.getmApellidoPaterno().isEmpty()){
-                    mResponsable.setmApellidoPaterno(null);
-                }
-            }
-        });
-        mEmailEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mResponsable.setmEmail(s.toString());
-                if(mResponsable.getmEmail().isEmpty()){
-                    mResponsable.setmEmail(null);
-                }
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-        mApellidoMaternoEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                mResponsable.setmApellidoMaterno(s.toString());
-                if(mResponsable.getmApellidoMaterno().isEmpty()){
-                    mResponsable.setmApellidoMaterno(null);
-                }
-            }
-        });
-        mDomicilioEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                mResponsable.setmDomicilio(s.toString());
-                if(mResponsable.getmDomicilio().isEmpty()){
-                    mResponsable.setmDomicilio(null);
-                }
-            }
-
-        });
-        mCelularEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                mResponsable.setmCelular(s.toString());
-                if(mResponsable.getmCelular().isEmpty()){
-                    mResponsable.setmCelular(null);
-                }
-            }
-        });
         mNombreGatoEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -433,6 +274,7 @@ public class GatoFragment extends Fragment {
             }
             @Override
             public void afterTextChanged(Editable s) {
+
             }
         });
         return view;
@@ -444,11 +286,11 @@ public class GatoFragment extends Fragment {
     private void Busqueda (){
         FragmentManager manager = getFragmentManager();
         Busqueda dialog = new Busqueda();
-        String query = "SELECT * FROM gatos WHERE NOT EXISTS (SELECT * FROM esterilizaciones WHERE gatos.uuid = esterilizaciones.gato_id)";
+        String query =  "SELECT * FROM gatos WHERE NOT EXISTS (SELECT * FROM adopciones WHERE gatos.uuid = adopciones.gato_id)";
         arguments.putSerializable("TITLE", mTitle);
-        arguments.putSerializable("QUERY",query);
+        arguments.putString("QUERY",query);
         dialog.setArguments(arguments);
-        dialog.setTargetFragment(GatoFragment.this, REQUEST_BUSQUEDA);
+        dialog.setTargetFragment(GatoFragmentAdopciones.this, REQUEST_BUSQUEDA);
         dialog.show(manager,DIALOG_CREATE);
     }
 
@@ -473,62 +315,9 @@ public class GatoFragment extends Fragment {
         mProcedenciaSpinner.setSelection(mGato.getmProcedencia());
     }
 
-    private void ResponsableDefinido(){
-        mResponsableCheckBox.setChecked(true);
-        mNombrePersonaEditText.setText(mResponsable.getmNombre());
-        mFormularioResponsableConstraintLayout.setVisibility(View.VISIBLE);
-        mApellidoPaternoEditText.setText(mResponsable.getmApellidoPaterno());
-        mApellidoMaternoEditText.setText(mResponsable.getmApellidoMaterno());
-        mEmailEditText.setText(mResponsable.getmEmail());
-        mDomicilioEditText.setText(mResponsable.getmDomicilio());
-        mCelularEditText.setText(mResponsable.getmCelular());
-    }
-
-    @Subscribe
-    public void recibirGato(Gato gato){
-        mGato = gato;
-    }
-
-    @Subscribe
-    public void recibirEsterilizacion(Esterilizacion esterilizacion){
-        mEsterilizacion = esterilizacion;
-        mTemporalEsterilizacion = esterilizacion;
-        validacionTemporal = true;
-    }
-
-    @Subscribe
-    public void recibirResponsable(Persona responsable){
-        mResponsable = responsable;
-        ResponsableDefinido();
-    }
-    @Override
-    public void onPause() {
-        if(esterilizacionId!=null) {
-            if (validacionTemporal) {
-                mEsterilizacion = mTemporalEsterilizacion;
-            }
-            bus.post(mEsterilizacion);
-        }
-        mGato.setValidacion(verificacion());
-        bus.post(mGato);
-        if (mResponsableCheckBox.isChecked()) {
-            bus.post(mResponsable);
-        }
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        bus.unregister(this);
-        super.onDestroy();
-    }
-
     private boolean verificacion(){
         boolean validacionDatos = true;
 
-        if((mResponsableCheckBox.isChecked() && (mResponsable.getmNombre() == null || mResponsable.getmCelular() == null)) && mGato.getmProcedencia() != 1){
-            validacionDatos = false;
-        }
         if(mCondicionEspecialCheckBox.isChecked() && (mGato.getmCondicionEspecial() == null)){
             mGato.setmCondicionEspecial(null);
             validacionDatos = false;
@@ -545,34 +334,17 @@ public class GatoFragment extends Fragment {
             return;
         }
         if (requestCode == REQUEST_BUSQUEDA){
-            if(mTitle == "Gato"){
                 UUID gatoId = (UUID) data.getSerializableExtra(Busqueda.EXTRA_GATO_ID);
                 mGato = mCatLab.getmGato(gatoId);
                 GatoDefinido();
                 mPhotoFile = CatLab.get(getActivity()).getPhotoFile(mGato);
                 photoUri = FileProvider.getUriForFile(getActivity(), "com.example.gpt.FileProvider", mPhotoFile);
                 putImageView();
-                GatoHogarLab mgatoHogarLab = GatoHogarLab.get(getActivity());
-                GatoHogar mgatoHogar = mgatoHogarLab.getmGatoHogar(mGato.getmIdGato());
-                if (mgatoHogar != null){
-                    PersonaStorage mPersonaStorage = PersonaStorage.get(getActivity());
-                    mResponsable = mPersonaStorage.getmPersona(mgatoHogar.getmPersonaId());
-                    ResponsableDefinido();
-                }
-            }
-            else{
-                UUID personaId = (UUID) data.getSerializableExtra(Busqueda.EXTRA_PERSONA_ID);
-                mResponsable = PersonaStorage.get(getActivity()).getmPersona(personaId);
-                ResponsableDefinido();
-            }
-
         }else if(requestCode == REQUEST_FOTO ){
             putImageView();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-
 
 
     private void putImageView() {
@@ -641,3 +413,4 @@ public class GatoFragment extends Fragment {
         }
     }
 }
+

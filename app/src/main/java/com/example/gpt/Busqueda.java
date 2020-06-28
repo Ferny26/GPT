@@ -58,8 +58,7 @@ public class Busqueda extends DialogFragment {
         mTitle = (String) getArguments().getSerializable("TITLE");
         if(mTitle == "Gato"){
             mCatLab = CatLab.get(getActivity());
-            query =  "SELECT * FROM gatos WHERE NOT EXISTS (SELECT * FROM esterilizaciones WHERE gatos.uuid = esterilizaciones.gato_id)";
-
+            query =  (String) getArguments().getSerializable("QUERY");
             List<Gato> mGatos = mCatLab.getmBusquedaGatos(query);
             mGatoAdapter = new GatoAdapter(getActivity(), mGatos);
             mBusquedaRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

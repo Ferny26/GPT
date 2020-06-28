@@ -6,7 +6,6 @@
     <string name="adopciones">Adopciones</string>
     <string name="pensiones">Pensiones</string>
     <string name="nombre_campa_a">Nombre Campaña</string>
-    <string name="nombre">Nombre:</string>
     <string name="inserte_el_nombre">Inserte el nombre</string>
     <string name="fecha">Fecha:</string>
     <string name="datos_campaña">Datos de la campaña</string>
@@ -35,6 +34,13 @@
     <string name="categor_a">Categoría:</string>
     <string name="nombre_material">nombre_material</string>
     <string name="borrar_campa_a">Borrar campaña</string>
+    <string name="hembras">Hembras:</string>
+    <string name="machos">Machos: </string>
+    <string name="dinero_recabado">Dinero Recabado: </string>
+    <string name="dinero_total">$ %1$d </string>
+    <string name="generar_estadisticas">Generar Estadisticas!</string>
+    <string name="buscar_adoptante">Buscar adoptante</string>
+    <string name="datos_de_adoptante">Datos de Adoptante</string>
 
 
 </resources>

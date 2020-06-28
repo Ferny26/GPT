@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ public class EsterilizacionesFragment extends Fragment {
     private EsterilizacionStorage mEsterilizacionStorage;
     private EsterilizacionAdapter mAdapter;
     private RecyclerView mEsterilizacionesRecyclerView;
+    private Button mEstadisticasButton;
     private ImageView mMainImageView, mGatoFotoImageView;
     private static final int REQUEST_CREATE = 0;
     private static final String DIALOG_CREATE = "DialogCreate";
@@ -58,7 +60,23 @@ public class EsterilizacionesFragment extends Fragment {
         mMainImageView= v.findViewById(R.id.main_image_view);
         mMainImageView.setImageResource(R.drawable.gato_esterilizacion_color);
         mEsterilizacionesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mEstadisticasButton = v.findViewById(R.id.estadisticas);
         updateUI();
+
+        mEstadisticasButton.setVisibility(View.VISIBLE);
+
+
+        mEstadisticasButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle arguments = new Bundle();
+                FragmentManager manager = getFragmentManager();
+                EstadisticasDialog dialog = new EstadisticasDialog();
+                arguments.putSerializable("CAMPAÑA_ID", campañaId);
+                dialog.setArguments(arguments);
+                dialog.show(manager,DIALOG_CREATE);
+            }
+        });
         return v;
     }
 
@@ -78,6 +96,7 @@ public class EsterilizacionesFragment extends Fragment {
         updateSubtitle();
 
     }
+
 
     private class EsterilizacionesHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView mNombreTextView;

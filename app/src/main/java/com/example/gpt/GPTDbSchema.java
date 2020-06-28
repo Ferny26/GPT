@@ -91,4 +91,33 @@ public class GPTDbSchema {
             public static String AUTOMATICO = "automatico";
         }
     }
+
+    public static final class AdoptanteTable {
+        public static final String NAME = "adoptantes";
+        public static final class Cols{
+            public static String UUID = "uuid";
+            public static String NOMBRE = "nombre";
+            public static String APELLIDO_MATERNO = "apellido_materno";
+            public static String APELLIDO_PATERNO = "apellido_paterno";
+            public static String DOMICILIO = "domicilio";
+            public static String CELULAR = "celular";
+            public static String EMAIL = "email";
+        }
+    }
+
+    public static final class RegistroAdopcionTable {
+        public static final String NAME="registro_adopciones";
+        public static final class Cols{
+            public static String UUID = "uuid";
+            public static String FKUUID_ADOPTANTE= "adoptante_id";
+            public static String FKUUID_GATO= "gato_id";
+            public static String ESTATUS= "estatus";
+        }
+    }
+    public static final class AdopcionTable {
+        public static final String NAME="adopciones";
+        public static final class Cols{
+            public static String FKUUID_GATO= "gato_id";
+        }
+    }
 }

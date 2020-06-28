@@ -13,7 +13,6 @@
         android:title="@string/botiquin"
         android:iconTint="@color/black"
         app:showAsAction="ifRoom|withText"/>
-
     <item
         android:id="@+id/borrar_campaña"
         android:icon="@android:drawable/ic_menu_delete"

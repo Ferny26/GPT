@@ -8,7 +8,7 @@ import java.util.UUID;
 public class Gato {
     private UUID mIdGato;
     private Date mFechaNacimiento;
-    private int mEdad, mProcedencia;
+    private int  mProcedencia;
     private String mSexo;
     private String mNombreGato, mCondicionEspecial, mPeso;
     private boolean validacion;
@@ -38,10 +38,6 @@ public class Gato {
         return mPeso;
     }
 
-    public int getmEdad() {
-
-        return mEdad;
-    }
 
     public Date getmFechaNacimiento() {
         return mFechaNacimiento;

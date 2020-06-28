@@ -49,6 +49,7 @@ public class FormularioMaterialActivity extends AppCompatActivity {
     private static final int REQUEST_FOTO = 1;
     private String [] mCategoriaList = {"Quirurgico", "Medicamento", "Poducto Desinfectante", "Otros"};
     private File  mPhotoFile;
+    private  UUID materialId;
     private Uri mPhotoUri;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,7 +67,7 @@ public class FormularioMaterialActivity extends AppCompatActivity {
         mMaterialImageView = findViewById(R.id.materialImagen);
         ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mCategoriaList);
         mCategoriaSpinner.setAdapter(mAdapter);
-        final UUID materialId = (UUID) getIntent().getSerializableExtra("MATERIAL_ID");
+        materialId = (UUID) getIntent().getSerializableExtra("MATERIAL_ID");
         Boolean type = getIntent().getBooleanExtra("TYPE",false);
         if (materialId==null){
             mMaterial = new Material();
@@ -210,6 +211,10 @@ public class FormularioMaterialActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.borrar_material, menu);
+        MenuItem delete = menu.findItem(R.id.borrar_material);
+        if (materialId == null){
+            delete.setVisible(false);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
