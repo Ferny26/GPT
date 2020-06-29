@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/vistaAdopcion"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/campana"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -58,11 +60,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
 
+    <TextView
+        android:id="@+id/agregaAdoptante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="Agrega un Adoptante!"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.618"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/responsable"
+        app:layout_constraintVertical_bias="0.0"></TextView>
+
     <ScrollView
         android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="378dp"
         android:layout_marginTop="12dp"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/responsable">
 
@@ -74,7 +92,6 @@
             android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="249dp">
-
 
             <TextView
                 android:id="@+id/textView15"
@@ -242,7 +259,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/buscar_responsable"
                 android:layout_width="39dp"
                 android:layout_height="33dp"
@@ -278,7 +295,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:background="@color/campana"
+                android:background="@color/light_gray"
                 android:text="Documento"
                 android:textAllCaps="false"
                 android:textSize="20dp"

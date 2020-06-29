@@ -81,17 +81,9 @@ public class CatLab {
         }
         return gatos;
     }
-
     public File getPhotoFile(Gato gato){
         File filesDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         return new File(filesDir, gato.getPhotoFilename());
-    }
-    public void deleteGatos( String whereClause, String[] whereArgs){
-        mDataBase.delete(
-                GPTDbSchema.GatoTable.NAME,
-                whereClause,
-                whereArgs
-        );
     }
 
 

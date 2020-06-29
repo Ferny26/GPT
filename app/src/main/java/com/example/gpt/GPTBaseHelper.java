@@ -118,15 +118,13 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
         );
 
         db.execSQL("CREATE TABLE " +
-                AdoptanteTable.NAME +
+                GastoTable.NAME +
                 "(" +
-                AdoptanteTable.Cols.UUID + " PRIMARY KEY, " +
-                AdoptanteTable.Cols.NOMBRE + ", " +
-                AdoptanteTable.Cols.APELLIDO_MATERNO + ", " +
-                AdoptanteTable.Cols.APELLIDO_PATERNO + ", " +
-                AdoptanteTable.Cols.CELULAR + ", " +
-                AdoptanteTable.Cols.DOMICILIO + ", " +
-                AdoptanteTable.Cols.EMAIL +
+                GastoTable.Cols.UUID + " PRIMARY KEY, " +
+                GastoTable.Cols.CANTIDAD + ", " +
+                GastoTable.Cols.MOTIVO + ", " +
+                GastoTable.Cols.FECHA + ", " +
+                GastoTable.Cols.AUTOMATICO +
                 ")"
         );
 
@@ -142,13 +140,11 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " +
                 RegistroAdopcionTable.NAME +
                 "(" +
-                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                RegistroAdopcionTable.Cols.UUID + ", " +
+                RegistroAdopcionTable.Cols.UUID + " PRIMARY KEY, " +
                 RegistroAdopcionTable.Cols.FKUUID_GATO + ", " +
                 RegistroAdopcionTable.Cols.FKUUID_ADOPTANTE + ", " +
-                RegistroAdopcionTable.Cols.ESTATUS + ", " +
-                "FOREIGN KEY ("+ RegistroAdopcionTable.Cols.FKUUID_GATO + ") REFERENCES "+ AdopcionTable.NAME+"("+AdopcionTable.Cols.FKUUID_GATO+")," +
-                "FOREIGN KEY ("+ RegistroAdopcionTable.Cols.FKUUID_ADOPTANTE + ") REFERENCES "+ AdoptanteTable.NAME+"("+AdoptanteTable.Cols.UUID+")" +
+                "FOREIGN KEY ("+ RegistroAdopcionTable.Cols.FKUUID_GATO + ") REFERENCES "+ GatoTable.NAME+"("+GatoTable.Cols.UUID+")," +
+                "FOREIGN KEY ("+ RegistroAdopcionTable.Cols.FKUUID_ADOPTANTE + ") REFERENCES "+ PersonaTable.NAME+"("+PersonaTable.Cols.UUID+")" +
                 ")"
         );
 
@@ -164,12 +160,7 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY ("+ PensionTable.Cols.FKUUID_GATO + ") REFERENCES "+ GatoTable.NAME+"("+GatoTable.Cols.UUID+")" +
                 ")"
         );
-
-
-
-
     }
-
 
     @Override
     public void onOpen(SQLiteDatabase db) {
@@ -178,7 +169,6 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    //Esta funcion no hace nada aun jaja10
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }

@@ -16,6 +16,7 @@ public class MainActivity extends SingleFragmentActivity{
     CampañaFragment mCampañaFragment = new CampañaFragment();
     AdopcionFragment mAdopcionFragment = new AdopcionFragment();
     PensionFragment mPensionFragment = new PensionFragment();
+    CapitalFragment mCapitalFragment = new CapitalFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         fragment = mCampañaFragment;
@@ -46,6 +47,7 @@ public class MainActivity extends SingleFragmentActivity{
                 fragment= mAdopcionFragment;
                 break;
             case R.id.capital:
+                fragment= mCapitalFragment;
                 break;
             case R.id.pension:
                 fragment= mPensionFragment;

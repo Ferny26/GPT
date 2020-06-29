@@ -31,28 +31,31 @@ public class IngresoBank {
     }
 
 
-    public void addIngreso(Ingreso i, Context context){
+    public void addIngreso(Ingreso i, Context context, String table){
         ContentValues values= getContentValues(i);
-        mDataBase.insert(GPTDbSchema.IngresoTable.NAME, null, values);
+        mDataBase.insert(table, null, values);
     }
 
-    public void updateIngreso(Ingreso ingreso){
+    public void updateIngreso(Ingreso ingreso, String table, String clause){
         String uuidString = ingreso.getmIdIngreso().toString();
         ContentValues values = getContentValues(ingreso);
-        mDataBase.update(GPTDbSchema.IngresoTable.NAME, values, GPTDbSchema.IngresoTable.Cols.UUID + "= ?", new String[] {uuidString});
+        mDataBase.update(table, values, clause + "= ?", new String[] {uuidString});
     }
 
-    public void deleteIngreso( String whereClause, String[] whereArgs){
+    public void deleteIngreso( String whereClause, String[] whereArgs, String table){
         mDataBase.delete(
-                GPTDbSchema.IngresoTable.NAME,
+                table,
                 whereClause,
                 whereArgs
         );
     }
+    public void deleteIngresos( String query){
+        mDataBase.rawQuery(query,null);
+    }
 
-    List<Ingreso> getmIngresos(){
+    List<Ingreso> getmIngresos(String query){
         List <Ingreso> ingresos = new ArrayList<>();
-        GPTCursorWrapper cursor = (GPTCursorWrapper) queryIngreso(null,null);
+        GPTCursorWrapper cursor = (GPTCursorWrapper) queryIngresos(query);
         try{
             cursor.moveToFirst();
             while (!cursor.isAfterLast()){
@@ -87,6 +90,11 @@ public class IngresoBank {
         }
     }
 
+    private CursorWrapper queryIngresos(String query){
+        Cursor cursor = mDataBase.rawQuery(query, null);
+        return new GPTCursorWrapper(cursor);
+    }
+
     private CursorWrapper queryIngreso(String whereClause, String[] whereArgs){
         Cursor cursor = mDataBase.query(
                 GPTDbSchema.IngresoTable.NAME,
@@ -106,7 +114,7 @@ public class IngresoBank {
         values.put(GPTDbSchema.IngresoTable.Cols.CANTIDAD, ingreso.getmCantidad());
         values.put(GPTDbSchema.IngresoTable.Cols.MOTIVO, ingreso.getMotivo());
         values.put(GPTDbSchema.IngresoTable.Cols.AUTOMATICO, ingreso.ismAutomatico());
-        values.put(GPTDbSchema.IngresoTable.Cols.FECHA, ingreso.getmFecha().toString());
+        values.put(GPTDbSchema.IngresoTable.Cols.FECHA, ingreso.getmFecha().getTime());
         return values;
     }
 }

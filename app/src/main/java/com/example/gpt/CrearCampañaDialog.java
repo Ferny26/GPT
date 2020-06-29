@@ -60,7 +60,6 @@ public class CrearCampañaDialog extends DialogFragment {
                         Date date = new GregorianCalendar(year,month,day).getTime();
                         String nombreCampaña = mEditText.getText().toString();
                         sendResult(Activity.RESULT_OK, date, nombreCampaña);
-
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {

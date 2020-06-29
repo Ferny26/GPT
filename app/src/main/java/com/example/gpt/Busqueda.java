@@ -248,7 +248,7 @@ public class Busqueda extends DialogFragment {
     }
 
     class   GatoHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
-        private TextView mNombreTextView;
+        private TextView mNombreTextView, mCelularTextView;
         private ImageView mGatoImageView;
         private Gato mGato;
 
@@ -256,6 +256,8 @@ public class Busqueda extends DialogFragment {
             super(inflater.inflate(R.layout.busqueda_list, parent, false));
             mNombreTextView = itemView.findViewById(R.id.nombre);
             mGatoImageView = itemView.findViewById(R.id.image_busqueda);
+            //mCelularTextView = itemView.findViewById(R.id.celular);
+            //mCelularTextView.setVisibility(View.GONE);
             itemView.setOnClickListener(this);
         }
 

@@ -9,6 +9,7 @@ public class Ingreso {
     private Date mFecha;
     private int mCantidad;
     private boolean mAutomatico;
+    private CharSequence dateFormat;
 
     public UUID getmIdIngreso() {
         return mIdIngreso;
@@ -52,5 +53,10 @@ public class Ingreso {
 
     public void setmAutomatico(boolean mAutomatico) {
         this.mAutomatico = mAutomatico;
+    }
+
+    public CharSequence getDateFormat() {
+        dateFormat = android.text.format.DateFormat.format("dd MMMM yyyy", mFecha);
+        return dateFormat;
     }
 }

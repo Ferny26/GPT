@@ -44,5 +44,11 @@
     <string name="material_de_campaña">Material de Campaña</string>
     <string name="nombre">Nombre:</string>
     <string name="actualizar_pension">Actualizar Pension</string>
-    <string name="datos_pension">Datos Pension</string>
+    <string name="datos_pension">Datos Pension</string>  
+    <string name="motivo">Motivo:</string>
+    <string name="inserte_titulo">Inserte titulo</string>
+    <string name="monto">$$$</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="ganancias_totales">Ganancias Totales</string>
+    <string name="descipci_n">Descipción:</string>
 </resources>

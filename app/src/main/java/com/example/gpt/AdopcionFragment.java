@@ -54,17 +54,15 @@ public class AdopcionFragment extends Fragment {
         mEstatusAdopcionSpinner.setAdapter(mAdapter);
         mAdopcionesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        query = "SELECT * FROM adopciones INNER JOIN registro_adopciones ON adopciones.gato_id = registro_adopciones.gato_id ";
-        adopciones = AdopcionStorage.get(getActivity()).getmAdopciones(query);
 
         mEstatusAdopcionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position==0){
-                    query = "SELECT * FROM adopciones INNER JOIN registro_adopciones ON adopciones.gato_id = registro_adopciones.gato_id ";
+                    query = "SELECT * FROM adopciones INNER JOIN registro_adopciones ON adopciones.gato_id = registro_adopciones.gato_id";
                     adopciones = AdopcionStorage.get(getActivity()).getmAdopciones(query);
                 }else{
-                    query ="SELECT * FROM adopciones ";
+                    query ="SELECT * FROM adopciones WHERE NOT EXISTS (SELECT * FROM registro_adopciones WHERE adopciones.gato_id = registro_adopciones.gato_id)";
                     adopciones = AdopcionStorage.get(getActivity()).getmAdopciones(query);
                 }
                 updateUI();
@@ -78,7 +76,17 @@ public class AdopcionFragment extends Fragment {
         return v;
     }
 
-
+    @Override
+    public void onResume() {
+        if (mEstatusAdopcionSpinner.getSelectedItemId()==1){
+            query ="SELECT * FROM adopciones WHERE NOT EXISTS (SELECT * FROM registro_adopciones WHERE adopciones.gato_id = registro_adopciones.gato_id)";
+        }else{
+            query = "SELECT * FROM adopciones INNER JOIN registro_adopciones ON adopciones.gato_id = registro_adopciones.gato_id";
+        }
+        adopciones = AdopcionStorage.get(getActivity()).getmAdopciones(query);
+        updateUI();
+        super.onResume();
+    }
 
     private void updateUI (){
         if (mAdapter == null) {
@@ -91,6 +99,7 @@ public class AdopcionFragment extends Fragment {
             mAdopcionesRecyclerView.setAdapter(mAdapter);
         }
 
+
     }
 
     @Override
@@ -101,7 +110,7 @@ public class AdopcionFragment extends Fragment {
 
     private class AdopcionesHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView mNombreTextView;
-        private ImageView mGatoImageView;
+        private ImageView mGatoImageView, mPagoImageView;
         private Adopcion mAdopcion;
 
         @Override
@@ -116,6 +125,8 @@ public class AdopcionFragment extends Fragment {
             super(inflater.inflate(R.layout.esterilizacion_list_fragment, parent, false));
             mNombreTextView = itemView.findViewById(R.id.nombreMaterial);
             mGatoImageView= itemView.findViewById(R.id.material_foto);
+            mPagoImageView = itemView.findViewById(R.id.esterilizacion_pagada);
+            mPagoImageView.setVisibility(View.GONE);
             itemView.setOnClickListener(this);
         }
 

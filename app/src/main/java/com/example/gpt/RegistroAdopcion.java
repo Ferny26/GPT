@@ -4,7 +4,6 @@ import java.util.UUID;
 
 public class RegistroAdopcion {
     private UUID mRegistroAdopcionId, mGatoId, mAdoptanteId;
-    private int mEstatus;
 
     public RegistroAdopcion(){
         this(UUID.randomUUID());
@@ -34,13 +33,6 @@ public class RegistroAdopcion {
         this.mAdoptanteId = mAdoptanteId;
     }
 
-    public int getmEstatus() {
-        return mEstatus;
-    }
-
-    public void setmEstatus(int mEstatus) {
-        this.mEstatus = mEstatus;
-    }
 
     public String getPhotoFilename(){
         return "IMG_" + getmRegistroAdopcionId().toString() + ".jpg";

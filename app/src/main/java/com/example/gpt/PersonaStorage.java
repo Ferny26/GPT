@@ -58,13 +58,6 @@ public class PersonaStorage {
     }
 
 
-    public void deletePersona( String whereClause, String[] whereArgs){
-        mDataBase.delete(
-                GPTDbSchema.PersonaTable.NAME,
-                whereClause,
-                whereArgs
-        );
-    }
 
     public Persona getmPersona(UUID id){
         GPTCursorWrapper cursor = (GPTCursorWrapper) queryPersona(
