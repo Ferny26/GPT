@@ -51,4 +51,6 @@
     <string name="eliminar">Eliminar</string>
     <string name="ganancias_totales">Ganancias Totales</string>
     <string name="descipci_n">Descipción:</string>
+    <string name="fecha_ingreso">Fecha Ingreso:</string>
+    <string name="fecha_salida">Fecha Salida:</string>
 </resources>

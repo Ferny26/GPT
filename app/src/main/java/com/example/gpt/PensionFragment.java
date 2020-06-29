@@ -82,10 +82,10 @@ public class PensionFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-           /* Intent intent = new Intent(getActivity(), AdopcionesActivity.class);
-            intent.putExtra("TYPE", false);
-            intent.putExtra("ADOPCION_ID", mAdopcion.getmAdopcionId());
-            startActivity(intent);*/
+           Intent intent = new Intent(getActivity(), PensionVistaActivity.class);
+            intent.putExtra("TYPE", true);
+            intent.putExtra("PENSION_ID", mPension.getmIdPension());
+            startActivity(intent);
         }
 
         public PensionHolder(LayoutInflater inflater, ViewGroup parent) {
