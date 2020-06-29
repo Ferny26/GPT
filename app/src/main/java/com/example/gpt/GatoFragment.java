@@ -60,7 +60,7 @@ public class GatoFragment extends Fragment {
     private Date mFechaNacimiento = new Date();
     private ConstraintLayout mFormularioResponsableConstraintLayout;
     private Button mBuscarResponsableButton, mBuscarGatoButton;
-    private ImageButton mCameraImageButton;
+    private ImageButton mCameraImageButton, mLlamarImageButton;
     private ImageView mGatoImagenImageView;
     private String  mTitle;
     private static final int REQUEST_BUSQUEDA = 0;
@@ -82,7 +82,7 @@ public class GatoFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&  ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1000);
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.CALL_PHONE}, 1000);
         }
         bus.register(this);
         super.onCreate(savedInstanceState);
@@ -119,6 +119,7 @@ public class GatoFragment extends Fragment {
         mGatoImagenImageView = view.findViewById(R.id.materialImagen);
         mHembraRadioButton = view.findViewById(R.id.hembra);
         mMachoRadioButton = view.findViewById(R.id.macho);
+        mLlamarImageButton = view.findViewById(R.id.llamar);
         ArrayAdapter <String> mAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, mProcedenciaList);
         mProcedenciaSpinner.setAdapter(mAdapter);
         mCatLab = CatLab.get(getActivity());
@@ -142,6 +143,7 @@ public class GatoFragment extends Fragment {
                 mBuscarResponsableButton.setEnabled(false);
                 PersonaStorage mPersonaStorage = PersonaStorage.get(getActivity());
                 mResponsable = mPersonaStorage.getmPersona(mgatoHogar.getmPersonaId());
+                mLlamarImageButton.setVisibility(View.VISIBLE);
                 ResponsableDefinido();
             }
         }
@@ -291,6 +293,15 @@ public class GatoFragment extends Fragment {
                mRadioSexo = view.findViewById(checkedId);
                mGato.setmSexo(mRadioSexo.getText().toString());
 
+           }
+       });
+
+       mLlamarImageButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent call = new Intent(Intent.ACTION_CALL);
+               call.setData(Uri.parse("tel:" + mResponsable.getmCelular()));
+               startActivity(call);
            }
        });
 

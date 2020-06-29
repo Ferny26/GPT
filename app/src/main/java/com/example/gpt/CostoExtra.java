@@ -12,6 +12,7 @@ public class CostoExtra {
 
     public CostoExtra(){
         this(UUID.randomUUID());
+        this.mFechaActual= new Date();
     }
 
     public CostoExtra(UUID id){

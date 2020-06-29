@@ -237,10 +237,10 @@ public class PensionDatosFragment extends Fragment {
 
                 if(mPensionStorage.getmPension(mPension.getmIdPension())!=null && validacionDatos){
                     actualizarDatos();
-                    getActivity().finish();
+
                 }else if(validacionDatos){
                     crearDatos();
-                    getActivity().finish();
+
                 }
 
             }
@@ -251,39 +251,52 @@ public class PensionDatosFragment extends Fragment {
     }
 
     private void crearDatos() {
+        if (mGato.isValidacion()) {
 
-        if(mPersonaStorage.getmPersona(mResponsable.getmIdPersona()) == null){
-            mPersonaStorage.addPersona(mResponsable);
-        }else{
-            mPersonaStorage.updatePersona(mResponsable);
-        }
+            if (mPersonaStorage.getmPersona(mResponsable.getmIdPersona()) == null) {
+                mPersonaStorage.addPersona(mResponsable);
+            } else {
+                mPersonaStorage.updatePersona(mResponsable);
+            }
 
-        if(mCatlab.getmGato(mGato.getmIdGato()) == null){
-            mCatlab.addGato(mGato, getActivity());
-        }else{
-            mCatlab.updateGato(mGato);
-        }
-        mPension.setmGatoId(mGato.getmIdGato());
-        mPensionStorage.addPension(mPension);
+            if (mCatlab.getmGato(mGato.getmIdGato()) == null) {
+                mCatlab.addGato(mGato, getActivity());
+            } else {
+                mCatlab.updateGato(mGato);
+            }
+            mPension.setmGatoId(mGato.getmIdGato());
+            mPensionStorage.addPension(mPension);
 
-        GatoHogar mGatoHogar = new GatoHogar(mGato.getmIdGato());
-        mGatoHogar.setmPersonaId(mResponsable.getmIdPersona());
-        if(GatoHogarLab.get(getActivity()).getmGatoHogar(mGatoHogar.getmGatoId()) == null){
-            GatoHogarLab.get(getActivity()).addGatoHogar(mGatoHogar, getActivity());
+            GatoHogar mGatoHogar = new GatoHogar(mGato.getmIdGato());
+            mGatoHogar.setmPersonaId(mResponsable.getmIdPersona());
+            if (GatoHogarLab.get(getActivity()).getmGatoHogar(mGatoHogar.getmGatoId()) == null) {
+                GatoHogarLab.get(getActivity()).addGatoHogar(mGatoHogar, getActivity());
+            } else {
+                GatoHogarLab.get(getActivity()).updateGatoHogar(mGatoHogar);
+            }
+            getActivity().finish();
         }else{
-            GatoHogarLab.get(getActivity()).updateGatoHogar(mGatoHogar);
+            Toast.makeText(getActivity(), "Datos incompletos",
+                    Toast.LENGTH_LONG).show();
+
         }
 
     }
 
     private void actualizarDatos() {
-        mPension.setmGatoId(mGato.getmIdGato());
-        mPensionStorage.updatePension(mPension);
-        mPersonaStorage.updatePersona(mResponsable);
-        mCatlab.updateGato(mGato);
-        GatoHogar mGatoHogar = new GatoHogar(mGato.getmIdGato());
-        mGatoHogar.setmPersonaId(mResponsable.getmIdPersona());
-        GatoHogarLab.get(getActivity()).updateGatoHogar(mGatoHogar);
+        if (mGato.isValidacion()) {
+            mPension.setmGatoId(mGato.getmIdGato());
+            mPensionStorage.updatePension(mPension);
+            mPersonaStorage.updatePersona(mResponsable);
+            mCatlab.updateGato(mGato);
+            GatoHogar mGatoHogar = new GatoHogar(mGato.getmIdGato());
+            mGatoHogar.setmPersonaId(mResponsable.getmIdPersona());
+            GatoHogarLab.get(getActivity()).updateGatoHogar(mGatoHogar);
+        }else {
+            Toast.makeText(getActivity(), "Datos incompletos",
+                    Toast.LENGTH_LONG).show();
+
+        }
     }
 
     @Subscribe
