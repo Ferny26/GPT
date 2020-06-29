@@ -38,11 +38,7 @@ public class PensionActivity  extends  SingleFormularioFragment{
         });
         Menu menu = mBottomNavigationView.getMenu();
         mMenuItem = menu.getItem(1);
-        mMenuItem.setTitle("Datos Pension")
-
-   ;
-
-
+        mMenuItem.setTitle("Datos Pension");
     }
 
     private void menu (int menuItem) {

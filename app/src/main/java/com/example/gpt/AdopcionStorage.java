@@ -42,7 +42,6 @@ public class AdopcionStorage {
         mDataBase.update(GPTDbSchema.AdopcionTable.NAME, values, GPTDbSchema.AdopcionTable.Cols.FKUUID_GATO + "= ?", new String[] {uuidString});
     }
 
-
     List<Adopcion> getmAdopciones(String query){
         List <Adopcion> adopciones = new ArrayList<>();
         GPTCursorWrapper cursor = (GPTCursorWrapper) queryAdopciones(query);

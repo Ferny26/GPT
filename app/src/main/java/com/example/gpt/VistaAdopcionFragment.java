@@ -414,7 +414,7 @@ public class VistaAdopcionFragment extends Fragment {
         mApellidoMaternoEditText.setText(mAdoptante.getmApellidoMaterno());
         mEmailEditText.setText(mAdoptante.getmEmail());
         mDomicilioEditText.setText(mAdoptante.getmDomicilio());
-        mCelularEditText.setText(mAdoptante.getmCelular());*/
+        mCelularEditText.setText(mAdoptante.getmCelular());
     }
 
     private void putImageView(ImageView mImageView) {

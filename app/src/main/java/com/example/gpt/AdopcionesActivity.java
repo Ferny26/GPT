@@ -17,7 +17,6 @@ public class AdopcionesActivity extends SingleFormularioFragment{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         type = getIntent().getBooleanExtra("TYPE",false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.universal_formulario_activity);
@@ -39,7 +38,6 @@ public class AdopcionesActivity extends SingleFormularioFragment{
             fragment = new GatoFragmentAdopciones();
             fragment.setArguments(arguments);
         }else{
-
             UUID adopcionId = (UUID) getIntent().getSerializableExtra("ADOPCION_ID");
             arguments.putSerializable("ADOPCION_ID",adopcionId);
             fragment = new VistaAdopcionFragment();

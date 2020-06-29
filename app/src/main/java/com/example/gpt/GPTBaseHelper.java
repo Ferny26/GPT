@@ -85,8 +85,8 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
                 MaterialCampañaTable.Cols.FKUUID_CAMPAÑA + ", " +
                 MaterialCampañaTable.Cols.FKUUID_MATERIAL+ ", " +
                 MaterialCampañaTable.Cols.CANTIDAD_GASTADA+ ", " +
-                "FOREIGN KEY ("+ MaterialCampañaTable.Cols.FKUUID_CAMPAÑA + ") REFERENCES "+ CampañaTable.NAME+"("+CampañaTable.Cols.UUID+")," +
-                "FOREIGN KEY ("+ MaterialCampañaTable.Cols.FKUUID_MATERIAL + ") REFERENCES "+ MaterialTable.NAME+"("+MaterialTable.Cols.UUID+")" +
+                "FOREIGN KEY ("+ MaterialCampañaTable.Cols.FKUUID_CAMPAÑA + ") REFERENCES "+ CampañaTable.NAME+"("+CampañaTable.Cols.UUID+") ON DELETE CASCADE," +
+                "FOREIGN KEY ("+ MaterialCampañaTable.Cols.FKUUID_MATERIAL + ") REFERENCES "+ MaterialTable.NAME+"("+MaterialTable.Cols.UUID+") ON DELETE CASCADE" +
                 ")"
         );
 
@@ -158,6 +158,18 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
                 PensionTable.Cols.TIPO + ", " +
                 PensionTable.Cols.PRECIO_DIA + ", " +
                 "FOREIGN KEY ("+ PensionTable.Cols.FKUUID_GATO + ") REFERENCES "+ GatoTable.NAME+"("+GatoTable.Cols.UUID+")" +
+                ")"
+        );
+
+        db.execSQL("CREATE TABLE " +
+                CostoExtraTable.NAME +
+                "(" +
+                CostoExtraTable.Cols.UUID + "  PRIMARY KEY, " +
+                CostoExtraTable.Cols.CANTIDAD + ", " +
+                CostoExtraTable.Cols.DESCRIPCION + ", " +
+                CostoExtraTable.Cols.FECHA + ", " +
+                CostoExtraTable.Cols.FKUUID_PENSION + ", " +
+                "FOREIGN KEY ("+ CostoExtraTable.Cols.FKUUID_PENSION + ") REFERENCES "+ PensionTable.NAME+"("+PensionTable.Cols.UUID+") ON DELETE CASCADE" +
                 ")"
         );
     }

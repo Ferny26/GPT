@@ -65,11 +65,4 @@ public class Material {
         return "IMG_" + getmMaterialId().toString() + ".jpg";
     }
 
-    public boolean ismAgregado() {
-        return mAgregado;
-    }
-
-    public void setmAgregado(boolean mAgregado) {
-        this.mAgregado = mAgregado;
-    }
 }
