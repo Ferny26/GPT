@@ -149,10 +149,10 @@ public class PensionFragment extends Fragment {
                 startActivity(intent);
                 return true;
             case R.id.botiquin:
-                Intent intent2 = new Intent(getContext(), PensionActivity.class);
-                intent2.putExtra("TYPE",true);
+                Intent intent2 = new Intent(getContext(), PensionVistaActivity.class);
+                intent2.putExtra("TYPE",false);
                 startActivity(intent2);
-
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

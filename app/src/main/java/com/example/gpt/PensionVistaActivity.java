@@ -38,7 +38,7 @@ public class PensionVistaActivity extends SingleFormularioFragment {
             fragment.setArguments(arguments);
         }else{
             fragment = new BotiquinCampañasFragment();
-            arguments.putBoolean("TYPE",true);
+            arguments.putBoolean("TYPE",false);
             fragment.setArguments(arguments);
         }
 

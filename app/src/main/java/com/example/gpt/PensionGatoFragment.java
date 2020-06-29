@@ -135,6 +135,7 @@ public class PensionGatoFragment extends Fragment {
         }
 
         if (pensionId != null){
+            mPension = PensionStorage.get(getActivity()).getmPension(pensionId);
             mGato = mCatLab.getmGato(mPension.getmGatoId());
             GatoDefinido();
             mBuscarGatoButton.setEnabled(false);
@@ -459,9 +460,7 @@ public class PensionGatoFragment extends Fragment {
     }
 
     private void ResponsableDefinido(){
-        mResponsableCheckBox.setChecked(true);
         mNombrePersonaEditText.setText(mResponsable.getmNombre());
-        mFormularioResponsableConstraintLayout.setVisibility(View.VISIBLE);
         mApellidoPaternoEditText.setText(mResponsable.getmApellidoPaterno());
         mApellidoMaternoEditText.setText(mResponsable.getmApellidoMaterno());
         mEmailEditText.setText(mResponsable.getmEmail());

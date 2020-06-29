@@ -156,6 +156,7 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
                 PensionTable.Cols.FECHA_INGRESO + ", " +
                 PensionTable.Cols.FECHA_SALIDA + ", " +
                 PensionTable.Cols.TIPO + ", " +
+                PensionTable.Cols.PAGADA + ", " +
                 PensionTable.Cols.PRECIO_DIA + ", " +
                 "FOREIGN KEY ("+ PensionTable.Cols.FKUUID_GATO + ") REFERENCES "+ GatoTable.NAME+"("+GatoTable.Cols.UUID+")" +
                 ")"
