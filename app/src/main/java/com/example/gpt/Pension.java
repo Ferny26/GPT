@@ -1,5 +1,6 @@
 package com.example.gpt;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.UUID;
@@ -82,17 +83,17 @@ public class Pension {
         return mIdPension;
     }
 
-    public long gananciaPension(){
+    public int gananciaPension(){
         Date fechaIngreso = new GregorianCalendar(mFechaIngreso.getYear(), mFechaIngreso.getMonth(), mFechaIngreso.getDay()).getTime();
         Date fechaSalida = new GregorianCalendar(mFechaSalida.getYear(), mFechaSalida.getMonth(), mFechaSalida.getDay()).getTime();
 
-        long diff = fechaSalida.getTime() - fechaIngreso.getTime() ;
+        long diff = fechaIngreso.getTime() - fechaSalida.getTime() ;
         diff = (diff / (1000 * 60 * 60 * 24));
 
         diff = diff * mPrecioDia;
 
-
-        return diff;
+        int total = (int) diff;
+        return total;
     }
 
     public boolean ismPagada() {

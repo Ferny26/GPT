@@ -3,7 +3,12 @@ package com.example.gpt;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,26 +22,30 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
 public class VistaPensionFragment extends Fragment {
 
-    UUID pensionId;
-    Gato mGato;
-    Button mPagadoButton;
-    TextView mFechaIngreso, mFechaSalida, mNombreGato;
-    Pension mPension;
-
+    private Gato mGato;
+    private Button mPagadoButton;
+    private TextView mFechaIngreso, mFechaSalida, mNombreGato;
+    private Pension mPension;
     private UUID pensionId;
+    private ImageView mGatoImageView;
     private CostoExtraAdapter mAdapter;
     private RecyclerView mCostoExtraRecyclerView;
     private Button mCostoExtraButton;
+    private File mPhotoFile;
+    private Uri mPhotoUri;
     private static final int REQUEST_CREATE = 0;
     private static final String DIALOG_CREATE = "DialogCreate";
     private List<CostoExtra> costos;
@@ -55,6 +64,7 @@ public class VistaPensionFragment extends Fragment {
 
         mPagadoButton = view.findViewById(R.id.pagado);
         mFechaSalida = view.findViewById(R.id.fecha_ingreso);
+        mGatoImageView = view.findViewById(R.id.imagen_pension_gato);
         mFechaIngreso = view.findViewById(R.id.fecha_salida);
         mNombreGato = view.findViewById(R.id.nombre_Gato);
 
@@ -66,6 +76,9 @@ public class VistaPensionFragment extends Fragment {
         mGato = CatLab.get(getActivity()).getmGato(mPension.getmGatoId());
 
         mNombreGato.setText(mGato.getmNombreGato());
+        mPhotoFile = CatLab.get(getActivity()).getPhotoFile(mGato);
+        mPhotoUri = FileProvider.getUriForFile(getActivity(), "com.example.gpt.FileProvider", mPhotoFile);
+        putImageView(mGatoImageView);
 
         getActivity().setTitle("Pensiones");
         setHasOptionsMenu(true);
@@ -84,6 +97,7 @@ public class VistaPensionFragment extends Fragment {
                     mPension.setmPagada(true);
                     mPagadoButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.green)));
                     PensionStorage.get(getContext()).updatePension(mPension);
+
                 }else{
                     mPension.setmPagada(false);
                     mPagadoButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.red)));
@@ -91,6 +105,7 @@ public class VistaPensionFragment extends Fragment {
                 }
             }
         });
+
 
 
         mCostoExtraButton = view.findViewById(R.id.costo_extra);
@@ -113,12 +128,55 @@ public class VistaPensionFragment extends Fragment {
             }
         });
         updateUI();
-
         return view;
     }
 
+    @Override
+    public void onResume() {
+        mPension = PensionStorage.get(getActivity()).getmPension(pensionId);
+        mGato = CatLab.get(getActivity()).getmGato(mPension.getmGatoId());
+        mFechaIngreso.setText(mPension.getDateFormat(mPension.getmFechaIngreso()));
+        mFechaSalida.setText(mPension.getDateFormat(mPension.getmFechaSalida()));
+        mNombreGato.setText(mGato.getmNombreGato());
+        mPhotoFile = CatLab.get(getActivity()).getPhotoFile(mGato);
+        mPhotoUri = FileProvider.getUriForFile(getActivity(), "com.example.gpt.FileProvider", mPhotoFile);
+        putImageView(mGatoImageView);
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        Ingreso mIngreso = IngresoBank.get(getActivity()).getmIngreso(mPension.getmIdPension());
+        if (IngresoBank.get(getActivity()).getmIngreso(mPension.getmIdPension())!=null) {
+            if(mPension.ismPagada()){
+                String query = "SELECT SUM(cantidad) FROM costo_extra WHERE pension_id='" + pensionId + "'";
+                int costosExtra = CostoExtraStorage.get(getActivity()).getmPrecioTotal(query);
+                mIngreso.setmCantidad(mPension.gananciaPension() + costosExtra);
+                IngresoBank.get(getActivity()).updateIngreso(mIngreso,GPTDbSchema.IngresoTable.NAME,GPTDbSchema.IngresoTable.Cols.UUID);
+            }else{
+                IngresoBank.get(getActivity()).deleteIngreso(GPTDbSchema.IngresoTable.Cols.UUID + "= ?", new String[]{mIngreso.getmIdIngreso().toString()}, GPTDbSchema.IngresoTable.NAME);
+            }
+        }else{
+            if(mPension.ismPagada()){
+                CrearIngreso();
+            }
+        }
+        super.onPause();
+    }
+
+    public void CrearIngreso(){
+            Ingreso mIngreso = new Ingreso(mPension.getmIdPension());
+            mIngreso.setmAutomatico(true);
+            mIngreso.setMotivo("Pension");
+            String query = "SELECT SUM(cantidad) FROM costo_extra WHERE pension_id='" + pensionId + "'";
+            int costosExtra = CostoExtraStorage.get(getActivity()).getmPrecioTotal(query);
+            mIngreso.setmCantidad(mPension.gananciaPension() + costosExtra);
+            mIngreso.setmFecha(mPension.getmFechaSalida());
+            IngresoBank.get(getActivity()).addIngreso(mIngreso, getActivity(),GPTDbSchema.IngresoTable.NAME );
+    }
+
     private void updateUI (){
-        costos = CostoExtraStorage.get(getActivity()).getmCostosExtra();
+        costos = CostoExtraStorage.get(getActivity()).getmCostosExtra(pensionId);
         if (mAdapter == null) {
             //Envia la informacion al adaptador
             mAdapter = new CostoExtraAdapter(costos);
@@ -129,6 +187,27 @@ public class VistaPensionFragment extends Fragment {
             mCostoExtraRecyclerView.setAdapter(mAdapter);
         }
     }
+
+    private void putImageView(ImageView mImageView) {
+        Bitmap bitmap;
+        try {
+            //Recupera la foto segun el uri y la asigna a un bitmap
+            bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), mPhotoUri);
+            //Asignacion de orientacion correcta para la foto
+            ExifInterface exif = null;
+            exif = new ExifInterface(mPhotoFile.getAbsolutePath());
+            //obtiene la orientacion de la foto
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_UNDEFINED);
+            //Envia la orientacion y el bitmap como parametros para modificarlos
+            Bitmap bmRotated = rotateBitmap(bitmap, orientation);
+            //Una vez adecuada la foto, se coloca en el imageView
+            mImageView.setImageBitmap(bmRotated);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -235,6 +314,51 @@ public class VistaPensionFragment extends Fragment {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
+
+        //Verifica la orientacion de la foto y asigna los parametros necesarios de escala y rotacion
+        Matrix matrix = new Matrix();
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_NORMAL:
+                break;
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                matrix.setScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                matrix.setRotate(180);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                matrix.setRotate(90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                matrix.setRotate(-90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90);
+                break;
+            default:
+                return bitmap;
+        }
+        try {
+            //Crea un nuevo bitmap con los parametros correctos de orientacion de la foto y lo regresa
+            Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            return bmRotated;
+        }
+        catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

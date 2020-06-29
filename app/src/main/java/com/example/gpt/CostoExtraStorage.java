@@ -42,9 +42,10 @@ public class CostoExtraStorage {
     }
 
 
-    List<CostoExtra> getmCostosExtra(){
+    List<CostoExtra> getmCostosExtra(UUID id){
         List <CostoExtra> costos = new ArrayList<>();
-        GPTCursorWrapper cursor = (GPTCursorWrapper) queryCostoExtra(null,null);
+        GPTCursorWrapper cursor = (GPTCursorWrapper) queryCostoExtra(GPTDbSchema.CostoExtraTable.Cols.FKUUID_PENSION + " = ? ",
+                new String[] {id.toString()});
         try{
             cursor.moveToFirst();
             while (!cursor.isAfterLast()){
@@ -63,6 +64,12 @@ public class CostoExtraStorage {
         return new File(filesDir, costoExtra.getPhotoFilename());
     }
 
+    public int getmPrecioTotal (String query){
+        Cursor cursor = mDataBase.rawQuery(query,null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        return count;
+    }
 
     public CostoExtra getmCostoExtra(UUID id){
         GPTCursorWrapper cursor = (GPTCursorWrapper) queryCostoExtra(

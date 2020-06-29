@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/añadir"
-        android:icon="@drawable/botiquin"
+        android:icon="@drawable/coins_icon"
         android:title="@string/campa_as"
         android:iconTint="@color/black"
         app:showAsAction="ifRoom|withText"/>

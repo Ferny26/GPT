@@ -214,13 +214,13 @@ public class PensionDatosFragment extends Fragment {
                 int añoSalida = mAñoSalidaNumberPicker.getValue();
                 int mesSalida = mMesSalidaNumberPicker.getValue();
                 int diaSalida = mDiaSalidaNumberPicker.getValue();
-                Date fechaIngreso = new GregorianCalendar(añoIngreso, mesIngreso, diaIngreso).getTime();
-                Date fechaSalida = new GregorianCalendar(añoSalida, mesSalida, diaSalida).getTime();
+                Date fechaIngreso = new GregorianCalendar(añoIngreso, mesIngreso-1, diaIngreso).getTime();
+                Date fechaSalida = new GregorianCalendar(añoSalida, mesSalida-1, diaSalida).getTime();
 
                 long diff = fechaSalida.getTime() - fechaIngreso.getTime() ;
                 diff = (diff / (1000 * 60 * 60 * 24));
                 boolean validacionDatos = true;
-                if (diff < 0) {
+                if (diff <= 0) {
                     validacionDatos = false;
                     Toast.makeText(getActivity(), "Las fechas son invalidas",
                             Toast.LENGTH_LONG).show();
@@ -235,13 +235,16 @@ public class PensionDatosFragment extends Fragment {
 
                     validacionDatos = false;
                 }
-                mPension.setmFechaSalida(fechaSalida);
-                mPension.setmFechaIngreso(fechaIngreso);
+
 
                 if(mPensionStorage.getmPension(mPension.getmIdPension())!=null && validacionDatos){
+                    mPension.setmFechaSalida(fechaSalida);
+                    mPension.setmFechaIngreso(fechaIngreso);
                     actualizarDatos();
 
                 }else if(validacionDatos){
+                    mPension.setmFechaSalida(fechaSalida);
+                    mPension.setmFechaIngreso(fechaIngreso);
                     crearDatos();
 
                 }
@@ -255,17 +258,18 @@ public class PensionDatosFragment extends Fragment {
 
     private void mostrarDatos() {
         mPrecioDiarioEditText.setText(Integer.toString(mPension.getmPrecioDia()));
-        int dia = mPension.getmFechaIngreso().getDay();
-        int mes = mPension.getmFechaIngreso().getMonth();
-        int año = mPension.getmFechaIngreso().getYear();
+
+        int dia = mPension.getmFechaIngreso().getDate();
+        int mes = mPension.getmFechaIngreso().getMonth() + 1;
+        int año = mPension.getmFechaIngreso().getYear() -1;
 
         mDiaIngresoNumberPicker.setValue(dia);
         mMesIngresoNumberPicker.setValue(mes);
         mAñoIngresoNumberPicker.setValue(año);
 
-        dia = mPension.getmFechaSalida().getDay();
-        mes = mPension.getmFechaSalida().getMonth();
-        año = mPension.getmFechaSalida().getYear();
+        dia = mPension.getmFechaSalida().getDate();
+        mes = mPension.getmFechaSalida().getMonth() + 1;
+        año = mPension.getmFechaSalida().getYear() -1;
 
         mDiaSalidaNumberPicker.setValue(dia);
         mMesSalidaNumberPicker.setValue(mes);
@@ -303,7 +307,6 @@ public class PensionDatosFragment extends Fragment {
         }else{
             Toast.makeText(getActivity(), "Datos incompletos",
                     Toast.LENGTH_LONG).show();
-
         }
 
     }
@@ -317,6 +320,7 @@ public class PensionDatosFragment extends Fragment {
             GatoHogar mGatoHogar = new GatoHogar(mGato.getmIdGato());
             mGatoHogar.setmPersonaId(mResponsable.getmIdPersona());
             GatoHogarLab.get(getActivity()).updateGatoHogar(mGatoHogar);
+            getActivity().finish();
         }else {
             Toast.makeText(getActivity(), "Datos incompletos",
                     Toast.LENGTH_LONG).show();
