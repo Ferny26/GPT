@@ -114,10 +114,25 @@ public class GPTDbSchema {
             public static String ESTATUS= "estatus";
         }
     }
+
     public static final class AdopcionTable {
         public static final String NAME="adopciones";
         public static final class Cols{
             public static String FKUUID_GATO= "gato_id";
         }
     }
+
+    public static final class PensionTable {
+        public static final String NAME="pensiones";
+        public static final class Cols{
+            public static String UUID= "pension_id";
+            public static String FKUUID_GATO= "gato_id";
+            public static String TIPO= "tipo";
+            public static String FECHA_INGRESO= "fecha_ingreso";
+            public static String FECHA_SALIDA= "fecha_salida";
+            public static String PRECIO_DIA= "precio_dia";
+        }
+    }
+
+
 }

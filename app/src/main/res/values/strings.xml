@@ -40,6 +40,9 @@
     <string name="generar_estadisticas">Generar Estadisticas!</string>
     <string name="buscar_adoptante">Buscar adoptante</string>
     <string name="datos_de_adoptante">Datos de Adoptante</string>
-
-
+    <string name="agregar_material">Agrega Material</string>
+    <string name="material_de_campaña">Material de Campaña</string>
+    <string name="nombre">Nombre:</string>
+    <string name="actualizar_pension">Actualizar Pension</string>
+    <string name="datos_pension">Datos Pension</string>
 </resources>

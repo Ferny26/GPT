@@ -223,7 +223,7 @@ public class VistaAdopcionFragment extends Fragment {
                             PersonaStorage.get(getActivity()).updatePersona(mAdoptante);
                         }
                     }else if (RegistroAdopcionStorage.get(getActivity()).getmRegistroAdopcion(mRegistroAdopcion.getmRegistroAdopcionId()) != null){
-                            RegistroAdopcionStorage.get(getActivity()).deleteRegistroAdopcion(mRegistroAdopcion.getmRegistroAdopcionId());
+                            //RegistroAdopcionStorage.get(getActivity()).deleteRegistroAdopcion(mRegistroAdopcion.getmRegistroAdopcionId());
                     }
                 }
             }
@@ -255,13 +255,13 @@ public class VistaAdopcionFragment extends Fragment {
     }
 
     private void AdoptanteDefinido(){
-        mResponsableCheckBox.setChecked(true);
+        /*mResponsableCheckBox.setChecked(true);
         mNombrePersonaEditText.setText(mAdoptante.getmNombre());
         mFormularioResponsableConstraintLayout.setVisibility(View.VISIBLE);
         mApellidoPaternoEditText.setText(mAdoptante.getmApellidoPaterno());
         mApellidoMaternoEditText.setText(mAdoptante.getmApellidoMaterno());
         mEmailEditText.setText(mAdoptante.getmEmail());
         mDomicilioEditText.setText(mAdoptante.getmDomicilio());
-        mCelularEditText.setText(mAdoptante.getmCelular());
+        mCelularEditText.setText(mAdoptante.getmCelular());*/
     }
 }

@@ -37,8 +37,6 @@ public class MaterialCampañaFragment extends Fragment {
     private MaterialCampañaFragment.MaterialAdapter mAdapter;
     private RecyclerView mMaterialesRecyclerView;
     private UUID campañaId;
-    private static final String BUNDLE_USER_ID = "BUNDLE_USER_ID";
-    private long user_id;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         getActivity().setTitle(getString(R.string.material_de_campaña));
