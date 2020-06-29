@@ -365,7 +365,7 @@ public class VistaAdopcionFragment extends Fragment {
                 final AlertDialog.Builder mDeleteDialog = new AlertDialog.Builder(getActivity());
                 mDeleteDialog.setTitle("Borrar Adopcion")
                         .setIcon(android.R.drawable.ic_menu_delete)
-                        .setMessage("Estas segura de borrar la adopcion? Se eliminara todo el registro")
+                        .setMessage("Estas segura de borrar la z")
                         .setPositiveButton("ok",
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -414,7 +414,7 @@ public class VistaAdopcionFragment extends Fragment {
         mApellidoMaternoEditText.setText(mAdoptante.getmApellidoMaterno());
         mEmailEditText.setText(mAdoptante.getmEmail());
         mDomicilioEditText.setText(mAdoptante.getmDomicilio());
-        mCelularEditText.setText(mAdoptante.getmCelular());*/
+        mCelularEditText.setText(mAdoptante.getmCelular());
     }
 
     private void putImageView(ImageView mImageView) {

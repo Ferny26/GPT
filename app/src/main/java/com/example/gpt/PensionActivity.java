@@ -18,30 +18,30 @@ public class PensionActivity  extends  SingleFormularioFragment{
     private BottomNavigationView mBottomNavigationView;
     private PensionDatosFragment mPensionDatosFragment;
     private MenuItem mMenuItem;
+    private boolean type;
     Bundle arguments = new Bundle();
     private PensionGatoFragment mPensionGatoFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mPensionGatoFragment = new PensionGatoFragment();
-        mPensionDatosFragment = new PensionDatosFragment();
-        fragment = mPensionGatoFragment;
-        pensionId = (UUID) getIntent().getSerializableExtra("PENSION_ID");
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.universal_formulario_activity);
-        mBottomNavigationView=findViewById(R.id.esterilizacion_menu);
-        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                menu(menuItem.getItemId());
-                return true;
-            }
-        });
-        Menu menu = mBottomNavigationView.getMenu();
-        mMenuItem = menu.getItem(1);
-        mMenuItem.setTitle("Datos Pension")
+        type = getIntent().getBooleanExtra("TYPE",false);
 
-   ;
-
+            mPensionGatoFragment = new PensionGatoFragment();
+            mPensionDatosFragment = new PensionDatosFragment();
+            fragment = mPensionGatoFragment;
+            pensionId = (UUID) getIntent().getSerializableExtra("PENSION_ID");
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.universal_formulario_activity);
+            mBottomNavigationView=findViewById(R.id.esterilizacion_menu);
+            mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    menu(menuItem.getItemId());
+                    return true;
+                }
+            });
+            Menu menu = mBottomNavigationView.getMenu();
+            mMenuItem = menu.getItem(1);
+            mMenuItem.setTitle("Datos Pension");
 
     }
 

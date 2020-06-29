@@ -42,7 +42,13 @@
             android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".PensionActivity">
+        <activity android:name=".PensionActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity android:name=".PensionVistaActivity"
+            android:screenOrientation="portrait">
 
         </activity>
 

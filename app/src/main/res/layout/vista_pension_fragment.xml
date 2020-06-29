@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pension"
+    >
+
+    <ImageView
+        android:id="@+id/imagen_pension_gato"
+        android:layout_width="131dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/gato_gris" />
+
+    <TextView
+        android:id="@+id/nombre_Gato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/alegreya_sans_extrabold"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagen_pension_gato" />
+
+    <TextView
+        android:id="@+id/fecha_ingreso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/alegreya_sans_extrabold"
+        android:text="12/12/30"
+        android:textSize="20dp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toEndOf="@+id/fecha2"
+        app:layout_constraintTop_toBottomOf="@+id/fecha_salida" />
+
+    <TextView
+        android:id="@+id/fecha_salida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/alegreya_sans_extrabold"
+        android:text="12/12/30"
+        android:textSize="20dp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toEndOf="@+id/fecha"
+        app:layout_constraintTop_toBottomOf="@+id/nombre_Gato" />
+
+    <TextView
+        android:id="@+id/fecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="93dp"
+        android:layout_marginLeft="93dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/alegreya_sans_extrabold"
+        android:text="@string/fecha_ingreso"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nombre_Gato" />
+
+    <TextView
+        android:id="@+id/fecha2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/alegreya_sans_extrabold"
+        android:text="@string/fecha_salida"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.34"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fecha" />
+
+
+    <Button
+        android:id="@+id/pagado"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="@color/red"
+        android:fontFamily="@font/amaranth_bold"
+        android:text="PAGADO"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/costo_extra_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/pagado"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/costo_extra" />
+
+    <Button
+        android:id="@+id/costo_extra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="@color/orange"
+        android:fontFamily="@font/amaranth_bold"
+        android:text="Agregar Costo Extra"
+        android:textSize="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fecha_ingreso" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
