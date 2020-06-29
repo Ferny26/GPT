@@ -23,6 +23,7 @@ public class PensionActivity  extends  SingleFormularioFragment{
     private PensionGatoFragment mPensionGatoFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         type = getIntent().getBooleanExtra("TYPE",false);
 
             mPensionGatoFragment = new PensionGatoFragment();
@@ -42,7 +43,7 @@ public class PensionActivity  extends  SingleFormularioFragment{
             Menu menu = mBottomNavigationView.getMenu();
             mMenuItem = menu.getItem(1);
             mMenuItem.setTitle("Datos Pension");
-
+      
     }
 
     private void menu (int menuItem) {

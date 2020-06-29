@@ -22,6 +22,8 @@ public class ListCampaña extends SingleFragmentActivity {
         Bundle arguments = new Bundle();
         if(mType){
             fragment = new BotiquinCampañasFragment();
+            arguments.putBoolean("TYPE",true);
+            fragment.setArguments(arguments);
 
         }else{
             fragment = new EsterilizacionesFragment();

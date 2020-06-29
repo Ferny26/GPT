@@ -132,5 +132,17 @@ public class GPTDbSchema {
         }
     }
 
+    public static final class CostoExtraTable {
+        public static final String NAME="costo_extra";
+        public static final class Cols{
+            public static String UUID= "uuid";
+            public static String CANTIDAD= "cantidad";
+            public static String FECHA= "fecha";
+            public static String DESCRIPCION= "descripcion";
+            public static String FKUUID_PENSION= "pension_id";
+
+        }
+    }
+
 
 }

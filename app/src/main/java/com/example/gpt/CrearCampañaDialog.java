@@ -98,7 +98,7 @@ public class CrearCampañaDialog extends DialogFragment {
 
         return builder.create();
     }
-    //Se envia el resultado con un 1, para tomar el caso del activity Result de Crime Fragment, y eliminar el crimen, sin ingresar a otras opciones futuras
+
     private void sendResult(int resultCode, Date date, String nombreCampaña){
         if(getTargetFragment() == null){
             return;

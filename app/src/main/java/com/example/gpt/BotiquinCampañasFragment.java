@@ -33,9 +33,11 @@ import java.util.List;
 
 public class BotiquinCampañasFragment extends Fragment {
     private ImageView mMainImageView;
-    private MaterialStorage mMaterialStorage;
     private BotiquinCampañasFragment.MaterialAdapter mAdapter;
     private RecyclerView mMaterialesRecyclerView;
+    private Boolean type;
+    List<Material> materiales;
+    private String query;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,12 +54,17 @@ public class BotiquinCampañasFragment extends Fragment {
         mMainImageView.setImageResource(R.drawable.medicina_color);
         mMaterialesRecyclerView = view.findViewById(R.id.recyclerView);
         mMaterialesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        type = getArguments().getBoolean("TYPE",false);
         updateUI();
         return view;
     }
     private void updateUI (){
-        mMaterialStorage = MaterialStorage.get(getActivity());
-        List<Material> materiales = mMaterialStorage.getmMateriales();
+        if (type){
+            query = "SELECT * FROM materiales WHERE materiales.tipo_inventario=1";
+        }else{
+            query ="SELECT * FROM materiales WHERE materiales.tipo_inventario=2";
+        }
+        materiales = MaterialStorage.get(getActivity()).getmBusquedaMateriales(query);
         if (mAdapter == null) {
             //Envia la informacion al adaptador
             mAdapter = new MaterialAdapter(materiales);
@@ -69,6 +76,7 @@ public class BotiquinCampañasFragment extends Fragment {
         }
 
     }
+
 
     private class MaterialesHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView mNombreTextView, mCantidadTextView;
@@ -220,7 +228,7 @@ public class BotiquinCampañasFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.inventario_botiquin:
                 Intent intent = new Intent(getContext(), FormularioMaterialActivity.class);
-                intent.putExtra("TYPE",true);
+                intent.putExtra("TYPE",type);
                 startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);

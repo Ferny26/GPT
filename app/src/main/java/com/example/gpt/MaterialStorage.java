@@ -41,6 +41,7 @@ public class MaterialStorage {
         return new File(filesDir, material.getmPhotoFile());
     }
 
+
     private CursorWrapper queryBusquedaMaterial(String query){
         Cursor cursor = mDataBase.rawQuery(query,null);
         return new GPTCursorWrapper(cursor);
@@ -62,11 +63,6 @@ public class MaterialStorage {
         }
         return materiales;
     }
-
-
-
-
-
 
 
     List<Material> getmMateriales(){

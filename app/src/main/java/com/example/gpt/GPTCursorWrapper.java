@@ -177,4 +177,19 @@ public class GPTCursorWrapper extends CursorWrapper {
         return pension;
     }
 
+    public CostoExtra getCostoExtra(){
+        String uuidString = getString(getColumnIndex(CostoExtraTable.Cols.UUID));
+        String uuidPensiontring = getString(getColumnIndex(CostoExtraTable.Cols.FKUUID_PENSION));
+        int cantidad = getInt(getColumnIndex(CostoExtraTable.Cols.CANTIDAD));
+        long fecha= getLong(getColumnIndex(CostoExtraTable.Cols.FECHA));
+        String descripcion = getString(getColumnIndex(CostoExtraTable.Cols.DESCRIPCION));
+
+        CostoExtra costoExtra = new CostoExtra(UUID.fromString(uuidString));
+        costoExtra.setmPensionId(UUID.fromString(uuidPensiontring));
+        costoExtra.setmCantidad(cantidad);
+        costoExtra.setmFechaActual(new Date(fecha));
+        costoExtra.setmDescripcion(descripcion);
+        return costoExtra;
+    }
+
 }
