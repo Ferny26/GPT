@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
+        android:text="Año"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:fontFamily="sans-serif-thin"
+        app:layout_constraintBottom_toTopOf="@+id/año_ingreso"
+        app:layout_constraintStart_toEndOf="@+id/textView25"></TextView>
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
+        android:text="Año"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:fontFamily="sans-serif-thin"
+        app:layout_constraintBottom_toTopOf="@+id/año_salida"
+        app:layout_constraintStart_toEndOf="@+id/textView23"></TextView>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="123dp"
+        android:layout_height="98dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/pension" />
+
+    <NumberPicker
+        android:id="@+id/dia_ingreso"
+        android:layout_width="65dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:selectionDividerHeight="20dp"
+        android:solidColor="@color/withe"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/textView25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:text="Mes"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:fontFamily="sans-serif-thin"
+        app:layout_constraintBottom_toTopOf="@+id/mes_ingreso"
+        app:layout_constraintStart_toEndOf="@+id/textView28"></TextView>
+
+    <Button
+        android:id="@+id/pagado"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="28dp"
+        android:backgroundTint="@color/red"
+        android:fontFamily="@font/amaranth_bold"
+        android:text="PAGADO"
+        android:textSize="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView29" />
+
+    <Spinner
+        android:id="@+id/categoria"
+        style="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
+        android:layout_width="141dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toEndOf="@+id/textView29"
+        app:layout_constraintTop_toBottomOf="@+id/costo_diario" />
+
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="141dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="32dp"
+        android:text="Tipo Pension:"
+        android:textColor="@color/black"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        app:fontFamily="@font/amaranth_bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
+    <NumberPicker
+        android:id="@+id/dia_salida"
+        android:layout_width="65dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="36dp"
+        android:ems="10"
+        android:selectionDividerHeight="20dp"
+        android:solidColor="@color/withe"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/dia_ingreso" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:text="Mes"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:fontFamily="sans-serif-thin"
+        app:layout_constraintBottom_toTopOf="@+id/mes_salida"
+        app:layout_constraintStart_toEndOf="@+id/textView12"></TextView>
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="141dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="40dp"
+        android:text="Fecha Ingreso:"
+        android:textColor="@color/black"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        app:fontFamily="@font/amaranth_bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <NumberPicker
+        android:id="@+id/mes_ingreso"
+        android:layout_width="65dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:selectionDividerHeight="20dp"
+        android:solidColor="@color/withe"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@+id/dia_ingreso"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="141dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="64dp"
+        android:text="Fecha Salida:"
+        android:textColor="@color/black"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        app:fontFamily="@font/amaranth_bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="141dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="44dp"
+        android:text="Costo Diario:"
+        android:textColor="@color/black"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        app:fontFamily="@font/amaranth_bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView26" />
+
+    <EditText
+        android:id="@+id/costo_diario"
+        android:layout_width="127dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="$"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@+id/textView22"
+        app:layout_constraintTop_toBottomOf="@+id/mes_salida" />
+
+    <Button
+        android:id="@+id/terminar_pensión"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Terminar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pagado" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="180dp"
+        android:layout_marginLeft="180dp"
+        android:text="Dia"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:fontFamily="sans-serif-thin"
+        app:layout_constraintBottom_toTopOf="@+id/dia_ingreso"
+        app:layout_constraintStart_toStartOf="parent"></TextView>
+
+    <NumberPicker
+        android:id="@+id/año_salida"
+        android:layout_width="65dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="36dp"
+        android:ems="10"
+        android:selectionDividerHeight="20dp"
+        android:solidColor="@color/withe"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@+id/mes_ingreso"
+        app:layout_constraintTop_toBottomOf="@+id/año_ingreso" />
+
+    <NumberPicker
+        android:id="@+id/mes_salida"
+        android:layout_width="65dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="36dp"
+        android:ems="10"
+        android:selectionDividerHeight="20dp"
+        android:solidColor="@color/withe"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@+id/dia_ingreso"
+        app:layout_constraintTop_toBottomOf="@+id/mes_ingreso" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="180dp"
+        android:layout_marginLeft="180dp"
+        android:text="Dia"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:fontFamily="sans-serif-thin"
+        app:layout_constraintBottom_toTopOf="@+id/dia_salida"
+        app:layout_constraintStart_toStartOf="parent"></TextView>
+
+    <NumberPicker
+        android:id="@+id/año_ingreso"
+        android:layout_width="65dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:selectionDividerHeight="20dp"
+        android:solidColor="@color/withe"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@+id/mes_ingreso"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

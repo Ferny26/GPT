@@ -42,6 +42,11 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity android:name=".PensionActivity">
+
+        </activity>
+
+
         <activity android:name=".AgregarMaterialActivity"
             android:parentActivityName=".MaterialCampañaActivity"
             android:screenOrientation="portrait">

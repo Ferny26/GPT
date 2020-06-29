@@ -147,6 +147,19 @@ public class GPTBaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY ("+ RegistroAdopcionTable.Cols.FKUUID_ADOPTANTE + ") REFERENCES "+ PersonaTable.NAME+"("+PersonaTable.Cols.UUID+")" +
                 ")"
         );
+
+        db.execSQL("CREATE TABLE " +
+                PensionTable.NAME +
+                "(" +
+                PensionTable.Cols.UUID + "  PRIMARY KEY, " +
+                PensionTable.Cols.FKUUID_GATO + ", " +
+                PensionTable.Cols.FECHA_INGRESO + ", " +
+                PensionTable.Cols.FECHA_SALIDA + ", " +
+                PensionTable.Cols.TIPO + ", " +
+                PensionTable.Cols.PRECIO_DIA + ", " +
+                "FOREIGN KEY ("+ PensionTable.Cols.FKUUID_GATO + ") REFERENCES "+ GatoTable.NAME+"("+GatoTable.Cols.UUID+")" +
+                ")"
+        );
     }
 
     @Override

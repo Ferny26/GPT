@@ -158,4 +158,23 @@ public class GPTCursorWrapper extends CursorWrapper {
         return adopcion;
     }
 
+    public Pension getPension(){
+        String uuidString = getString(getColumnIndex(PensionTable.Cols.UUID));
+        String uuidGatoString = getString(getColumnIndex(PensionTable.Cols.FKUUID_GATO));
+        int tipo = getInt(getColumnIndex(PensionTable.Cols.TIPO));
+        int precioDia = getInt(getColumnIndex(PensionTable.Cols.PRECIO_DIA));
+        long fechaingreso = getLong(getColumnIndex(PensionTable.Cols.FECHA_INGRESO));
+        long fechasalida = getLong(getColumnIndex(PensionTable.Cols.FECHA_SALIDA));
+
+        Pension pension = new Pension(UUID.fromString(uuidString));
+
+        pension.setmTipoPension(tipo);
+        pension.setmGatoId(UUID.fromString(uuidGatoString));
+        pension.setmPrecioDia(precioDia);
+        pension.setmFechaIngreso(new Date(fechaingreso));
+        pension.setmFechaSalida(new Date(fechasalida));
+
+        return pension;
+    }
+
 }
