@@ -68,6 +68,7 @@ public class GatoFragmentAdopciones extends Fragment {
     private String [] mProcedenciaList = {"Recien rescatado", "Feral", "Propio"};
     private Gato mGato;
     private File mPhotoFile;
+    private UUID gatoId;
     Uri photoUri;
 
     @Override
@@ -102,8 +103,17 @@ public class GatoFragmentAdopciones extends Fragment {
         mProcedenciaSpinner.setAdapter(mAdapter);
         mCatLab = CatLab.get(getActivity());
 
+        Boolean gato = getArguments().getBoolean("GATO");
+        if (gato){
+            gatoId= (UUID) getArguments().getSerializable("GATO_ID");
+            mGato = CatLab.get(getActivity()).getmGato(gatoId);
+            GatoDefinido();
+        }else{
+            mGato = new Gato();
+        }
+
         mGuardarButton.setVisibility(View.VISIBLE);
-        mGato = new Gato();
+
 
 
         //////////////////////////////////////////////////////////////////////////////////////////////////// Spinner ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -153,6 +163,7 @@ public class GatoFragmentAdopciones extends Fragment {
         int radioId = mSexoRadioGroup.getCheckedRadioButtonId();
         mRadioSexo = mSexoRadioGroup.findViewById(radioId);
         mGato.setmSexo(mRadioSexo.getText().toString());
+
         putImageView();
         mCameraImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -295,6 +306,7 @@ public class GatoFragmentAdopciones extends Fragment {
     }
 
     private void GatoDefinido(){
+        mGuardarButton.setText("Actualizar");
         mNombreGatoEditText.setText(mGato.getmNombreGato());
         mPesoEditText.setText(mGato.getmPeso());
         mMesNumberPicker.setValue(mGato.getmFechaNacimiento().getMonth());

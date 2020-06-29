@@ -156,6 +156,9 @@ public class GatoFragment extends Fragment {
                 if (position == 0 || position == 2){
                     mGato.setmProcedencia(position);
                     mResponsableCheckBox.setVisibility(View.VISIBLE);
+                    if (mResponsableCheckBox.isChecked()){
+                        mFormularioResponsableConstraintLayout.setVisibility(View.VISIBLE);
+                    }
                 }else{
                     mResponsableCheckBox.setVisibility(View.GONE);
                     mFormularioResponsableConstraintLayout.setVisibility(View.GONE);
@@ -555,8 +558,7 @@ public class GatoFragment extends Fragment {
                 GatoHogarLab mgatoHogarLab = GatoHogarLab.get(getActivity());
                 GatoHogar mgatoHogar = mgatoHogarLab.getmGatoHogar(mGato.getmIdGato());
                 if (mgatoHogar != null){
-                    PersonaStorage mPersonaStorage = PersonaStorage.get(getActivity());
-                    mResponsable = mPersonaStorage.getmPersona(mgatoHogar.getmPersonaId());
+                    mResponsable = PersonaStorage.get(getActivity()).getmPersona(mgatoHogar.getmPersonaId());
                     ResponsableDefinido();
                 }
             }

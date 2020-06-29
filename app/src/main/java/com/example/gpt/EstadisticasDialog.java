@@ -22,9 +22,7 @@ import java.util.UUID;
 public class EstadisticasDialog extends DialogFragment {
 
     public static final String CAMPAÑA_ID = "campañaId";
-    private DatePicker mDatePicker;
     private TextView mHembrasEditText, mMachosEditText, mDineroTotal;
-    AlertDialog dialog;
     private Context mContext;
     private SQLiteDatabase mDataBase;
 

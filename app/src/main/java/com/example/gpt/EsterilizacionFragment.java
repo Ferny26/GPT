@@ -351,9 +351,9 @@ public class EsterilizacionFragment extends Fragment {
         if (IngresoBank.get(getActivity()).getmIngreso(mEsterilizacion.getmIdEsterilizacion())!=null) {
             if(mEsterilizacion.ismPagado()){
                 mIngreso.setmCantidad(mEsterilizacion.getmPrecio() + mEsterilizacion.getmCostoExtra());
-                IngresoBank.get(getActivity()).updateIngreso(mIngreso);
+                IngresoBank.get(getActivity()).updateIngreso(mIngreso,GPTDbSchema.IngresoTable.NAME,GPTDbSchema.IngresoTable.Cols.UUID);
             }else{
-                IngresoBank.get(getActivity()).deleteIngreso(GPTDbSchema.IngresoTable.Cols.UUID + "= ?", new String[]{mIngreso.getmIdIngreso().toString()});
+                IngresoBank.get(getActivity()).deleteIngreso(GPTDbSchema.IngresoTable.Cols.UUID + "= ?", new String[]{mIngreso.getmIdIngreso().toString()}, GPTDbSchema.IngresoTable.NAME);
             }
         }else{
             if(mEsterilizacion.ismPagado()){
@@ -373,7 +373,7 @@ public class EsterilizacionFragment extends Fragment {
             mIngreso.setMotivo("Esterilizacion");
             mIngreso.setmCantidad(mEsterilizacion.getmPrecio() + mEsterilizacion.getmCostoExtra());
             mIngreso.setmFecha(mCampaña.getmFechaCampaña());
-            IngresoBank.get(getActivity()).addIngreso(mIngreso, getActivity());
+            IngresoBank.get(getActivity()).addIngreso(mIngreso, getActivity(),GPTDbSchema.IngresoTable.NAME );
         }
     }
 

@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,34 +22,29 @@
         </activity>
 
         <activity android:name=".ListCampaña"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity android:name=".AdopcionesActivity"
-            android:parentActivityName=".MainActivity">
+            android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".EsterilizacionActivity" >
+        <activity android:name=".EsterilizacionActivity"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity android:name=".FormularioMaterialActivity"
-            >
-
+            android:screenOrientation="portrait">
         </activity>
 
         <activity android:name=".MaterialCampañaActivity"
-
-            >
-
-
-
-
+            android:screenOrientation="portrait">
         </activity>
 
         <activity android:name=".AgregarMaterialActivity"
             android:parentActivityName=".MaterialCampañaActivity"
-            >
-
+            android:screenOrientation="portrait">
         </activity>
         <meta-data
             android:name="preloaded_fonts"

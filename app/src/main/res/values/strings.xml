@@ -40,6 +40,13 @@
     <string name="generar_estadisticas">Generar Estadisticas!</string>
     <string name="buscar_adoptante">Buscar adoptante</string>
     <string name="datos_de_adoptante">Datos de Adoptante</string>
-
-
+    <string name="nombre">Nombre:</string>
+    <string name="agregar_material">Agrega Material</string>
+    <string name="material_de_campaña">Material de Campaña</string>
+    <string name="motivo">Motivo:</string>
+    <string name="inserte_titulo">Inserte titulo</string>
+    <string name="monto">$$$</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="ganancias_totales">Ganancias Totales</string>
+    <string name="descipci_n">Descipción:</string>
 </resources>

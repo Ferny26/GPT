@@ -43,6 +43,7 @@ public class RegistroAdopcionStorage {
     }
 
 
+
     List<RegistroAdopcion> getmRegistroAdopciones(){
         List <RegistroAdopcion> registroAdopciones = new ArrayList<>();
         GPTCursorWrapper cursor = (GPTCursorWrapper) queryRegistroAdopcion(null,null);
@@ -75,7 +76,7 @@ public class RegistroAdopcionStorage {
 
     public  RegistroAdopcion getmRegistroAdopcion(UUID id){
         GPTCursorWrapper cursor = (GPTCursorWrapper) queryRegistroAdopcion(
-                GPTDbSchema.RegistroAdopcionTable.Cols.UUID + " = ? ",
+                GPTDbSchema.RegistroAdopcionTable.Cols.FKUUID_GATO + " = ? ",
                 new String[] {id.toString()}
         );
 
@@ -106,11 +107,9 @@ public class RegistroAdopcionStorage {
         return new GPTCursorWrapper(cursor);
     }
 
-
     private static ContentValues getContentValues(RegistroAdopcion registroAdopcion){
         ContentValues values = new ContentValues();
         values.put(GPTDbSchema.RegistroAdopcionTable.Cols.UUID, registroAdopcion.getmRegistroAdopcionId().toString());
-        values.put(GPTDbSchema.RegistroAdopcionTable.Cols.ESTATUS, registroAdopcion.getmEstatus());
         values.put(GPTDbSchema.RegistroAdopcionTable.Cols.FKUUID_GATO, registroAdopcion.getmGatoId().toString());
         values.put(GPTDbSchema.RegistroAdopcionTable.Cols.FKUUID_ADOPTANTE, registroAdopcion.getmAdoptanteId().toString());
         return values;
