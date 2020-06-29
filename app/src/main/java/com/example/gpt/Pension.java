@@ -1,6 +1,7 @@
 package com.example.gpt;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.UUID;
 
 public class Pension {
@@ -8,7 +9,8 @@ public class Pension {
     private int  mTipoPension, mPrecioDia;
     private Date mFechaIngreso;
     private Date mFechaSalida;
-    private boolean validacion;
+    private boolean validacion, mPagada=false;
+    private CharSequence dateFormat;
 
 
     public Pension(){
@@ -46,6 +48,11 @@ public class Pension {
         this.mFechaSalida = mFechaSalida;
     }
 
+    public CharSequence getDateFormat(Date fecha) {
+        dateFormat =android.text.format.DateFormat.format("dd MMMM yyyy", fecha);
+        return dateFormat;
+    }
+
 
     public boolean isValidacion() {
         return validacion;
@@ -73,5 +80,26 @@ public class Pension {
 
     public UUID getmIdPension() {
         return mIdPension;
+    }
+
+    public long gananciaPension(){
+        Date fechaIngreso = new GregorianCalendar(mFechaIngreso.getYear(), mFechaIngreso.getMonth(), mFechaIngreso.getDay()).getTime();
+        Date fechaSalida = new GregorianCalendar(mFechaSalida.getYear(), mFechaSalida.getMonth(), mFechaSalida.getDay()).getTime();
+
+        long diff = fechaSalida.getTime() - fechaIngreso.getTime() ;
+        diff = (diff / (1000 * 60 * 60 * 24));
+
+        diff = diff * mPrecioDia;
+
+
+        return diff;
+    }
+
+    public boolean ismPagada() {
+        return mPagada;
+    }
+
+    public void setmPagada(boolean mPagada) {
+        this.mPagada = mPagada;
     }
 }

@@ -60,9 +60,9 @@ public class BotiquinCampañasFragment extends Fragment {
     }
     private void updateUI (){
         if (type){
-            query = "SELECT * FROM materiales WHERE materiales.tipo_inventario=1";
+            query = "SELECT * FROM material WHERE material.tipo_inventario=1";
         }else{
-            query ="SELECT * FROM materiales WHERE materiales.tipo_inventario=2";
+            query ="SELECT * FROM material WHERE material.tipo_inventario=2";
         }
         materiales = MaterialStorage.get(getActivity()).getmBusquedaMateriales(query);
         if (mAdapter == null) {

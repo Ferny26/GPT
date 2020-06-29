@@ -56,7 +56,7 @@ public class PensionStorage {
     public void updatePension(Pension pension){
         String uuidString = pension.getmIdPension().toString();
         ContentValues values = getContentValues(pension);
-        mDataBase.update(GPTDbSchema.PersonaTable.NAME, values, GPTDbSchema.PensionTable.Cols.UUID + "= ?", new String[] {uuidString});
+        mDataBase.update(GPTDbSchema.PensionTable.NAME, values, GPTDbSchema.PensionTable.Cols.UUID + "= ?", new String[] {uuidString});
     }
 
 
@@ -107,6 +107,7 @@ public class PensionStorage {
         values.put(GPTDbSchema.PensionTable.Cols.PRECIO_DIA, pension.getmPrecioDia());
         values.put(GPTDbSchema.PensionTable.Cols.FECHA_INGRESO, pension.getmFechaIngreso().getTime());
         values.put(GPTDbSchema.PensionTable.Cols.FECHA_SALIDA, pension.getmFechaSalida().getTime());
+        values.put(GPTDbSchema.PensionTable.Cols.PAGADA, pension.ismPagada() ? 1 : 0);
         values.put(GPTDbSchema.PensionTable.Cols.TIPO, pension.getmTipoPension());
 
         return values;

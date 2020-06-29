@@ -357,6 +357,7 @@ public class Busqueda extends DialogFragment {
         public void bind (Persona persona){
             mPersona = persona;
             mNombreTextView.setText(mPersona.getmNombre());
+            mCelularTextView.setVisibility(View.VISIBLE);
             mCelularTextView.setText(mPersona.getmCelular());
             mPersonaImageView.setImageResource(R.drawable.usuario);
         }

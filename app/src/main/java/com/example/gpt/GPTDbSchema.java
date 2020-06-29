@@ -127,6 +127,7 @@ public class GPTDbSchema {
             public static String FKUUID_GATO= "gato_id";
             public static String TIPO= "tipo";
             public static String FECHA_INGRESO= "fecha_ingreso";
+            public static String PAGADA = "pagada";
             public static String FECHA_SALIDA= "fecha_salida";
             public static String PRECIO_DIA= "precio_dia";
         }

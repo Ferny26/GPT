@@ -35,6 +35,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
+        android:visibility="gone"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/image_busqueda"
         app:layout_constraintTop_toBottomOf="@+id/nombre" />

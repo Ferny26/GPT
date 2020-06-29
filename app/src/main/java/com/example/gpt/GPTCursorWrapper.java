@@ -165,9 +165,13 @@ public class GPTCursorWrapper extends CursorWrapper {
         int precioDia = getInt(getColumnIndex(PensionTable.Cols.PRECIO_DIA));
         long fechaingreso = getLong(getColumnIndex(PensionTable.Cols.FECHA_INGRESO));
         long fechasalida = getLong(getColumnIndex(PensionTable.Cols.FECHA_SALIDA));
+        int pagado = getInt(getColumnIndex(PensionTable.Cols.PAGADA));
+
 
         Pension pension = new Pension(UUID.fromString(uuidString));
 
+
+        pension.setmPagada(pagado != 0);
         pension.setmTipoPension(tipo);
         pension.setmGatoId(UUID.fromString(uuidGatoString));
         pension.setmPrecioDia(precioDia);

@@ -66,10 +66,6 @@ public class PensionDatosFragment extends Fragment {
         mTipoPensionSpinner.setAdapter(mAdapter);
 
 
-        if(mPensionStorage.getmPension(mPension.getmIdPension())!=null){
-            mTerminarRegistroButton.setText(R.string.actualizar_datos);
-        }
-
 
         mDiaSalidaNumberPicker = view.findViewById(R.id.dia_salida);
         mMesSalidaNumberPicker = view.findViewById(R.id.mes_salida);
@@ -78,6 +74,7 @@ public class PensionDatosFragment extends Fragment {
         mPrecioDiarioEditText = view.findViewById(R.id.costo_diario);
         mTerminarRegistroButton = view.findViewById(R.id.terminar_pensión);
         mPagadoButton = view.findViewById(R.id.pagado);
+
 
 
         mMesIngresoNumberPicker.setMinValue(1);
@@ -98,6 +95,10 @@ public class PensionDatosFragment extends Fragment {
         mAñoSalidaNumberPicker.setMinValue(2020);
         mAñoSalidaNumberPicker.setMaxValue(2025);
 
+        if(mPensionStorage.getmPension(mPension.getmIdPension())!=null){
+            mTerminarRegistroButton.setText(R.string.actualizar_datos);
+            mostrarDatos();
+        }
 
         mDiaIngresoNumberPicker.setOnScrollListener(new NumberPicker.OnScrollListener() {
             @Override
@@ -234,6 +235,8 @@ public class PensionDatosFragment extends Fragment {
 
                     validacionDatos = false;
                 }
+                mPension.setmFechaSalida(fechaSalida);
+                mPension.setmFechaIngreso(fechaIngreso);
 
                 if(mPensionStorage.getmPension(mPension.getmIdPension())!=null && validacionDatos){
                     actualizarDatos();
@@ -248,6 +251,28 @@ public class PensionDatosFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void mostrarDatos() {
+        mPrecioDiarioEditText.setText(Integer.toString(mPension.getmPrecioDia()));
+        int dia = mPension.getmFechaIngreso().getDay();
+        int mes = mPension.getmFechaIngreso().getMonth();
+        int año = mPension.getmFechaIngreso().getYear();
+
+        mDiaIngresoNumberPicker.setValue(dia);
+        mMesIngresoNumberPicker.setValue(mes);
+        mAñoIngresoNumberPicker.setValue(año);
+
+        dia = mPension.getmFechaSalida().getDay();
+        mes = mPension.getmFechaSalida().getMonth();
+        año = mPension.getmFechaSalida().getYear();
+
+        mDiaSalidaNumberPicker.setValue(dia);
+        mMesSalidaNumberPicker.setValue(mes);
+        mAñoSalidaNumberPicker.setValue(año);
+
+        mTipoPensionSpinner.setSelection(mPension.getmTipoPension());
+
     }
 
     private void crearDatos() {
@@ -297,6 +322,7 @@ public class PensionDatosFragment extends Fragment {
                     Toast.LENGTH_LONG).show();
 
         }
+
     }
 
     @Subscribe
