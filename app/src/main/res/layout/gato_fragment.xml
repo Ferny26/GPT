@@ -33,6 +33,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+
             <Button
                 android:id="@+id/buscar_gato"
                 android:layout_width="39dp"
@@ -266,11 +267,22 @@
                 android:id="@+id/formulario_responsable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="24dp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/responsable">
 
+
+                <ImageButton
+                    android:id="@+id/llamar"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="172dp"
+                    android:layout_marginLeft="172dp"
+                    android:visibility="gone"
+                    android:src="@android:drawable/stat_sys_phone_call_forward"
+                    app:layout_constraintStart_toEndOf="@+id/textView2"
+                    app:layout_constraintTop_toTopOf="parent"></ImageButton>
 
                 <TextView
                     android:id="@+id/textView15"
@@ -340,6 +352,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="135dp"
                     android:layout_marginLeft="135dp"
+                    android:layout_marginTop="28dp"
                     android:layout_marginEnd="136dp"
                     android:layout_marginRight="136dp"
                     android:text="Datos de Responsable"
@@ -347,7 +360,7 @@
                     android:textSize="25dp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.537"
+                    app:layout_constraintHorizontal_bias="0.495"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/buscar_responsable" />
 
