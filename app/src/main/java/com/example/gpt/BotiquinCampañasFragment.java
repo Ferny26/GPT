@@ -87,6 +87,7 @@ public class BotiquinCampañasFragment extends Fragment {
         public void onClick(View v) {
             Intent intent = new Intent(getActivity(), FormularioMaterialActivity.class);
             intent.putExtra("MATERIAL_ID", mMaterial.getmMaterialId());
+            intent.putExtra("TYPE",type);
             startActivity(intent);
         }
 

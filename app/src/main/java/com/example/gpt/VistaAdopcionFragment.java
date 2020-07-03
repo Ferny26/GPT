@@ -287,9 +287,11 @@ public class VistaAdopcionFragment extends Fragment {
                             PersonaStorage.get(getActivity()).updatePersona(mAdoptante);
                             if (GatoHogarLab.get(getActivity()).getmGatoHogar(mGato.getmIdGato())!=null){
                                 mGatoHogar = GatoHogarLab.get(getActivity()).getmGatoHogar(mGato.getmIdGato());
+                                mGatoHogar.setmPersonaId(mAdoptante.getmIdPersona());
                                 GatoHogarLab.get(getActivity()).updateGatoHogar(mGatoHogar);
                             }else{
                                 mGatoHogar = new GatoHogar(mGato.getmIdGato());
+                                mGatoHogar.setmPersonaId(mAdoptante.getmIdPersona());
                                 GatoHogarLab.get(getActivity()).addGatoHogar(mGatoHogar, getActivity());
                             }
                         }

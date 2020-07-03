@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/main_image_view"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="202dp"
+        android:layout_height="120dp"
         android:layout_gravity="center"
         android:layout_marginTop="4dp"
         android:scaleType="centerInside"
@@ -17,24 +17,20 @@
 
     <Button
         android:id="@+id/estadisticas"
-        android:layout_width="wrap_content"
+        android:layout_width="156dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="7dp"
-        android:background="@color/material"
+        android:background="@drawable/withe_rectangle"
+        android:drawableLeft="@drawable/outline_leaderboard_black_24dp"
         android:paddingHorizontal="10dp"
         android:scaleType="centerInside"
-        android:text="@string/generar_estadisticas"
+        android:text="Estadisticas"
+        android:layout_marginBottom="15dp"
         android:textAllCaps="false"
+        android:textColor="@color/black"
         android:textStyle="bold"
-        android:visibility="gone" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/linea"
-         />
+        android:visibility="visible" />
 
     <Spinner
         android:id="@+id/estatus_adopcion"
@@ -47,7 +43,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
 </LinearLayout>
 

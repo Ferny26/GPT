@@ -232,6 +232,7 @@ public class CapitalFragment extends Fragment {
                                     public void onClick(DialogInterface dialog, int which) {
                                         IngresoBank.get(getActivity()).deleteIngresos("DELETE FROM ingresos");
                                         IngresoBank.get(getActivity()).deleteIngresos("DELETE FROM gastos");
+                                        updateList();
                                     }
                                 })
                         //Cancela la accion de delete
@@ -243,6 +244,7 @@ public class CapitalFragment extends Fragment {
                                     }
                                 })
                         .create().show();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

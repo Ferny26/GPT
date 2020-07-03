@@ -30,7 +30,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 public class EsterilizacionesFragment extends Fragment {
@@ -43,6 +45,8 @@ public class EsterilizacionesFragment extends Fragment {
     private static final int REQUEST_CREATE = 0;
     private static final String DIALOG_CREATE = "DialogCreate";
     private boolean mSubtitleVisible;
+    private Random mRandom=new Random();
+    private ArrayList <Integer> imageViewArrayList;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,6 +66,12 @@ public class EsterilizacionesFragment extends Fragment {
         mEsterilizacionesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mEstadisticasButton = v.findViewById(R.id.estadisticas);
         updateUI();
+        imageViewArrayList = new ArrayList<Integer>();
+        imageViewArrayList.add(R.drawable.gato_blanco);
+        imageViewArrayList.add(R.drawable.gato_blanco_2);
+        imageViewArrayList.add(R.drawable.gato_cremas);
+        imageViewArrayList.add(R.drawable.gato_gris_2);
+        imageViewArrayList.add(R.drawable.gato_gris_3);
 
         mEstadisticasButton.setVisibility(View.VISIBLE);
 
@@ -184,7 +194,7 @@ public class EsterilizacionesFragment extends Fragment {
                 mGatoFotoImageView.setImageBitmap(bmRotated);
             }
         } catch (IOException e) {
-            mGatoFotoImageView.setImageResource(R.drawable.gato_gris);
+            mGatoFotoImageView.setImageResource(imageViewArrayList.get(mRandom.nextInt(5)));
             e.printStackTrace();
         }
     }
