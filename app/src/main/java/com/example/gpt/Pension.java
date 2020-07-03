@@ -1,5 +1,6 @@
 package com.example.gpt;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -87,8 +88,9 @@ public class Pension {
         Date fechaIngreso = new GregorianCalendar(mFechaIngreso.getYear(), mFechaIngreso.getMonth(), mFechaIngreso.getDay()).getTime();
         Date fechaSalida = new GregorianCalendar(mFechaSalida.getYear(), mFechaSalida.getMonth(), mFechaSalida.getDay()).getTime();
 
-        long diff = fechaIngreso.getTime() - fechaSalida.getTime() ;
+        long diff = fechaSalida.getTime() - fechaIngreso.getTime() ;
         diff = (diff / (1000 * 60 * 60 * 24));
+        diff = diff - 30;
 
         diff = diff * mPrecioDia;
 
