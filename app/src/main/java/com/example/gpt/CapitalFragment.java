@@ -230,8 +230,8 @@ public class CapitalFragment extends Fragment {
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        IngresoBank.get(getActivity()).deleteIngresos("TRUNCATE TABLE ingresos");
-                                        IngresoBank.get(getActivity()).deleteIngresos("TRUNCATE TABLE gastos");
+                                        IngresoBank.get(getActivity()).deleteIngresos("DELETE FROM ingresos");
+                                        IngresoBank.get(getActivity()).deleteIngresos("DELETE FROM gastos");
                                     }
                                 })
                         //Cancela la accion de delete

@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.time.Duration;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -74,8 +75,6 @@ public class PensionDatosFragment extends Fragment {
         mPrecioDiarioEditText = view.findViewById(R.id.costo_diario);
         mTerminarRegistroButton = view.findViewById(R.id.terminar_pensión);
         mPagadoButton = view.findViewById(R.id.pagado);
-
-
 
         mMesIngresoNumberPicker.setMinValue(1);
         mMesIngresoNumberPicker.setMaxValue(12);
@@ -214,8 +213,10 @@ public class PensionDatosFragment extends Fragment {
                 int añoSalida = mAñoSalidaNumberPicker.getValue();
                 int mesSalida = mMesSalidaNumberPicker.getValue();
                 int diaSalida = mDiaSalidaNumberPicker.getValue();
+
                 Date fechaIngreso = new GregorianCalendar(añoIngreso, mesIngreso-1, diaIngreso).getTime();
                 Date fechaSalida = new GregorianCalendar(añoSalida, mesSalida-1, diaSalida).getTime();
+
 
                 long diff = fechaSalida.getTime() - fechaIngreso.getTime() ;
                 diff = (diff / (1000 * 60 * 60 * 24));
@@ -257,22 +258,28 @@ public class PensionDatosFragment extends Fragment {
     }
 
     private void mostrarDatos() {
-        mPrecioDiarioEditText.setText(Integer.toString(mPension.getmPrecioDia()));
 
-        int dia = mPension.getmFechaIngreso().getDate();
-        int mes = mPension.getmFechaIngreso().getMonth() + 1;
-        int año = mPension.getmFechaIngreso().getYear() -1;
+        mPrecioDiarioEditText.setText(Integer.toString(mPension.getmPrecioDia()));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(mPension.getmFechaIngreso());
+
+        int dia = calendar.get(Calendar.DAY_OF_MONTH);
+        int mes = calendar.get(Calendar.MONTH);
+        int año = calendar.get(Calendar.YEAR);
 
         mDiaIngresoNumberPicker.setValue(dia);
-        mMesIngresoNumberPicker.setValue(mes);
+        mMesIngresoNumberPicker.setValue(mes +1);
         mAñoIngresoNumberPicker.setValue(año);
 
-        dia = mPension.getmFechaSalida().getDate();
-        mes = mPension.getmFechaSalida().getMonth() + 1;
-        año = mPension.getmFechaSalida().getYear() -1;
+
+        calendar.setTime(mPension.getmFechaSalida());
+
+        dia = calendar.get(Calendar.DAY_OF_MONTH);
+        mes = calendar.get(Calendar.MONTH);
+        año = calendar.get(Calendar.YEAR);
 
         mDiaSalidaNumberPicker.setValue(dia);
-        mMesSalidaNumberPicker.setValue(mes);
+        mMesSalidaNumberPicker.setValue(mes + 1);
         mAñoSalidaNumberPicker.setValue(año);
 
         mTipoPensionSpinner.setSelection(mPension.getmTipoPension());

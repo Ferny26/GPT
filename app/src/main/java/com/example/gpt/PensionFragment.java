@@ -42,7 +42,7 @@ public class PensionFragment extends Fragment {
         View v = inflater.inflate(R.layout.universal_list_activity,container,false);
         mMainImageView= v.findViewById(R.id.main_image_view);
         getActivity().setTitle("Pensiones");
-        mMainImageView.setImageResource(R.drawable.adopcion);
+        mMainImageView.setImageResource(R.drawable.pension);
         mPensionesRecyclerView = v.findViewById(R.id.recyclerView);
         mPensionesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         setHasOptionsMenu(true);
@@ -77,7 +77,7 @@ public class PensionFragment extends Fragment {
 
     private class PensionHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView mNombreTextView;
-        private ImageView mGatoImageView;
+        private ImageView mGatoImageView, mPagadoImageView;
         private Pension mPension;
 
         @Override
@@ -91,12 +91,20 @@ public class PensionFragment extends Fragment {
         public PensionHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.esterilizacion_list_fragment, parent, false));
             mNombreTextView = itemView.findViewById(R.id.nombreMaterial);
+            mPagadoImageView = itemView.findViewById(R.id.esterilizacion_pagada);
             mGatoImageView= itemView.findViewById(R.id.material_foto);
             itemView.setOnClickListener(this);
         }
 
         public void bind (Gato gato, Pension pension){
             mPension = pension;
+            if(!mPension.ismPagada()){
+                mPagadoImageView.setVisibility(View.GONE);
+            }else{
+                mPagadoImageView.setVisibility(View.VISIBLE);
+            }
+
+
             mNombreTextView.setText(gato.getmNombreGato());
             putImageView(gato, mGatoImageView);
         }

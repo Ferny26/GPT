@@ -45,7 +45,9 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -124,6 +126,12 @@ public class GatoFragment extends Fragment {
         mProcedenciaSpinner.setAdapter(mAdapter);
         mCatLab = CatLab.get(getActivity());
 
+
+        mMesNumberPicker.setMinValue(1);
+        mMesNumberPicker.setMaxValue(12);
+        mAñoNumberPicker.setMinValue(2000);
+        mAñoNumberPicker.setMaxValue(2020);
+
         if(mGato==null){
             mGato = new Gato();
         }
@@ -174,28 +182,7 @@ public class GatoFragment extends Fragment {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////// Number Pickers /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        mMesNumberPicker.setMinValue(1);
-        mMesNumberPicker.setMaxValue(12);
-        mAñoNumberPicker.setMinValue(2000);
-        mAñoNumberPicker.setMaxValue(2020);
 
-        mAñoNumberPicker.setOnScrollListener(new NumberPicker.OnScrollListener() {
-            @Override
-            public void onScrollStateChange(NumberPicker view, int scrollState) {
-                int año = mAñoNumberPicker.getValue();
-                mFechaNacimiento.setYear(año);
-                mGato.setmFechaNacimiento(mFechaNacimiento);
-            }
-        });
-
-        mMesNumberPicker.setOnScrollListener(new NumberPicker.OnScrollListener() {
-            @Override
-            public void onScrollStateChange(NumberPicker view, int scrollState) {
-                int mes = mMesNumberPicker.getValue();
-                mFechaNacimiento.setMonth(mes);
-                mGato.setmFechaNacimiento(mFechaNacimiento);
-            }
-        });
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////// Buttons y Check Boxes /////////////////////////////////////////////////////////////////////////////
 
@@ -403,6 +390,7 @@ public class GatoFragment extends Fragment {
             }
 
         });
+
         mCelularEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -418,6 +406,7 @@ public class GatoFragment extends Fragment {
                 }
             }
         });
+
         mNombreGatoEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -469,8 +458,14 @@ public class GatoFragment extends Fragment {
     private void GatoDefinido(){
         mNombreGatoEditText.setText(mGato.getmNombreGato());
         mPesoEditText.setText(mGato.getmPeso());
-        mMesNumberPicker.setValue(mGato.getmFechaNacimiento().getMonth());
-        mAñoNumberPicker.setValue(mGato.getmFechaNacimiento().getYear());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(mGato.getmFechaNacimiento());
+
+        int mes = calendar.get(Calendar.MONTH);
+        int año = calendar.get(Calendar.YEAR);
+
+        mMesNumberPicker.setValue(mes + 1);
+        mAñoNumberPicker.setValue(año);
 
         if(mGato.ismSexo().equals("Hembra")){
             mHembraRadioButton.setChecked(true);
@@ -539,6 +534,11 @@ public class GatoFragment extends Fragment {
 
     private boolean verificacion(){
         boolean validacionDatos = true;
+
+        int mes = mMesNumberPicker.getValue();
+        int año = mAñoNumberPicker.getValue();
+        Date fecha = new GregorianCalendar(año, mes-1, 5).getTime();
+        mGato.setmFechaNacimiento(fecha);
 
         if((mResponsableCheckBox.isChecked() && (mResponsable.getmNombre() == null || mResponsable.getmCelular() == null)) && mGato.getmProcedencia() != 1){
             validacionDatos = false;

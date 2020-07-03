@@ -50,7 +50,7 @@ public class IngresoBank {
         );
     }
     public void deleteIngresos( String query){
-        mDataBase.rawQuery(query,null);
+        mDataBase.execSQL(query);
     }
 
     List<Ingreso> getmIngresos(String query){
