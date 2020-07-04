@@ -394,13 +394,14 @@ public class GatoFragment extends Fragment {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
                 mResponsable.setmCelular(s.toString());
                 if(mResponsable.getmCelular().isEmpty()){
                     mResponsable.setmCelular(null);
                 }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -480,7 +481,6 @@ public class GatoFragment extends Fragment {
     }
 
     private void ResponsableDefinido(){
-        mResponsableCheckBox.setChecked(true);
         mNombrePersonaEditText.setText(mResponsable.getmNombre());
         mFormularioResponsableConstraintLayout.setVisibility(View.VISIBLE);
         mApellidoPaternoEditText.setText(mResponsable.getmApellidoPaterno());
@@ -488,6 +488,7 @@ public class GatoFragment extends Fragment {
         mEmailEditText.setText(mResponsable.getmEmail());
         mDomicilioEditText.setText(mResponsable.getmDomicilio());
         mCelularEditText.setText(mResponsable.getmCelular());
+        mResponsableCheckBox.setChecked(true);
     }
 
     @Subscribe

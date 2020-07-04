@@ -89,7 +89,7 @@ public class PensionFragment extends Fragment {
         }
 
         public PensionHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.esterilizacion_list_fragment, parent, false));
+            super(inflater.inflate(R.layout.pension_list_fragment, parent, false));
             mNombreTextView = itemView.findViewById(R.id.nombreMaterial);
             mPagadoImageView = itemView.findViewById(R.id.esterilizacion_pagada);
             mGatoImageView= itemView.findViewById(R.id.material_foto);

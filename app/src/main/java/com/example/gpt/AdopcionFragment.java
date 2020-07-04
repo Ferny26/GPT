@@ -127,7 +127,7 @@ public class AdopcionFragment extends Fragment {
         }
 
         public AdopcionesHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.esterilizacion_list_fragment, parent, false));
+            super(inflater.inflate(R.layout.adopcion_list_fragment, parent, false));
             mNombreTextView = itemView.findViewById(R.id.nombreMaterial);
             mGatoImageView= itemView.findViewById(R.id.material_foto);
             ImageView mPagoImageView = itemView.findViewById(R.id.esterilizacion_pagada);

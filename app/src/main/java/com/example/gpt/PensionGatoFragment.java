@@ -130,6 +130,11 @@ public class PensionGatoFragment extends Fragment {
         procedencia.setVisibility(View.GONE);
         mFormularioResponsableConstraintLayout.setVisibility(View.VISIBLE);
         //Si no hay ningun gato significa que tiene que crear uno, para no crearlo cada que itera entre fragmentos
+        mMesNumberPicker.setMinValue(1);
+        mMesNumberPicker.setMaxValue(12);
+        mAñoNumberPicker.setMinValue(2000);
+        mAñoNumberPicker.setMaxValue(2020);
+
         if(mGato==null){
             mGato = new Gato();
             mGato.setmProcedencia(2);
@@ -163,10 +168,6 @@ public class PensionGatoFragment extends Fragment {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////// Number Pickers /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        mMesNumberPicker.setMinValue(1);
-        mMesNumberPicker.setMaxValue(12);
-        mAñoNumberPicker.setMinValue(2000);
-        mAñoNumberPicker.setMaxValue(2020);
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////// Buttons y Check Boxes /////////////////////////////////////////////////////////////////////////////

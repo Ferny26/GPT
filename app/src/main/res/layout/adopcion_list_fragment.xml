@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:background="@drawable/blue_rectangle"
+    android:background="@drawable/yellow_rectangle"
     android:layout_marginBottom="6dp"
     android:layout_marginHorizontal="5dp">
 
@@ -13,19 +13,19 @@
         android:id="@+id/nombreMaterial"
         android:layout_width="167dp"
         android:layout_height="32dp"
-        android:layout_marginStart="108dp"
-        android:layout_marginLeft="108dp"
+        android:layout_marginStart="116dp"
+        android:layout_marginLeft="116dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        app:fontFamily="sans-serif-medium"
         android:gravity="center_vertical"
         android:text="Nombre Gato"
         android:textColor="@color/black"
         android:textSize="23dp"
+        app:fontFamily="sans-serif-medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/material_foto"
