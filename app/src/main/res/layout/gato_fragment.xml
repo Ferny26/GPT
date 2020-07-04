@@ -274,17 +274,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/responsable">
 
 
-                <ImageButton
-                    android:id="@+id/llamar"
-                    android:layout_width="60dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="172dp"
-                    android:layout_marginLeft="172dp"
-                    android:src="@android:drawable/stat_sys_phone_call_forward"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toEndOf="@+id/textView2"
-                    app:layout_constraintTop_toTopOf="parent"></ImageButton>
-
                 <TextView
                     android:id="@+id/textView15"
                     android:layout_width="wrap_content"
@@ -473,6 +462,15 @@
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/buscar_responsable"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/llamar"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:visibility="gone"
+                    android:src="@android:drawable/stat_sys_phone_call_forward"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></ImageButton>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
