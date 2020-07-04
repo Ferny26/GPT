@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#EDE7F6</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#FF9A4D</color>
+    <color name="colorAccent">#C9AFF1</color>
     <color name="violet">#C5CAE9</color>
     <color name="orange">#FFF8E1</color>
     <color name="black">#000000</color>
@@ -13,8 +13,8 @@
     <color name="campana">#6A80DEEA</color>
     <color name="capital">#AAA3A3</color>
     <color name="grey">#5B5858</color>
-    <color name="red">#9E2E31</color>
-    <color name="green">#69CF60</color>
+    <color name="red">#E88688</color>
+    <color name="green">#B3E6AE</color>
     <color name="material">#D3E6E5</color>
     <color name="light_gray">#E4E4E4</color>
     <color name="pink">#F48FB1</color>

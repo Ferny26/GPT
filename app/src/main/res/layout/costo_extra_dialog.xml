@@ -10,19 +10,22 @@
         android:id="@+id/costoExtraImgen"
         android:layout_width="139dp"
         android:layout_height="124dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_gallery" />
+        app:srcCompat="@drawable/costo_extra" />
 
     <ImageButton
         android:id="@+id/cameraButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="57dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="24dp"
+        android:scaleType="centerInside"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/costoExtraImgen"
-        app:srcCompat="@android:drawable/ic_menu_camera" />
+        app:srcCompat="@drawable/sharp_photo_camera_black_36dp" />
 
     <TextView
         android:id="@+id/textView22"

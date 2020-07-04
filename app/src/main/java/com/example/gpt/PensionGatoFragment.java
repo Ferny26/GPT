@@ -125,6 +125,11 @@ public class PensionGatoFragment extends Fragment {
         mResponsableCheckBox.setVisibility(View.GONE);
         procedencia.setVisibility(View.GONE);
         mFormularioResponsableConstraintLayout.setVisibility(View.VISIBLE);
+        mMesNumberPicker.setMinValue(1);
+        mMesNumberPicker.setMaxValue(12);
+        mAñoNumberPicker.setMinValue(2000);
+        mAñoNumberPicker.setMaxValue(2020);
+
         if(mGato==null){
             mGato = new Gato();
             mGato.setmProcedencia(2);
@@ -158,10 +163,6 @@ public class PensionGatoFragment extends Fragment {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////// Number Pickers /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        mMesNumberPicker.setMinValue(1);
-        mMesNumberPicker.setMaxValue(12);
-        mAñoNumberPicker.setMinValue(2000);
-        mAñoNumberPicker.setMaxValue(2020);
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////// Buttons y Check Boxes /////////////////////////////////////////////////////////////////////////////

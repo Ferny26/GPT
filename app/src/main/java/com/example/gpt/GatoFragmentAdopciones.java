@@ -105,6 +105,12 @@ public class GatoFragmentAdopciones extends Fragment {
         mProcedenciaSpinner.setAdapter(mAdapter);
         mCatLab = CatLab.get(getActivity());
 
+        mMesNumberPicker.setMinValue(1);
+        mMesNumberPicker.setMaxValue(12);
+        mAñoNumberPicker.setMinValue(2000);
+        mAñoNumberPicker.setMaxValue(2020);
+
+
         Boolean gato = getArguments().getBoolean("GATO");
         if (gato){
             gatoId= (UUID) getArguments().getSerializable("GATO_ID");
@@ -132,10 +138,6 @@ public class GatoFragmentAdopciones extends Fragment {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////// Number Pickers /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        mMesNumberPicker.setMinValue(1);
-        mMesNumberPicker.setMaxValue(12);
-        mAñoNumberPicker.setMinValue(2000);
-        mAñoNumberPicker.setMaxValue(2020);
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////// Buttons y Check Boxes /////////////////////////////////////////////////////////////////////////////

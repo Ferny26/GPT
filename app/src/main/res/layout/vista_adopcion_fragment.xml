@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/vistaAdopcion"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/campana"
+    android:background="#FDF8F1"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
     <ImageView
         android:id="@+id/imageGato"
-        android:layout_width="175dp"
-        android:layout_height="124dp"
+        android:layout_width="195dp"
+        android:layout_height="155dp"
         android:layout_marginTop="28dp"
         android:scaleType="centerInside"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,28 +50,31 @@
 
     <Button
         android:id="@+id/guardar"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/adopcion"
+        android:background="@drawable/yellow_rectangle"
+        android:fontFamily="@font/amaranth_bold"
+        android:padding="15dp"
         android:text="Guardar"
         android:textAllCaps="false"
-        android:textSize="20dp"
+        android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView3"
+        app:layout_constraintVertical_bias="0.553" />
 
     <TextView
         android:id="@+id/agregaAdoptante"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="50dp"
         android:gravity="center"
         android:text="Agrega un Adoptante!"
         android:textSize="30dp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.618"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/responsable"
         app:layout_constraintVertical_bias="0.0"></TextView>
@@ -165,7 +168,7 @@
                 android:layout_marginEnd="136dp"
                 android:layout_marginRight="136dp"
                 android:text="@string/datos_de_adoptante"
-                android:textColor="@color/colorPrimary"
+                android:textColor="#9163D5"
                 android:textSize="25dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -99,9 +99,6 @@ public class VistaAdopcionFragment extends Fragment {
         mPhotoFile = CatLab.get(getActivity()).getPhotoFile(mGato);
         mPhotoUri = FileProvider.getUriForFile(getActivity(), "com.example.gpt.FileProvider", mPhotoFile);
         putImageView(mGatoImageView);
-        if (mGato.ismSexo().equals("Hembra")){
-            mVistaAdopcion.setBackgroundColor(getResources().getColor(R.color.light_pink));
-        }
 
         PackageManager packageManager = getActivity().getPackageManager();
 
