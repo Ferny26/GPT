@@ -31,17 +31,18 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+
+//Dialog para poder agregar un dialog en cada pension, para poder introducir los datos de los costos extras que se hayan producido
 public class CostoExtraDialog extends DialogFragment {
     public static final String CAMPAÑA_ID = "campañaId";
     private EditText mDescripcionEditText, mCantidadEditText;
     private TextView mFechaActual;
-    private ImageButton mCameraButton;
     private ImageView mCostoExtraImageView;
     private CostoExtra mCostoExtra;
     private AlertDialog dialog;
-    private UUID mCostoExtraId, mPensionId;
+    private UUID mPensionId;
     private static final int REQUEST_FOTO = 1;
-    boolean nuevaInstancia = true;
+    private boolean nuevaInstancia = true;
     private File mPhotoFile;
     private Uri photoUri;
 
@@ -49,21 +50,23 @@ public class CostoExtraDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.costo_extra_dialog,null);
+
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.costo_extra_dialog, null);
         mDescripcionEditText = view.findViewById(R.id.descripcion);
         mCantidadEditText = view.findViewById(R.id.cantidad_extra);
-        mCameraButton = view.findViewById(R.id.cameraButton);
+        ImageButton mCameraButton = view.findViewById(R.id.cameraButton);
         mFechaActual = view.findViewById(R.id.fechaActual);
         mCostoExtraImageView = view.findViewById(R.id.costoExtraImgen);
         nuevaInstancia = getArguments().getBoolean("NUEVA_INSTANCIA");
         mPensionId = (UUID) getArguments().getSerializable("PENSION_ID");
-        if (nuevaInstancia){
-           mCostoExtra = new CostoExtra();
+        if (nuevaInstancia) {
+            mCostoExtra = new CostoExtra();
             mFechaActual.setText(mCostoExtra.getDateFormat());
         }
 
 
 
+        //Dialog que infla la vista de los datos para poder llevanor
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setView(view)
                 .setTitle("Costo Extra")
@@ -100,10 +103,9 @@ public class CostoExtraDialog extends DialogFragment {
                 });
 
 
-        PackageManager packageManager = getActivity().getPackageManager();
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        boolean canTakePhoto = mPhotoFile != null && captureImage.resolveActivity(packageManager) != null;
 
+        //Se obtienen los permisos correspondientes para la camara
         mCameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,7 +191,8 @@ public class CostoExtraDialog extends DialogFragment {
         super.onStart();
         dialog = (AlertDialog) getDialog();
         if(!nuevaInstancia) {
-            mCostoExtraId = (UUID) getArguments().getSerializable("COSTOEXTRA_ID");
+            //Se obtienen el el costo extra po si se quiere editar y no crear uno nuevo
+            UUID mCostoExtraId = (UUID) getArguments().getSerializable("COSTOEXTRA_ID");
             mCostoExtra = CostoExtraStorage.get(getActivity()).getmCostoExtra(mCostoExtraId);
             mPhotoFile = CostoExtraStorage.get(getActivity()).getPhotoFile(mCostoExtra);
             photoUri = FileProvider.getUriForFile(getActivity(), "com.example.gpt.FileProvider", mPhotoFile);

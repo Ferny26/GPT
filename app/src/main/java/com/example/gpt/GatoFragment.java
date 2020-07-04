@@ -57,12 +57,9 @@ public class GatoFragment extends Fragment {
     private EditText mNombreGatoEditText, mNombrePersonaEditText, mPesoEditText, mDomicilioEditText, mApellidoPaternoEditText, mApellidoMaternoEditText, mCelularEditText;
     private EditText  mCondicionEditText, mEmailEditText;
     private CheckBox mResponsableCheckBox, mCondicionEspecialCheckBox;
-    private RadioGroup mSexoRadioGroup;
     private RadioButton mHembraRadioButton, mMachoRadioButton;
     private Date mFechaNacimiento = new Date();
     private ConstraintLayout mFormularioResponsableConstraintLayout;
-    private Button mBuscarResponsableButton, mBuscarGatoButton;
-    private ImageButton mCameraImageButton, mLlamarImageButton;
     private ImageView mGatoImagenImageView;
     private String  mTitle;
     private static final int REQUEST_BUSQUEDA = 0;
@@ -73,13 +70,13 @@ public class GatoFragment extends Fragment {
     private UUID campañaId, esterilizacionId;
     private Gato mGato;
     private Persona mResponsable;
-    CatLab mCatLab;
-    RadioButton mRadioSexo;
-    Esterilizacion mEsterilizacion, mTemporalEsterilizacion;
+    private CatLab mCatLab;
+    private RadioButton mRadioSexo;
+    private Esterilizacion mEsterilizacion, mTemporalEsterilizacion;
     private boolean validacionTemporal = false;
     private EventBus bus = EventBus.getDefault();
     private File mPhotoFile;
-    Uri photoUri;
+    private Uri photoUri;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,17 +108,17 @@ public class GatoFragment extends Fragment {
         mResponsableCheckBox = view.findViewById(R.id.responsable);
         mCondicionEspecialCheckBox = view.findViewById(R.id.condicion_especial);
         mFormularioResponsableConstraintLayout = view.findViewById(R.id.formulario_responsable);
-        mBuscarGatoButton = view.findViewById(R.id.buscar_gato);
-        mBuscarResponsableButton = view.findViewById(R.id.buscar_responsable);
-        mSexoRadioGroup = view.findViewById(R.id.sexo);
+        Button mBuscarGatoButton = view.findViewById(R.id.buscar_gato);
+        Button mBuscarResponsableButton = view.findViewById(R.id.buscar_responsable);
+        RadioGroup mSexoRadioGroup = view.findViewById(R.id.sexo);
         mEmailEditText = view.findViewById(R.id.email_responsable);
         mMesNumberPicker = view.findViewById(R.id.mes_select);
         mAñoNumberPicker = view.findViewById(R.id.fecha_año_select);
-        mCameraImageButton = view.findViewById(R.id.cameraButton);
+        ImageButton mCameraImageButton = view.findViewById(R.id.cameraButton);
         mGatoImagenImageView = view.findViewById(R.id.materialImagen);
         mHembraRadioButton = view.findViewById(R.id.hembra);
         mMachoRadioButton = view.findViewById(R.id.macho);
-        mLlamarImageButton = view.findViewById(R.id.llamar);
+        ImageButton mLlamarImageButton = view.findViewById(R.id.llamar);
         ArrayAdapter <String> mAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, mProcedenciaList);
         mProcedenciaSpinner.setAdapter(mAdapter);
         mCatLab = CatLab.get(getActivity());
@@ -138,7 +135,7 @@ public class GatoFragment extends Fragment {
         if(mResponsable==null){
             mResponsable = new Persona();
         }
-
+        //Si fue mandada una esterilizacion, se obtiene los datos para que la puedas colocar
         if (esterilizacionId != null){
             EsterilizacionStorage mEsterilizacionStorage = EsterilizacionStorage.get(getActivity());
             mEsterilizacion = mEsterilizacionStorage.getEsterilizacion(esterilizacionId);
@@ -512,6 +509,7 @@ public class GatoFragment extends Fragment {
     }
     @Override
     public void onPause() {
+        //Cuando entra en onPause significa que entró a otro fragmento, por lo que postea las variables para recibirlas en EsterilizacionFragment
         if(esterilizacionId!=null) {
             if (validacionTemporal) {
                 mEsterilizacion = mTemporalEsterilizacion;
@@ -535,6 +533,7 @@ public class GatoFragment extends Fragment {
     private boolean verificacion(){
         boolean validacionDatos = true;
 
+        //Se coloca una variable solo para obligar a que se metean ciertos campos
         int mes = mMesNumberPicker.getValue();
         int año = mAñoNumberPicker.getValue();
         Date fecha = new GregorianCalendar(año, mes-1, 5).getTime();

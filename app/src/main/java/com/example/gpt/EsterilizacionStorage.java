@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+//SingeTon para guardar las esterilizaciones
 public class EsterilizacionStorage {
     private static EsterilizacionStorage sEsterilizacionStorage;
     private Context mContext;

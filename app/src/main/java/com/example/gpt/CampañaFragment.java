@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 
+//Clase para mostrar el listado de las campañas
 public class CampañaFragment extends Fragment {
 
     private CampañaAdapter mAdapter;
@@ -31,7 +32,6 @@ public class CampañaFragment extends Fragment {
     private static final String DIALOG_CREATE = "DialogCreate";
     private CampañaStorage mCampañaStorage;
     private RecyclerView mCampañaRecyclerView;
-    private ImageView mMainImageView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class CampañaFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.universal_list_activity,container,false);
         mCampañaRecyclerView = v.findViewById(R.id.recyclerView);
-        mMainImageView= v.findViewById(R.id.main_image_view);
+        ImageView mMainImageView = v.findViewById(R.id.main_image_view);
         mMainImageView.setImageResource(R.drawable.campana);
         mCampañaRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         updateUI();

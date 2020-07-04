@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+
+//Singleton para los gatos, para obtener tanto el directorio de la imagen de cada gato, así como obetener los gatos segun sea requerido por medio de una query
 public class CatLab {
     private static CatLab sCatLab;
     private Context mContext;
@@ -65,23 +67,8 @@ public class CatLab {
     }
 
 
-    List<Gato> getmGatos(){
-        List <Gato> gatos = new ArrayList<>();
-        GPTCursorWrapper cursor = (GPTCursorWrapper) queryGato(null,null);
-        try{
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()){
-                //Envia los datos encontrados para que sean inicializados
-                gatos.add(cursor.getGato());
-                cursor.moveToNext();
-            }
-        }
-        finally {
-            cursor.close();
-        }
-        return gatos;
-    }
     public File getPhotoFile(Gato gato){
+        //Crea un directorio con el nombre del id del gato para poder encontrarlo y no haya una coalicion de datos
         File filesDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         return new File(filesDir, gato.getPhotoFilename());
     }
@@ -98,7 +85,7 @@ public class CatLab {
                 return null;
             }
             cursor.moveToFirst();
-            //Regresa el objeto con los datos de la campaña correspondiente
+            //Regresa el objeto con los datos del gato
             return cursor.getGato();
         }
         finally {

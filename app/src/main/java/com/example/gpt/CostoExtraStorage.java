@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+//SingleTon para obtener la cantidad de costos extra de la tabla csostso dependiendo del caso
 public class CostoExtraStorage {
     private static CostoExtraStorage sCostoExtraStorage;
     private Context mContext;

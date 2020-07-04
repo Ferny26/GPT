@@ -54,24 +54,21 @@ public class GatoFragmentAdopciones extends Fragment {
     private NumberPicker mMesNumberPicker, mAñoNumberPicker;
     private EditText mNombreGatoEditText, mPesoEditText, mCondicionEditText;
     private CheckBox  mCondicionEspecialCheckBox;
-    private RadioGroup mSexoRadioGroup;
     private RadioButton mHembraRadioButton, mMachoRadioButton;
     private String  mTitle;
     private Date mFechaNacimiento = new Date();
-    private Button mBuscarGatoButton, mGuardarButton;
-    private ImageButton mCameraImageButton;
+    private Button mGuardarButton;
     private ImageView mGatoImagenImageView;
     private static final int REQUEST_BUSQUEDA = 0;
     private static final int REQUEST_FOTO = 1;
     private static final String DIALOG_CREATE = "DialogCreate";
     private Bundle arguments = new Bundle();
     private CatLab mCatLab;
-    RadioButton mRadioSexo;
+    private RadioButton mRadioSexo;
     private String [] mProcedenciaList = {"Recien rescatado", "Feral", "Propio"};
     private Gato mGato;
     private File mPhotoFile;
-    private UUID gatoId;
-    Uri photoUri;
+    private Uri photoUri;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,11 +89,11 @@ public class GatoFragmentAdopciones extends Fragment {
         mPesoEditText = view.findViewById(R.id.cantidad);
         mCondicionEditText = view.findViewById(R.id.condicion);
         mCondicionEspecialCheckBox = view.findViewById(R.id.condicion_especial);
-        mBuscarGatoButton = view.findViewById(R.id.buscar_gato);
-        mSexoRadioGroup = view.findViewById(R.id.sexo);
+        Button mBuscarGatoButton = view.findViewById(R.id.buscar_gato);
+        RadioGroup mSexoRadioGroup = view.findViewById(R.id.sexo);
         mMesNumberPicker = view.findViewById(R.id.mes_select);
         mAñoNumberPicker = view.findViewById(R.id.fecha_año_select);
-        mCameraImageButton = view.findViewById(R.id.cameraButton);
+        ImageButton mCameraImageButton = view.findViewById(R.id.cameraButton);
         mGatoImagenImageView = view.findViewById(R.id.materialImagen);
         mHembraRadioButton = view.findViewById(R.id.hembra);
         mMachoRadioButton = view.findViewById(R.id.macho);
@@ -107,7 +104,7 @@ public class GatoFragmentAdopciones extends Fragment {
 
         Boolean gato = getArguments().getBoolean("GATO");
         if (gato){
-            gatoId= (UUID) getArguments().getSerializable("GATO_ID");
+            UUID gatoId = (UUID) getArguments().getSerializable("GATO_ID");
             mGato = CatLab.get(getActivity()).getmGato(gatoId);
             GatoDefinido();
         }else{

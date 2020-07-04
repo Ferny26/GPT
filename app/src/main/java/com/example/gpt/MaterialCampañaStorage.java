@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
+//SingleTon para las el material de la camapaña
 public class MaterialCampañaStorage {
     private static MaterialCampañaStorage sMaterialCampañaStorage;
     private Context mContext;
@@ -41,28 +41,8 @@ public class MaterialCampañaStorage {
         return new File(filesDir, material.getmPhotoFile());
     }
 
-    List<MaterialCampaña> getmMateriales(){
-        List <MaterialCampaña> materiales = new ArrayList<>();
-        GPTCursorWrapper cursor = (GPTCursorWrapper) queryMaterial(null, null);
-        try{
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()){
-                //Envia los datos encontrados para que sean inicializados
-                materiales.add(cursor.getMaterialCampaña());
-                cursor.moveToNext();
-            }
-        }
-        finally {
-            cursor.close();
-        }
-        return materiales;
-    }
 
-    public void updateMaterial(MaterialCampaña material){
-        String uuidString = material.getmMaterialId().toString();
-        ContentValues values = getContentValues(material);
-        mDataBase.update(GPTDbSchema.MaterialCampañaTable.NAME, values, GPTDbSchema.MaterialCampañaTable.Cols.FKUUID_MATERIAL + "= ?", new String[] {uuidString});
-    }
+
 
     private CursorWrapper queryBusquedaMaterialCampaña(String query){
         Cursor cursor = mDataBase.rawQuery(query,null);

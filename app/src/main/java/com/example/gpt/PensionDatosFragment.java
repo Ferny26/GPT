@@ -26,6 +26,8 @@ import androidx.fragment.app.Fragment;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+
+//Fragmento encargado de recibir los datos de la pension
 public class PensionDatosFragment extends Fragment {
 
     private NumberPicker mDiaIngresoNumberPicker, mMesIngresoNumberPicker, mAñoIngresoNumberPicker;
@@ -45,6 +47,7 @@ public class PensionDatosFragment extends Fragment {
     private EventBus bus = EventBus.getDefault();
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        //Se suscribe el bus para hacer la comuncacion entre los fragmentos del gato y de la esterilizacion
         bus.register(this);
         super.onCreate(savedInstanceState);
     }
@@ -217,7 +220,7 @@ public class PensionDatosFragment extends Fragment {
                 Date fechaIngreso = new GregorianCalendar(añoIngreso, mesIngreso-1, diaIngreso).getTime();
                 Date fechaSalida = new GregorianCalendar(añoSalida, mesSalida-1, diaSalida).getTime();
 
-
+                //Se hace la diferencia de dias para poder saber si la fecha de salida es siempre mayor a la de entrada
                 long diff = fechaSalida.getTime() - fechaIngreso.getTime() ;
                 diff = (diff / (1000 * 60 * 60 * 24));
                 boolean validacionDatos = true;
@@ -237,7 +240,7 @@ public class PensionDatosFragment extends Fragment {
                     validacionDatos = false;
                 }
 
-
+                //Si la pension no se ecnuentra dentro de la base de datos, significa que no ha sido creada, por lo que se atualizan o se crean los datos correspondientes
                 if(mPensionStorage.getmPension(mPension.getmIdPension())!=null && validacionDatos){
                     mPension.setmFechaSalida(fechaSalida);
                     mPension.setmFechaIngreso(fechaIngreso);
@@ -257,8 +260,8 @@ public class PensionDatosFragment extends Fragment {
         return view;
     }
 
-    private void mostrarDatos() {
 
+    private void mostrarDatos() {
         mPrecioDiarioEditText.setText(Integer.toString(mPension.getmPrecioDia()));
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(mPension.getmFechaIngreso());
@@ -353,12 +356,14 @@ public class PensionDatosFragment extends Fragment {
 
     @Override
     public void onDestroy() {
+        //Se desregistra del bus, si entró a este métdodo significa que se cerro completamente la vista, por lo que no es necesario mandar datos enmtre los fragmentos
         bus.unregister(this);
         super.onDestroy();
     }
 
     @Override
     public void onPause() {
+        //Se postean las 3 variables de regreso para que puedan ser recibidad dentro de los datos de gato
         bus.post(mResponsable);
         bus.post(mPension);
         bus.post(mGato);

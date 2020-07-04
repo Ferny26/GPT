@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class AdopcionStorage {
+    //Single tone para adopción con sus respectivos campos a llamar
     private static AdopcionStorage sAdopcionStorage;
-    private Context mContext;
     private SQLiteDatabase mDataBase;
 
 
@@ -26,20 +26,15 @@ public class AdopcionStorage {
     }
 
     private AdopcionStorage(Context context) {
-        mContext = context.getApplicationContext();
+        Context mContext = context.getApplicationContext();
         mDataBase = new GPTBaseHelper(mContext).getWritableDatabase();
     }
 
 
+    //Se agrega la adop
     public void addAdopcion(Adopcion a, Context context){
         ContentValues values= getContentValues(a);
         mDataBase.insert(GPTDbSchema.AdopcionTable.NAME, null, values);
-    }
-
-    public void updateAdopcion(Adopcion adopcion){
-        String uuidString = adopcion.getmAdopcionId().toString();
-        ContentValues values = getContentValues(adopcion);
-        mDataBase.update(GPTDbSchema.AdopcionTable.NAME, values, GPTDbSchema.AdopcionTable.Cols.FKUUID_GATO + "= ?", new String[] {uuidString});
     }
 
     List<Adopcion> getmAdopciones(String query){
@@ -68,7 +63,7 @@ public class AdopcionStorage {
         );
     }
 
-
+    //Se obtiene la adopción por medio de un ID
     public Adopcion getmAdopcion(UUID id){
         GPTCursorWrapper cursor = (GPTCursorWrapper) queryAdopcion(
                 GPTDbSchema.AdopcionTable.Cols.FKUUID_GATO + " = ? ",
@@ -88,6 +83,7 @@ public class AdopcionStorage {
         }
     }
 
+    //Por este metodo se ejecuta la query personalizada para traer cierto tipo de gatos dependiendo el tipo de menú donde se encuentre
     private CursorWrapper queryAdopciones(String query){
         Cursor cursor = mDataBase.rawQuery(query, null);
         return new GPTCursorWrapper(cursor) {

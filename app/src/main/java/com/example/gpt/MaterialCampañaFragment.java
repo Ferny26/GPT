@@ -30,9 +30,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+//Fragmento para la simple vista del material agregado en las campañas
 public class MaterialCampañaFragment extends Fragment {
-    private ImageView mMainImageView;
-    private MaterialCampañaStorage mMaterialStorage;
     private TextView mCantidadGastadaTextView;
     private MaterialCampañaFragment.MaterialAdapter mAdapter;
     private RecyclerView mMaterialesRecyclerView;
@@ -49,7 +48,7 @@ public class MaterialCampañaFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.universal_list_activity, null);
         campañaId = (UUID) getArguments().getSerializable("ARG_CAMPAÑA_ID");
-        mMainImageView = view.findViewById(R.id.main_image_view);
+        ImageView mMainImageView = view.findViewById(R.id.main_image_view);
         mMainImageView.setImageResource(R.drawable.medicina_color);
         mMaterialesRecyclerView = view.findViewById(R.id.recyclerView);
         mMaterialesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -57,7 +56,7 @@ public class MaterialCampañaFragment extends Fragment {
         return view;
     }
     private void updateUI (){
-        mMaterialStorage = MaterialCampañaStorage.get(getActivity());
+        MaterialCampañaStorage mMaterialStorage = MaterialCampañaStorage.get(getActivity());
         List<MaterialCampaña> materiales;
         String query = "SELECT * FROM material_campaña WHERE campaña_id = '"+ campañaId.toString() +"'";
         materiales = mMaterialStorage.getmBusquedaMaterialesCampaña(query);

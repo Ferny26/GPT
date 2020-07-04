@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.UUID;
 
+//Singletone para  los gatos con dueño
 public class GatoHogarLab {
     private static GatoHogarLab sGatoHogarLab;
     private Context mContext;

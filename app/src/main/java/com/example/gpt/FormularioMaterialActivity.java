@@ -39,11 +39,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+//Clase para poder ingresar el formulario del material
 public class FormularioMaterialActivity extends AppCompatActivity {
     private EditText mNombreEditText, mPresentacionEditText, mCantidadEditText;
     private Spinner mCategoriaSpinner;
     private Button mGuardarButton;
-    private ImageButton mCameraButton;
     private Material mMaterial;
     private ImageView mMaterialImageView;
     private static final int REQUEST_FOTO = 1;
@@ -62,13 +62,14 @@ public class FormularioMaterialActivity extends AppCompatActivity {
         mPresentacionEditText = findViewById(R.id.Presentacion);
         mCantidadEditText = findViewById(R.id.cantidad);
         mCategoriaSpinner = findViewById(R.id.categoria);
-        mCameraButton = findViewById(R.id.cameraButton);
+        ImageButton mCameraButton = findViewById(R.id.cameraButton);
         mGuardarButton = findViewById(R.id.Guardar);
         mMaterialImageView = findViewById(R.id.materialImagen);
         ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mCategoriaList);
         mCategoriaSpinner.setAdapter(mAdapter);
         materialId = (UUID) getIntent().getSerializableExtra("MATERIAL_ID");
         Boolean type = getIntent().getBooleanExtra("TYPE",false);
+        //Si es un material ya creado coloca los datos, si no, se crea uni nuevo
         if (materialId==null){
             mMaterial = new Material();
         }else {

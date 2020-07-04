@@ -8,7 +8,6 @@ public class CostoExtra {
     private Date mFechaActual;
     private String mDescripcion;
     private int mCantidad;
-    private CharSequence dateFormat;
 
     public CostoExtra(){
         this(UUID.randomUUID());
@@ -57,7 +56,7 @@ public class CostoExtra {
     }
 
     public CharSequence getDateFormat() {
-        dateFormat =android.text.format.DateFormat.format("dd MMMM yyyy", mFechaActual);
+        CharSequence dateFormat = android.text.format.DateFormat.format("dd MMMM yyyy", mFechaActual);
         return dateFormat;
     }
 

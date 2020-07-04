@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
+//SingleTon para las adopciones
 public class RegistroAdopcionStorage {
     private static RegistroAdopcionStorage sRegistroAdopcionStorage;
     private Context mContext;

@@ -27,11 +27,12 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import java.util.UUID;
 
+//Fragmento para poder recibier los datos del gato y de la esterilizacion es su defecto y crearla
 public class EsterilizacionFragment extends Fragment {
     private CheckBox mFajaCheckBox, mAnticipoCheckBox, mCostoExtraCheckButton;
     private EditText mAnticipoEditText, mCostoExtraEditText, mPrecioEditText;
     private TextView mCostoTotalTextView;
-    private Button mTerminarRegistroButton, mPagadoButton;
+    private Button mPagadoButton;
     private UUID campañaId;
     private EventBus bus = EventBus.getDefault();
     private Esterilizacion mEsterilizacion = new Esterilizacion();
@@ -45,6 +46,9 @@ public class EsterilizacionFragment extends Fragment {
     EsterilizacionStorage mEsterilizacionStorage;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        //Dentro de este apartado, se inica el registro para poder estar recibiendo los datos correspondientes sin tener que estar enviandio argumentos y recibiendolos cada rato
+        //Esto es debido a que el usuario puede iterar entre los dos fragmentos con gran facilidad y la informacion se pierde
+        //Cuando se registra, cuando el bus postee algo, inmediatamente llama el metodo correspondiente con el argumento que se envio y recibe el objeto
         bus.register(this);
         super.onCreate(savedInstanceState);
     }
@@ -66,7 +70,7 @@ public class EsterilizacionFragment extends Fragment {
         mCostoExtraEditText = view.findViewById(R.id.costo_extra);
         mCostoTotalTextView = view.findViewById(R.id.costo_total);
         mPrecioEditText = view.findViewById(R.id.precio);
-        mTerminarRegistroButton = view.findViewById(R.id.terminar_esterilizacion);
+        Button mTerminarRegistroButton = view.findViewById(R.id.terminar_esterilizacion);
         mCostoExtraCheckButton = view.findViewById(R.id.costo_extra_check);
         mPagadoButton = view.findViewById(R.id.pagado);
 
@@ -234,6 +238,7 @@ public class EsterilizacionFragment extends Fragment {
                 mCatLab = CatLab.get(getActivity());
                 mGatoHogarLab = GatoHogarLab.get(getActivity());
                 mPersonaStorage = PersonaStorage.get(getActivity());
+                //Dependiendo de si fue instanciado una nueva esterilizacion o fue enviada, se actualizaran o se crearan los datos
                 if((objetoEnviadoEsterilizacion && mGato.isValidacion()) && mEsterilizacion.getmIdGato() != null){
                     actualizarDatos();
                     getActivity().finish();
@@ -255,6 +260,7 @@ public class EsterilizacionFragment extends Fragment {
         }
 
     private void ColocarDatos() {
+        //Si es un objeto ya enviado, se colocarán los datos correspondientes
         mPrecioEditText.setText(Integer.toString(mEsterilizacion.getmPrecio()));
         int cantidad = mEsterilizacion.getmCostoExtra() + mEsterilizacion.getmPrecio();
         mCostoTotalTextView.setText(getString(R.string.costo_total, cantidad));
@@ -278,6 +284,7 @@ public class EsterilizacionFragment extends Fragment {
 
     @Override
     public void onPause() {
+        //Cuando entra en op pause, significa que cambió de fragmento, por lo que se mandan las variables creadas de este método para recibirlas en GatoFragment
         bus.post(mGato);
         bus.post(mEsterilizacion);
         if(mPersona!=null){
@@ -288,6 +295,7 @@ public class EsterilizacionFragment extends Fragment {
 
     @Override
     public void onDestroy() {
+        //Si se destgruye, significa que termina la actividad
         super.onDestroy();
         bus.unregister(this);
     }
@@ -298,6 +306,7 @@ public class EsterilizacionFragment extends Fragment {
     }
 
     public void crearDatos(){
+        //Se hacen las validaciones correspondientes para poder ingresar los datos en las respectivas tablas así como el ingreso
         if(mCatLab.getmGato(mGato.getmIdGato())==null){
             mCatLab.addGato(mGato, getActivity());
         }else{
@@ -325,6 +334,7 @@ public class EsterilizacionFragment extends Fragment {
     }
 
     public void actualizarDatos(){
+        //Se realizan las validaciones correspondiente spara actualizar los datos de las respectivas tablas
         if(objetoEnviadoPersona){
             GatoHogar mGatoHogar = new GatoHogar(mGato.getmIdGato());
             if(mPersonaStorage.getmPersona(mPersona.getmIdPersona()) == null){

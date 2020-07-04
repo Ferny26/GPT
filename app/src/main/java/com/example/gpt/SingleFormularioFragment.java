@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+//Clase abstacta para poder intercambiar fragmentos para los formularios
 public abstract class SingleFormularioFragment extends AppCompatActivity {
     protected abstract Fragment createFragment();
     FragmentManager fm = getSupportFragmentManager();

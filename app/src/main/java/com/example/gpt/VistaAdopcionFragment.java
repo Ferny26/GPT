@@ -53,7 +53,6 @@ public class VistaAdopcionFragment extends Fragment {
     private ImageView mGatoImageView, mDocumentoImageView;
     private CheckBox mAdoptanteCheckBox;
     private static final int REQUEST_BUSQUEDA = 0;
-    private static final int REQUEST_DOCUMENTO = 0;
     private static final int REQUEST_FOTO = 1;
     private static final String DIALOG_CREATE = "DialogCreate";
     private Persona mAdoptante;

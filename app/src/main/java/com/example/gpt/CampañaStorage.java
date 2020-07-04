@@ -12,6 +12,8 @@ import java.util.UUID;
 
 import static com.example.gpt.GPTDbSchema.*;
 
+
+//Singleton para obtener las campañas, borrarlas y obeneter el id de una sola
 public class CampañaStorage {
 
     private static CampañaStorage sCampañaStorage;

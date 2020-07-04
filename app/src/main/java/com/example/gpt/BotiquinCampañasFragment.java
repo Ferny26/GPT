@@ -32,12 +32,10 @@ import java.io.IOException;
 import java.util.List;
 
 public class BotiquinCampañasFragment extends Fragment {
-    private ImageView mMainImageView;
     private BotiquinCampañasFragment.MaterialAdapter mAdapter;
     private RecyclerView mMaterialesRecyclerView;
     private Boolean type;
-    List<Material> materiales;
-    private String query;
+    private List<Material> materiales;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +48,7 @@ public class BotiquinCampañasFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.universal_list_activity, null);
-        mMainImageView = view.findViewById(R.id.main_image_view);
+        ImageView mMainImageView = view.findViewById(R.id.main_image_view);
         mMainImageView.setImageResource(R.drawable.medicina_color);
         mMaterialesRecyclerView = view.findViewById(R.id.recyclerView);
         mMaterialesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -59,11 +57,14 @@ public class BotiquinCampañasFragment extends Fragment {
         return view;
     }
     private void updateUI (){
+        //Dentro de este apartado, se selecciona el tipo de material
+        String query;
         if (type){
             query = "SELECT * FROM material WHERE material.tipo_inventario=1";
         }else{
             query ="SELECT * FROM material WHERE material.tipo_inventario=2";
         }
+        //Treae los materiaes con respectiva query
         materiales = MaterialStorage.get(getActivity()).getmBusquedaMateriales(query);
         if (mAdapter == null) {
             //Envia la informacion al adaptador

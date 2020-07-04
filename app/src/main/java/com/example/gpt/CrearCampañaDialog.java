@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
+//Dialog para poder crear una campaña o editarlo en su defecto
 public class CrearCampañaDialog extends DialogFragment {
 
     public static final String EXTRA_DATE = "extraDate";
@@ -34,8 +35,8 @@ public class CrearCampañaDialog extends DialogFragment {
     private EditText mEditText;
     private CampañaStorage mCampañaStorage;
     private Campaña mCampaña;
-    AlertDialog dialog;
-    boolean nuevaInstancia = false;
+    private AlertDialog dialog;
+    private boolean nuevaInstancia = false;
 
 
 
@@ -117,6 +118,7 @@ public class CrearCampañaDialog extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
+        //Dependiendo de si fue seleccionada de una o fue nueva, se instanciara una nueva campaña
         if(nuevaInstancia) {
             UUID campañaId = (UUID) getArguments().getSerializable("CAMPAÑA_ID");
             mCampaña = mCampañaStorage.get(getActivity()).getCampaña(campañaId);
