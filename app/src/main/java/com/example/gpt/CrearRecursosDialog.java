@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.UUID;
-
+//Clase para crear un gasto o ingreso dependiendo de la seleccion del espinner que contiene este dialog
 public class CrearRecursosDialog extends DialogFragment {
 
     public static final String CAMPAÑA_ID = "campañaId";
@@ -29,8 +29,7 @@ public class CrearRecursosDialog extends DialogFragment {
     private EditText mMotivoEditText, mCantidadEditText;
     private Ingreso mRecurso;
     private AlertDialog dialog;
-    private UUID recursoId;
-    boolean nuevaInstancia = true;
+    private boolean nuevaInstancia = true;
 
     @NonNull
     @Override
@@ -158,8 +157,9 @@ public class CrearRecursosDialog extends DialogFragment {
     public void onStart() {
         super.onStart();
         dialog = (AlertDialog) getDialog();
+        //Dependiendo de la instancia, es lo obtendremos, si se crea una nueva o se selecciona
         if(!nuevaInstancia) {
-            recursoId = (UUID) getArguments().getSerializable("RECURSO_ID");
+            UUID recursoId = (UUID) getArguments().getSerializable("RECURSO_ID");
             mRecurso = IngresoBank.get(getActivity()).getmIngreso(recursoId);
             mMotivoEditText.setText(mRecurso.getMotivo());
             String cantidad = Integer.toString(mRecurso.getmCantidad());

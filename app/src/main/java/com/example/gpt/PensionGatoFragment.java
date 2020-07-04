@@ -50,6 +50,9 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
+
+
+//Fragmento encargado de crear o actualizar los datos del responsable como del gato dentro de las pensiones
 public class PensionGatoFragment extends Fragment {
     private NumberPicker mMesNumberPicker, mAñoNumberPicker;
     private EditText mNombreGatoEditText, mNombrePersonaEditText, mPesoEditText, mDomicilioEditText, mApellidoPaternoEditText, mApellidoMaternoEditText, mCelularEditText;
@@ -85,6 +88,7 @@ public class PensionGatoFragment extends Fragment {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&  ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1000);
         }
+        //Se registra para que pueda recibir los objetos
         bus.register(this);
         super.onCreate(savedInstanceState);
     }
@@ -125,6 +129,7 @@ public class PensionGatoFragment extends Fragment {
         mResponsableCheckBox.setVisibility(View.GONE);
         procedencia.setVisibility(View.GONE);
         mFormularioResponsableConstraintLayout.setVisibility(View.VISIBLE);
+        //Si no hay ningun gato significa que tiene que crear uno, para no crearlo cada que itera entre fragmentos
         mMesNumberPicker.setMinValue(1);
         mMesNumberPicker.setMaxValue(12);
         mAñoNumberPicker.setMinValue(2000);
@@ -415,6 +420,7 @@ public class PensionGatoFragment extends Fragment {
     //////////////////////////////////////////////// Functions /////////////////////////////////////////////
 
     private void Busqueda (){
+        //Se envia la query para buscar los gatos correspondientes para este apartado
         FragmentManager manager = getFragmentManager();
         Busqueda dialog = new Busqueda();
         String query = "SELECT * FROM gatos WHERE NOT EXISTS (SELECT * FROM pensiones WHERE gatos.uuid = pensiones.gato_id)";
@@ -481,6 +487,8 @@ public class PensionGatoFragment extends Fragment {
     }
     @Override
     public void onPause() {
+        //Postea las variables para que puedan ser recibidas por los datos de la pension, así que se convierte en una comnucacion bidireccional entre los objetos
+        //Guardando sus intancias y nunca creando uno de nuevo
         bus.post(mPension);
         mGato.setValidacion(verificacion());
         bus.post(mGato);
@@ -490,6 +498,7 @@ public class PensionGatoFragment extends Fragment {
 
     @Override
     public void onDestroy() {
+        //Si se destruyo el fragmento significa que se salío de la activity, por lo que ya no es necesario recibir los daots y se desregistra
         bus.unregister(this);
         super.onDestroy();
     }

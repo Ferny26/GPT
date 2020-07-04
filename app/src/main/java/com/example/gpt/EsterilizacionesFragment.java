@@ -35,13 +35,14 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+
+//Fragmento que contiene la lista de todas las esterilizaciones de la campaña seleccionada
 public class EsterilizacionesFragment extends Fragment {
     private UUID campañaId;
     private EsterilizacionStorage mEsterilizacionStorage;
     private EsterilizacionAdapter mAdapter;
     private RecyclerView mEsterilizacionesRecyclerView;
-    private Button mEstadisticasButton;
-    private ImageView mMainImageView, mGatoFotoImageView;
+    private ImageView mGatoFotoImageView;
     private static final int REQUEST_CREATE = 0;
     private static final String DIALOG_CREATE = "DialogCreate";
     private boolean mSubtitleVisible;
@@ -59,10 +60,10 @@ public class EsterilizacionesFragment extends Fragment {
         View v = inflater.inflate(R.layout.universal_list_activity, null);
         campañaId = (UUID) getArguments().getSerializable("ARG_CAMPAÑA_ID");
         mEsterilizacionesRecyclerView = v.findViewById(R.id.recyclerView);
-        mMainImageView= v.findViewById(R.id.main_image_view);
+        ImageView mMainImageView = v.findViewById(R.id.main_image_view);
         mMainImageView.setImageResource(R.drawable.gato_esterilizacion_color);
         mEsterilizacionesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mEstadisticasButton = v.findViewById(R.id.estadisticas);
+        Button mEstadisticasButton = v.findViewById(R.id.estadisticas);
         updateUI();
 
         mEstadisticasButton.setVisibility(View.VISIBLE);
@@ -102,7 +103,7 @@ public class EsterilizacionesFragment extends Fragment {
 
     private class EsterilizacionesHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView mNombreTextView;
-        private ImageView mGatoImageView, mPagoImageView;
+        private ImageView  mPagoImageView;
         private Esterilizacion mEsterilizacion;
 
         @Override

@@ -30,8 +30,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+
+//Un fragmento encargado de iterar entre un spinner, para poder mostrar las adopciones con dueño y las adopciones disponibles
 public class AdopcionFragment extends Fragment {
-    private ImageView mMainImageView;
     private AdopcionAdapter mAdapter;
     private Spinner mEstatusAdopcionSpinner;
     private String [] mEstatusList = {"Adoptados", "Disponibles"};
@@ -42,14 +43,13 @@ public class AdopcionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.universal_list_activity,container,false);
-        mMainImageView= v.findViewById(R.id.main_image_view);
+        ImageView mMainImageView = v.findViewById(R.id.main_image_view);
         mEstatusAdopcionSpinner = v.findViewById(R.id.estatus_adopcion);
         getActivity().setTitle("Adopciones");
         mMainImageView.setImageResource(R.drawable.adopcion);
         mAdopcionesRecyclerView = v.findViewById(R.id.recyclerView);
         setHasOptionsMenu(true);
         mEstatusAdopcionSpinner.setVisibility(View.VISIBLE);
-
         ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, mEstatusList);
         mEstatusAdopcionSpinner.setAdapter(mAdapter);
         mAdopcionesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -58,6 +58,9 @@ public class AdopcionFragment extends Fragment {
         mEstatusAdopcionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //Las queries son muy imporantes, por que dependiendo de la posicion del spinner son los registros que nos tiene que traer por parte de la base de datos
+                //Brindando uncamente los gatos ya con un registro de adopción ya con dueño para la poscion 0 para gatos "Adoptados"
+                //Mientras que en la otra parte solo trae os queno existen o un "LEFT JOIN" para traer los que aun no estén registrados
                 if(position==0){
                     query = "SELECT * FROM adopciones INNER JOIN registro_adopciones ON adopciones.gato_id = registro_adopciones.gato_id";
                     adopciones = AdopcionStorage.get(getActivity()).getmAdopciones(query);
@@ -78,6 +81,7 @@ public class AdopcionFragment extends Fragment {
 
     @Override
     public void onResume() {
+        //Traemos lo correspondiente cuando es regresado al onResume y actualizar correctamente la lista
         if (mEstatusAdopcionSpinner.getSelectedItemId()==1){
             query ="SELECT * FROM adopciones WHERE NOT EXISTS (SELECT * FROM registro_adopciones WHERE adopciones.gato_id = registro_adopciones.gato_id)";
         }else{
@@ -110,11 +114,12 @@ public class AdopcionFragment extends Fragment {
 
     private class AdopcionesHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView mNombreTextView;
-        private ImageView mGatoImageView, mPagoImageView;
+        private ImageView mGatoImageView;
         private Adopcion mAdopcion;
 
         @Override
         public void onClick(View v) {
+            //Se envia el intent dependiendo del tipo de registro que se seleccionó, en caso de que seleccione el item, podrá editarlo y manda el id de adopción
             Intent intent = new Intent(getActivity(), AdopcionesActivity.class);
             intent.putExtra("TYPE", false);
             intent.putExtra("ADOPCION_ID", mAdopcion.getmAdopcionId());
@@ -125,7 +130,7 @@ public class AdopcionFragment extends Fragment {
             super(inflater.inflate(R.layout.adopcion_list_fragment, parent, false));
             mNombreTextView = itemView.findViewById(R.id.nombreMaterial);
             mGatoImageView= itemView.findViewById(R.id.material_foto);
-            mPagoImageView = itemView.findViewById(R.id.esterilizacion_pagada);
+            ImageView mPagoImageView = itemView.findViewById(R.id.esterilizacion_pagada);
             mPagoImageView.setVisibility(View.GONE);
             itemView.setOnClickListener(this);
         }
@@ -173,6 +178,7 @@ public class AdopcionFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.añadir_adopcion:
+                //Si se selecciona eta opción, se mandará de que se requiere crear una nueva adopción
                 Intent intent = new Intent(getContext(), AdopcionesActivity.class);
                 intent.putExtra("TYPE",true);
                 startActivity(intent);
@@ -239,8 +245,7 @@ public class AdopcionFragment extends Fragment {
         }
         try {
             //Crea un nuevo bitmap con los parametros correctos de orientacion de la foto y lo regresa
-            Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-            return bmRotated;
+            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
         }
         catch (OutOfMemoryError e) {
             e.printStackTrace();

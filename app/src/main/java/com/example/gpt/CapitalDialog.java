@@ -16,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+
+//Dialog para obtener la simple cantidad de captial que tiene, por medio de las estadisticas
 public class CapitalDialog extends DialogFragment {
     private TextView mDineroTotal;
     private Context mContext;
@@ -48,8 +50,8 @@ public class CapitalDialog extends DialogFragment {
         return builder.create();
 
     }
-
-    public int getEstadisticas(String query){
+    //Se obtienen las estadisticas de la tabla dependiendo de la query que es mandada
+    private int getEstadisticas(String query){
         Cursor cursor = mDataBase.rawQuery(query,null);
         cursor.moveToFirst();
         int count = cursor.getInt(0);

@@ -37,14 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+//Clase para buscar, dentro de este dialog, se inflará la misma vista para poder obtener los responsables y los gatos que se necesiten segun sea de donde fue lalamado
 public class Busqueda extends DialogFragment {
-    private String  mTitle, query;
-    private RecyclerView mBusquedaRecyclerView;
-    private SearchView mSearchView;
-    private CatLab mCatLab;
-    private PersonaStorage mPersonaStorage;
-    private UUID personaId;
-    private UUID gatoId;
     public static final String EXTRA_GATO_ID = "gatoId";
     public static final String EXTRA_PERSONA_ID = "personaId";
     private GatoAdapter mGatoAdapter;
@@ -53,12 +47,16 @@ public class Busqueda extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.busqueda_dialog,null);
-        mBusquedaRecyclerView = view.findViewById(R.id.busqueda_recyclerView);
-        mSearchView = view.findViewById(R.id.buscador);
-        mTitle = (String) getArguments().getSerializable("TITLE");
+        RecyclerView mBusquedaRecyclerView = view.findViewById(R.id.busqueda_recyclerView);
+        SearchView mSearchView = view.findViewById(R.id.buscador);
+        String mTitle = (String) getArguments().getSerializable("TITLE");
+        //Para la variante que fue presionado por el boton de buscar gato, siempre enviara el titulo con la cadena "Gato" por lo que moostrará los gatos segun sea el caso
         if(mTitle == "Gato"){
-            mCatLab = CatLab.get(getActivity());
-            query =  (String) getArguments().getSerializable("QUERY");
+            CatLab mCatLab = CatLab.get(getActivity());
+            //Ademas de recibir el titulo, se recibe una query por parte de la seccion, esto con el fin de proteger las visas y no traer ej: Gatos esterilizados y que puedas buscar nuevamente
+            //un gato que ya haya sido esterilizado dentro de la misma campaña, funciona para las adopciones y para las pensiones
+
+            String query = (String) getArguments().getSerializable("QUERY");
             List<Gato> mGatos = mCatLab.getmBusquedaGatos(query);
             mGatoAdapter = new GatoAdapter(getActivity(), mGatos);
             mBusquedaRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -79,7 +77,8 @@ public class Busqueda extends DialogFragment {
 
 
         }else if(mTitle == "Responsable") {
-            mPersonaStorage = PersonaStorage.get(getActivity());
+            //Si se selecciono el boton de buscar responsable, simplemente se trae todos los responsables, ya que estos si pueden ser asociados con mas de un gato
+            PersonaStorage mPersonaStorage = PersonaStorage.get(getActivity());
             List<Persona> mPersonas = mPersonaStorage.getmPersonas();
             mPersonaAdapter = new PersonaAdapter(getActivity(), mPersonas);
             mBusquedaRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -184,11 +183,11 @@ public class Busqueda extends DialogFragment {
     }
 
 
+    //Adaptador correspondiente para cada caso
     public class GatoAdapter extends RecyclerView.Adapter<Busqueda.GatoHolder> implements Filterable {
 
         private Context context;
         private List<Gato> mGatos, mGatosFull;
-        private UUID gatoId;
 
 
         public GatoAdapter(Context context, List<Gato> gatos) {
@@ -248,7 +247,7 @@ public class Busqueda extends DialogFragment {
     }
 
     class   GatoHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
-        private TextView mNombreTextView, mCelularTextView;
+        private TextView mNombreTextView;
         private ImageView mGatoImageView;
         private Gato mGato;
 
@@ -256,8 +255,6 @@ public class Busqueda extends DialogFragment {
             super(inflater.inflate(R.layout.busqueda_list, parent, false));
             mNombreTextView = itemView.findViewById(R.id.nombre);
             mGatoImageView = itemView.findViewById(R.id.image_busqueda);
-            //mCelularTextView = itemView.findViewById(R.id.celular);
-            //mCelularTextView.setVisibility(View.GONE);
             itemView.setOnClickListener(this);
         }
 
@@ -269,7 +266,7 @@ public class Busqueda extends DialogFragment {
 
         @Override
         public void onClick(View v) {
-            gatoId = mGato.getmIdGato();
+            UUID gatoId = mGato.getmIdGato();
             Intent intent = new Intent();
             intent.putExtra(EXTRA_GATO_ID, gatoId);
             getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
@@ -282,7 +279,6 @@ public class Busqueda extends DialogFragment {
 
         private Context context;
         private List<Persona> mPersonas, mPersonasFull;
-        private UUID personaId;
 
 
         public PersonaAdapter(Context context, List<Persona> personas) {
@@ -364,7 +360,7 @@ public class Busqueda extends DialogFragment {
 
         @Override
         public void onClick(View v) {
-            personaId = mPersona.getmIdPersona();
+            UUID personaId = mPersona.getmIdPersona();
             Intent intent = new Intent();
             intent.putExtra(EXTRA_PERSONA_ID, personaId);
             getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);

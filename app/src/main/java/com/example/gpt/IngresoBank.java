@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+//SingleTon para los ingresos
 public class IngresoBank {
     private static IngresoBank sIngresoBank;
     private Context mContext;

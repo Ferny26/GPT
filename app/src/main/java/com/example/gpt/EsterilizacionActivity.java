@@ -12,15 +12,17 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.UUID;
 
+
+//Case que hereda de un formulario abstracto para poder iterar de manera eficiente entre fragmentos
 public class EsterilizacionActivity extends SingleFormularioFragment {
     private UUID campañaId, esterilizacionId;
     private Fragment fragment;
-    private BottomNavigationView mBottomNavigationView;
     private EsterilizacionFragment mEsterilizacionFragment;
     Bundle arguments = new Bundle();
     private GatoFragment mGatoFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Se crea 2 fragmentos los cuales se estaran intercambiando dependiendo de la opcion del menú seleccionada
         mGatoFragment = new GatoFragment();
         mEsterilizacionFragment = new EsterilizacionFragment();
         fragment = mGatoFragment;
@@ -28,7 +30,7 @@ public class EsterilizacionActivity extends SingleFormularioFragment {
         esterilizacionId = (UUID) getIntent().getSerializableExtra("ESTERILIZACION_ID");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.universal_formulario_activity);
-        mBottomNavigationView=findViewById(R.id.esterilizacion_menu);
+        BottomNavigationView mBottomNavigationView = findViewById(R.id.esterilizacion_menu);
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -38,6 +40,7 @@ public class EsterilizacionActivity extends SingleFormularioFragment {
         });
     }
 
+    //Dependiendo del caso, se iterará el fragmento, asi como si fue enviado por medio de uno que ya este creado, mandará el id de dicha esterilizacion para poder colocar los datos correspondietnes
     private void menu (int menuItem) {
         switch (menuItem) {
             case R.id.gato_datos_esterilizacion:
@@ -60,6 +63,7 @@ public class EsterilizacionActivity extends SingleFormularioFragment {
     }
 
     @Override
+    //Se colocan los respectivos datos y se retorna el fragmneto
     protected Fragment createFragment() {
         if(esterilizacionId == null){
             arguments.putBoolean("NUEVA_INSTANCIA", true);

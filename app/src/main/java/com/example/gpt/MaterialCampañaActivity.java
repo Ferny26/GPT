@@ -14,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.UUID;
 
+
 public class MaterialCampañaActivity extends SingleFragmentActivity {
     Fragment fragment;
     BottomNavigationView mBottomNavigationView;

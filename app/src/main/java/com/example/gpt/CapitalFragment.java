@@ -26,6 +26,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+
+//Fragmento para poder iterar estre un spinner para obtener la cantidad de gastos e ingresos que son provenientes de este apartado
 public class CapitalFragment extends Fragment {
 
     private CapitalAdapter mAdapter;
@@ -34,10 +36,8 @@ public class CapitalFragment extends Fragment {
     private static final int REQUEST_CREATE = 0;
     private static final String DIALOG_CREATE = "DialogCreate";
     private Spinner mTipoSpinner;
-    private Button mCapitalButton;
     private List<Ingreso> recursos;
     private String [] mTipoList = {"Ingresos", "Gastos"};
-    private String query;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class CapitalFragment extends Fragment {
         mMainImageView.setImageResource(R.drawable.coins);
         mCapitalRecyclerView = v.findViewById(R.id.recyclerView);
         mTipoSpinner = v.findViewById(R.id.estatus_adopcion);
-        mCapitalButton = v.findViewById(R.id.estadisticas);
+        Button mCapitalButton = v.findViewById(R.id.estadisticas);
         getActivity().setTitle("Recursos");
         mCapitalButton.setText("Calcular Capital");
         mCapitalButton.setVisibility(View.VISIBLE);
@@ -91,6 +91,8 @@ public class CapitalFragment extends Fragment {
     }
 
     private void updateList(){
+        //Dependiendo del item que se encuentre seleccionado, se mandará la query para obtener los respectivas row de cada tabla
+        String query;
         if (mTipoSpinner.getSelectedItemId()==0){
             query = "SELECT * FROM ingresos";
         }else{
@@ -124,6 +126,7 @@ public class CapitalFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
+            //Dependiendo de donde se seleccione el item, se llamará el fragmento  requerido
             Bundle arguments = new Bundle();
             FragmentManager manager = getFragmentManager();
             CrearRecursosDialog dialog = new CrearRecursosDialog();

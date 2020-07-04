@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+//Singleton para las pensiones
 public class PensionStorage {
 
     private static PensionStorage sPensionStorage;

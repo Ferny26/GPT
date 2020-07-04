@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+//Dentro de la Activity Principal, se extiende de la clase abstracta para que pueda iterar entre 4 fragmentos con el BottomNavigationView
 public class MainActivity extends SingleFragmentActivity{
 
     private BottomNavigationView mBottomNavigationView;
@@ -38,6 +39,7 @@ public class MainActivity extends SingleFragmentActivity{
         return fragment;
     }
 
+    //Dependiendo del fragmento es la que selecciona y remplaza
     private void menu (int menuItem){
         switch (menuItem){
             case R.id.campaña:

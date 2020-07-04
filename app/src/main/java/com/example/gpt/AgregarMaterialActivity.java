@@ -35,18 +35,16 @@ import java.util.List;
 import java.util.UUID;
 import java.util.zip.Inflater;
 
+
+
+//Clase para agregar material
 public class AgregarMaterialActivity extends AppCompatActivity {
 
-    private ImageView mMainImageView;
-    private MaterialStorage mMaterialStorage;
     private AgregarMaterialActivity.MaterialAdapter mAdapter;
     private RecyclerView mMaterialesRecyclerView;
     private UUID campañaId;
-    private AlertDialog dialog;
-    private static final int REQUEST_CREATE = 0;
-    private static final String DIALOG_CREATE = "DialogCreate";
     private EditText mCantidadGastadaEditText;
-    private MaterialCampaña mMaterialCampaña;
+
     @Nullable
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +52,7 @@ public class AgregarMaterialActivity extends AppCompatActivity {
         this.setTitle(getString(R.string.agregar_material));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.universal_list_activity);
-        mMainImageView = findViewById(R.id.main_image_view);
+        ImageView mMainImageView = findViewById(R.id.main_image_view);
         mMainImageView.setImageResource(R.drawable.medicina_color);
         mMaterialesRecyclerView = findViewById(R.id.recyclerView);
         mMaterialesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -63,6 +61,7 @@ public class AgregarMaterialActivity extends AppCompatActivity {
     }
 
 
+    //Simplemente se impletenta un dialog para poder ingresar la cantidad del material
     public void showAlertDialogButtonClicked(final Material material) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Agrega la cantidad gastada de material");
@@ -83,16 +82,17 @@ public class AgregarMaterialActivity extends AppCompatActivity {
                 dialog.cancel();
             }
         });
-        dialog = builder.create();
+        AlertDialog dialog = builder.create();
         dialog.show();
 
     }
+    //Cuando ya fuer agregado el matierial, se hace un intent para regresar a la actividad anterior y finalizando dicha actividad y quitandola de la cola para corresponder el lineamiento en orden
     private void sendDialogDataToActivity(String string, Material material) {
         if(string != null && !string.equals("") && Integer.parseInt(string) <= material.getmCantidad() && Integer.parseInt(string) != 0){
             int cantidad = Integer.parseInt(string);
             material.setmCantidad(material.getmCantidad()- cantidad);
             MaterialStorage.get(this).updateMaterial(material);
-            mMaterialCampaña = new MaterialCampaña(campañaId);
+            MaterialCampaña mMaterialCampaña = new MaterialCampaña(campañaId);
             mMaterialCampaña.setmCantidadGastada(Integer.parseInt(string));
             mMaterialCampaña.setmMaterialId(material.getmMaterialId());
             MaterialCampañaStorage.get(getApplicationContext()).addMaterial(mMaterialCampaña, getApplicationContext());
@@ -112,7 +112,8 @@ public class AgregarMaterialActivity extends AppCompatActivity {
 
 
     private void updateUI (){
-        mMaterialStorage = MaterialStorage.get(this);
+        //Se trae el matierial que no está dentro de la actividad de material de campaña o en su correspondiente que no se encuentre en la tabla de material de campaña de la campaña seleccionada
+        MaterialStorage mMaterialStorage = MaterialStorage.get(this);
         String query = "SELECT * FROM material WHERE NOT EXISTS (SELECT * FROM material_campaña WHERE material.uuid = material_campaña.material_id AND material_campaña.campaña_id = '"+ campañaId.toString()+"')";
 
         List<Material> materiales = mMaterialStorage.getmBusquedaMateriales(query);
@@ -130,7 +131,6 @@ public class AgregarMaterialActivity extends AppCompatActivity {
     private class MaterialesHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView mNombreTextView;
         private ImageView mMaterialImageView;
-        private ConstraintLayout mItemMaterialConstraintLayout;
         private TextView mCantidadTextView;
         private Material mMaterial;
         @Override
@@ -143,7 +143,6 @@ public class AgregarMaterialActivity extends AppCompatActivity {
             mNombreTextView = itemView.findViewById(R.id.nombreMaterial);
             mMaterialImageView= itemView.findViewById(R.id.material_foto);
             mCantidadTextView = itemView.findViewById(R.id.cantidad_gastada);
-            mItemMaterialConstraintLayout = itemView.findViewById(R.id.material_item);
             mCantidadTextView.setVisibility(View.VISIBLE);
             itemView.setOnClickListener(this);
         }
@@ -172,7 +171,7 @@ public class AgregarMaterialActivity extends AppCompatActivity {
 
     private class MaterialAdapter extends RecyclerView.Adapter<AgregarMaterialActivity.MaterialesHolder>{
         private List<Material> mMateriales;
-        public MaterialAdapter (List<Material> materiales){
+        private MaterialAdapter(List<Material> materiales){
             mMateriales = materiales;
         }
 

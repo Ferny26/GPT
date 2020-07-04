@@ -10,6 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.UUID;
 
+//Clase encargada de iterar entre los fragmentos del botiquin y las esterilziaciones
 public class ListCampaña extends SingleFragmentActivity {
     boolean mType;
     Fragment fragment;
@@ -17,6 +18,7 @@ public class ListCampaña extends SingleFragmentActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        //Segun el tipo que sea de donde lo llame es el gragmento que va a crear y colocar
         mType=getIntent().getBooleanExtra("TYPE",false);
         UUID campañaId= (UUID) getIntent().getSerializableExtra("CAMPAÑA_ID");
         Bundle arguments = new Bundle();

@@ -30,17 +30,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+
+//Fragmento que unicamente muestra las pensiones en forma de lista
 public class PensionFragment extends Fragment {
-    private ImageView mMainImageView;
     private PensionFragment.PensionAdapter mAdapter;
-    private PensionStorage mPensionStorage;
     private RecyclerView mPensionesRecyclerView;
     private String query;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.universal_list_activity,container,false);
-        mMainImageView= v.findViewById(R.id.main_image_view);
+        ImageView mMainImageView = v.findViewById(R.id.main_image_view);
         getActivity().setTitle("Pensiones");
         mMainImageView.setImageResource(R.drawable.pension);
         mPensionesRecyclerView = v.findViewById(R.id.recyclerView);
@@ -59,7 +59,7 @@ public class PensionFragment extends Fragment {
     }
 
     private void updateUI (){
-        mPensionStorage= PensionStorage.get(getActivity());
+        PensionStorage mPensionStorage = PensionStorage.get(getActivity());
         List<Pension> pensiones = mPensionStorage.getmPensiones();
         if (mAdapter == null) {
             //Envia la informacion al adaptador

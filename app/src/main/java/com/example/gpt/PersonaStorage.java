@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
+//SingleTon para las personas
 public class PersonaStorage {
     private static PersonaStorage sPersonaStorage;
     private Context mContext;

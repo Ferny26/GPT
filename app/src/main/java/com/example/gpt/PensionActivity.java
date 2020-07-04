@@ -11,7 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.UUID;
-
+//Clase encargada de iterar entre los fragmentos del formulario para las pensiones
 public class PensionActivity  extends  SingleFormularioFragment{
     private UUID pensionId;
     private Fragment fragment;
@@ -45,6 +45,8 @@ public class PensionActivity  extends  SingleFormularioFragment{
     }
 
     private void menu (int menuItem) {
+        //Dependiendo del item del bottom navigation, iterará entre los fragmentos para colocar los fragments correspondientes
+        //Asi como si fue enviado de un onclick del fragment
         switch (menuItem) {
             case R.id.gato_datos_esterilizacion:
                 fragment = mPensionGatoFragment;

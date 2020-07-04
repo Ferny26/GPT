@@ -11,6 +11,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.UUID;
 
+
+
+//Dependiendo de que se presione en el bottom navigation view, es lo que va a iterar, si un formulario apara ver el material o para editar la pension
 public class PensionVistaActivity extends SingleFormularioFragment {
 
     private Fragment fragment;

@@ -33,6 +33,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+
+//Fragmento encargada de mostrar el formulario para los datos de la pensión una vez que haya sido colocada
 public class VistaPensionFragment extends Fragment {
 
     private Gato mGato;
@@ -146,6 +148,7 @@ public class VistaPensionFragment extends Fragment {
 
     @Override
     public void onPause() {
+        //Se coloca la suma de los ingresos para poder colocarlos en sus respectivas tablas
         Ingreso mIngreso = IngresoBank.get(getActivity()).getmIngreso(mPension.getmIdPension());
         if (IngresoBank.get(getActivity()).getmIngreso(mPension.getmIdPension())!=null) {
             if(mPension.ismPagada()){
@@ -165,6 +168,7 @@ public class VistaPensionFragment extends Fragment {
     }
 
     public void CrearIngreso(){
+        //SEsta query obtiene la cantidad de los costos extra y los agrega a la tabla de ingresos
             Ingreso mIngreso = new Ingreso(mPension.getmIdPension());
             mIngreso.setmAutomatico(true);
             mIngreso.setMotivo("Pension");
